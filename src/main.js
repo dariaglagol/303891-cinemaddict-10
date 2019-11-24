@@ -1,6 +1,7 @@
 'use strict';
 
 const CARDS_COUNT = 5;
+const RATES_CARDS_COUNT = 2;
 
 const createFilmCardTemplate = () => {
   return `
@@ -231,13 +232,29 @@ const createUserProfileTemplate = () => {
   `;
 };
 
-const createFilmListTemplate = (cards, showMoreButton) => {
+const createFilmListTemplate = (longListCards, shortListCards,  showMoreButton) => {
   return `
     <section class="films">
     <section class="films-list">
       <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
-      <div class="films-list__container">${cards}</div>
+      <div class="films-list__container">${longListCards}</div>
       ${showMoreButton}
+    </section>
+  
+    <section class="films-list--extra">
+      <h2 class="films-list__title">Top rated</h2>
+
+      <div class="films-list__container">
+        ${shortListCards}
+      </div>
+    </section>
+
+    <section class="films-list--extra">
+      <h2 class="films-list__title">Most commented</h2>
+
+      <div class="films-list__container">
+        ${shortListCards}
+      </div>
     </section>
   </section>
   `;
@@ -253,7 +270,14 @@ const headerNode = document.querySelector(`.header`);
 const mainNode = document.querySelector(`.main`);
 const footerNode = document.querySelector(`.footer`);
 
-const filmCardsNodes = new Array(CARDS_COUNT)
+const filmCardsLongListNodes = new Array(CARDS_COUNT)
+  .fill(``)
+  .map(() => {
+    return createFilmCardTemplate();
+  })
+  .join(``);
+
+const filmCardsShortListNodes = new Array(RATES_CARDS_COUNT)
   .fill(``)
   .map(() => {
     return createFilmCardTemplate();
@@ -263,6 +287,6 @@ const filmCardsNodes = new Array(CARDS_COUNT)
 render(createUserProfileTemplate(), headerNode);
 
 render(createMenuTemplate(), mainNode);
-render(createFilmListTemplate(filmCardsNodes, createShowMoreButtonTemplate()), mainNode);
+render(createFilmListTemplate(filmCardsLongListNodes, filmCardsShortListNodes, createShowMoreButtonTemplate()), mainNode);
 
 render(createFilmPopupTemplate(), footerNode, `afterEnd`);
