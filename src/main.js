@@ -54,4 +54,4 @@ loadMoreButton.addEventListener(`click`, () => {
   render(addCardTemplates, commonFilmList);
 });
 
-// render(createFilmPopupTemplate(randomFilm, comments), footerNode, `afterEnd`);
+render(createFilmPopupTemplate(randomFilm, comments), footerNode, `afterEnd`);

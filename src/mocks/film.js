@@ -66,8 +66,6 @@ const generateFilm = () => {
   };
 };
 
-console.log(generateFilm());
-
 const generateFilms = (count) => {
   return new Array(count)
     .fill(``)
