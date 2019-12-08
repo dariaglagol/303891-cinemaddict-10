@@ -1,10 +1,11 @@
 import {createCommentsComponentTemplate} from './comments-component-template';
+import {createRatingForm} from './rating-form';
 
 const isCheckboxActive = (statement) => {
   return statement ? `checked` : ``;
 };
 
-export const createFilmPopupTemplate = (film) => {
+export const createFilmPopupTemplate = (film, comments) => {
   const {
     filmName,
     rating,
@@ -12,7 +13,6 @@ export const createFilmPopupTemplate = (film) => {
     movieDuration,
     genres,
     description,
-    comments,
     ageRating,
     director,
     writers,
@@ -20,7 +20,8 @@ export const createFilmPopupTemplate = (film) => {
     country,
     isFavorite,
     isWatched,
-    isInWatchList
+    isInWatchList,
+    posterUrl
   } = film;
 
   const watchedLabel = isWatched ? `Already watched` : `Add to watched`;
@@ -36,7 +37,7 @@ export const createFilmPopupTemplate = (film) => {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="./images/posters/the-great-flamarion.jpg" alt="">
+              <img class="film-details__poster-img" src="./images/posters/${posterUrl}" alt="poster '${filmName}'">
 
               <p class="film-details__age">${ageRating}+</p>
             </div>
@@ -79,9 +80,9 @@ export const createFilmPopupTemplate = (film) => {
                   <td class="film-details__cell">${country}</td>
                 </tr>
                 <tr class="film-details__row">
-                  <td class="film-details__term">Genres</td>
+                  <td class="film-details__term">${genres.length > 2 ? `Genres` : `Genre`}</td>
                   <td class="film-details__cell">
-                    ${genres}
+                    ${genres.join(` `)}
                 </tr>
               </table>
 
@@ -102,6 +103,8 @@ export const createFilmPopupTemplate = (film) => {
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">${favoritesLabel}</label>
           </section>
         </div>
+
+        ${isWatched ? createRatingForm(filmName, posterUrl) : ``}
 
         <div class="form-details__bottom-container">
            ${createCommentsComponentTemplate(comments)}

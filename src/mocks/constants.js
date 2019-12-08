@@ -16,19 +16,22 @@ const FILM_NAMES = [
   `Ocean's Eleven`
 ];
 
-const MAX_RAITING = 9;
-const MIN_RAITING = 0;
+const Rating = {
+  MIN: 0,
+  MAX: 9
+};
 
-const MIN_HOURS_DURATION = 0;
-const MAX_MINUTES_DURATION = 59;
-const MIN_MINUTES_DURATION = 1;
+const Duration = {
+  MIN: 1,
+  MAX: 250
+};
+
+const Year = {
+  MIN: 1950,
+  MAX: 2000
+};
 
 const MAX_VALUE = 3;
-
-const MIN_YEAR = 1950;
-const MAX_YEAR = 1950;
-
-const MAX_COMMENTS_COUNT = 10;
 
 const MAX_AGE_RATING = 21;
 
@@ -63,12 +66,12 @@ const GENRES = [
   `Melodrama`
 ];
 
-const USER_STATUSES = {
-  '0': ``,
-  '1': `Novice`,
-  '11': `Fan`,
-  '21': `Movie Buff`
-};
+const USER_STATUSES = new Map([
+  [`0`, ``],
+  [`1`, `Novice`],
+  [`11`, `Fan`],
+  [`21`, `Movie Buff`]
+]);
 
 const DIRECTORS = [
   `Sofia Coppola`,
@@ -122,13 +125,36 @@ const COUTRIES = [
   `Denmark`
 ];
 
-const COMMENTS = [
-  {text: `Booooooooooring`, name: `John Doe`, date: `2 days ago`, emoji: `sleeping`},
-  {text: `Very very old. Meh`, name: `Eric Roth`, date: `today`, emoji: `puke`},
-  {text: `Almost two hours? Seriously?`, name: `Tim Macoveev`, date: `2019/12/31 23:59`, emoji: `angry`},
-  {text: `Interesting setting and a good cast`, name: `Billy Wilder`, date: `3 days ago`, emoji: `smile`}
+const COMMENTS_TEXTS = [
+  `Booooooooooring`,
+  `Very very old. Meh`,
+  `Almost two hours? Seriously?`,
+  `Interesting setting and a good cast`
 ];
+
+const COMMENTS_AUTHORS = [
+  `John Doe`,
+  `Eric Roth`,
+  `Tim Macoveev`,
+  `Billy Wilder`
+];
+
+const COMMENTS_EMODJIES = [
+  `angry`,
+  `puke`,
+  `sleeping`,
+  `smile`,
+  `trophy`
+];
+
+const COMMENTS_TIME_RANGE = {
+  'MINUTES_RANGE': 59,
+  'HOURS_RANGE': 4,
+  'DATE_RANGE': 3
+};
+
+const COMMENTS_COUNT = 4;
 
 const INITIAL_DESCRIPTION_TEXT = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
 
-export {MAX_AGE_RATING, MAX_COMMENTS_COUNT, MIN_YEAR, MAX_YEAR, MAX_VALUE, MIN_HOURS_DURATION, MAX_MINUTES_DURATION, MIN_MINUTES_DURATION, MAX_RAITING, MIN_RAITING, COMMENTS, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};
+export {MAX_AGE_RATING, COMMENTS_EMODJIES, COMMENTS_COUNT, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS, Year, MAX_VALUE, Duration, Rating, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};

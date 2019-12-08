@@ -1,30 +1,42 @@
-import {MAX_AGE_RATING, MAX_COMMENTS_COUNT, MAX_YEAR, MIN_YEAR, MAX_VALUE, MIN_HOURS_DURATION, MAX_MINUTES_DURATION, MIN_MINUTES_DURATION, MIN_RAITING, MAX_RAITING, FILM_NAMES, COUTRIES, POSTERS, GENRES, DIRECTORS, ACTORS, WRITERS, INITIAL_DESCRIPTION_TEXT} from './constants';
+import {
+  MAX_AGE_RATING,
+  Year,
+  MAX_VALUE,
+  Duration,
+  Rating,
+  FILM_NAMES,
+  COUTRIES,
+  POSTERS,
+  GENRES,
+  DIRECTORS,
+  ACTORS,
+  WRITERS,
+  INITIAL_DESCRIPTION_TEXT,
+  COMMENTS_COUNT,
+} from './constants';
 import {getRandomArrayItem, generateRandomArrayPiece, getRandomIntegerNumber, getRandomBoolean} from './utilities';
+import {generateComments} from "./comment";
 
 const getRatingInteger = (min, max) => {
   const rand = min + Math.random() * (max - min);
   return parseFloat(rand.toFixed(1));
 };
 
-const rating = () => getRatingInteger(MIN_RAITING, MAX_RAITING);
-
-const generateMovieDuration = () => {
-  const isLongDuration = getRandomBoolean();
-  const hours = isLongDuration ? `${getRandomIntegerNumber(MIN_HOURS_DURATION, MAX_VALUE)}h ` : ``;
-  return `${hours}${getRandomIntegerNumber(MIN_MINUTES_DURATION, MAX_MINUTES_DURATION)}m`;
-};
+const getRating = () => getRatingInteger(Rating.MIN, Rating.MAX);
 
 const generateDescription = () => {
   const descriptionPieces = INITIAL_DESCRIPTION_TEXT.split(`. `);
   return generateRandomArrayPiece(MAX_VALUE, descriptionPieces).join(``);
 };
 
-const genetateGenres = () => {
-  return generateRandomArrayPiece(MAX_VALUE, GENRES).join(` `);
+const generateGenres = () => {
+  return generateRandomArrayPiece(MAX_VALUE, GENRES);
 };
 
 const generateActors = () => {
-  return generateRandomArrayPiece(MAX_VALUE, ACTORS).join(`, `);
+  const pieceLength = getRandomIntegerNumber(2, MAX_VALUE);
+  const startPiece = getRandomIntegerNumber(1, ACTORS.length - pieceLength);
+  return ACTORS.slice(startPiece, startPiece + pieceLength);
 };
 
 const generateWriters = () => {
@@ -36,12 +48,12 @@ const generateWriters = () => {
 const generateFilm = () => {
   return {
     filmName: getRandomArrayItem(FILM_NAMES),
-    rating: rating(),
+    rating: getRating(),
     posterUrl: getRandomArrayItem(POSTERS),
-    releaseYear: getRandomIntegerNumber(MIN_YEAR, MAX_YEAR),
-    movieDuration: generateMovieDuration(),
-    genres: genetateGenres(),
-    comments: getRandomIntegerNumber(0, MAX_COMMENTS_COUNT),
+    releaseYear: getRandomIntegerNumber(Year.MIN, Year.MAX),
+    movieDuration: getRandomIntegerNumber(Duration.MIN, Duration.MAX),
+    genres: generateGenres(),
+    comments: generateComments(COMMENTS_COUNT),
     description: generateDescription(),
     isFavorite: getRandomBoolean(),
     isWatched: getRandomBoolean(),
@@ -53,6 +65,8 @@ const generateFilm = () => {
     country: getRandomArrayItem(COUTRIES)
   };
 };
+
+console.log(generateFilm());
 
 const generateFilms = (count) => {
   return new Array(count)

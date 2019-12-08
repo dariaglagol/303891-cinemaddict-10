@@ -10,7 +10,7 @@ const sortData = (a, b, type) => {
   return 0;
 };
 
-const ratedFilmTemplate = (films, type) => {
+const createRatedFilmTemplate = (films, type) => {
   const filmsSorted = films
     .slice()
     .sort((a, b) => {
@@ -27,7 +27,7 @@ const ratedFilmTemplate = (films, type) => {
   return filmsTemplate;
 };
 
-const topRatedTemplate = (films, type) => {
+const createTopRatedTemplate = (films, type) => {
   if (films.every((film) => film[type] === 0)) {
     return ``;
   }
@@ -39,10 +39,10 @@ const topRatedTemplate = (films, type) => {
       <h2 class="films-list__title">${header}</h2>
 
       <div class="films-list__container">
-        ${ratedFilmTemplate(films, type)}
+        ${createRatedFilmTemplate(films, type)}
       </div>
     </section>
   `;
 };
 
-export {topRatedTemplate};
+export {createTopRatedTemplate};

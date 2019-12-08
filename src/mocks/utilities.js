@@ -14,7 +14,7 @@ const getRandomBoolean = () => {
 };
 
 const pluralRulesOptions = (count, one, more) => {
-  return count > 1 && count === 0 ? more : one;
+  return count > 1 || count === 0 ? more : one;
 };
 
 const generateRandomArrayPiece = (maxValue, array) => {

@@ -1,19 +1,18 @@
-import {filterTemplate} from './filter-template';
+import {createFilterTemplate} from './filter-template';
 
-const createFiltersTemplate = (filmsData, filters) => {
+const createFiltersTemplate = (filters, activeFilter) => {
   const filtersKey = Object.keys(filters);
 
   return filtersKey.map((filterName) => {
     const filterItem = [filterName, filters[filterName]];
-    return filterTemplate(filterItem);
+    return createFilterTemplate(filterItem, activeFilter);
   }).join(``);
 };
 
-export const createMenuTemplate = (films, filters) => {
+export const createMenuTemplate = (films, filters, activeFilter) => {
   return `
     <nav class="main-navigation">
-      <a href="#all" class="main-navigation__item main-navigation__item--active">All movies</a>
-      ${createFiltersTemplate(films, filters)}
+      ${createFiltersTemplate(filters, activeFilter)}
       <a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>
     </nav>
 

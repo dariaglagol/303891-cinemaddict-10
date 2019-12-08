@@ -1,5 +1,5 @@
 import {createFirstFilms} from './film-common-template';
-import {topRatedTemplate} from './top-raited-films';
+import {createTopRatedTemplate} from './top-raited-films';
 
 export const createFilmListsTemplate = (films, showMoreButton) => {
   return `
@@ -10,8 +10,8 @@ export const createFilmListsTemplate = (films, showMoreButton) => {
         ${showMoreButton}
       </section>
 
-      ${topRatedTemplate(films, `rating`)}
-      ${topRatedTemplate(films, `comments`)}
+      ${createTopRatedTemplate(films, `rating`)}
+      ${createTopRatedTemplate(films, `comments`)}
      </section>
   `;
 };
