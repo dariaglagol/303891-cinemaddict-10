@@ -53,4 +53,4 @@ loadMoreButton.addEventListener(`click`, () => {
 
 const randomFilm = getRandomArrayItem(films);
 
-render(createFilmPopupTemplate(randomFilm), footerNode, `afterEnd`);
+// render(createFilmPopupTemplate(randomFilm), footerNode, `afterEnd`);

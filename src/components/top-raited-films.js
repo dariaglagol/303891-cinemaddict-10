@@ -1,20 +1,28 @@
 import {createFilmCardTemplate} from './film-card-template';
 import {RATES_CARDS_COUNT} from '../mocks/constants';
 
+const sortData = (a, b, type) => {
+  if (a[type] < b[type]) {
+    return 1;
+  } else if (a[type] > b[type]) {
+    return -1;
+  }
+  return 0;
+};
+
 const ratedFilmTemplate = (films, type) => {
   const filmsSorted = films
     .slice()
     .sort((a, b) => {
-      if (type === `rating`) {
-        return a.rating < b.rating ? 1 : a.rating > b.rating ? -1 : 0;
-      }
-      return a.comments < b.comments ? 1 : a.comments > b.comments ? -1 : 0;
+      return sortData(a, b, type);
     })
     .slice(0, RATES_CARDS_COUNT);
 
-  const filmsTemplate = filmsSorted.map((film) => {
-    return createFilmCardTemplate(film);
-  }).join(``);
+  const filmsTemplate = filmsSorted
+    .map((film) => {
+      return createFilmCardTemplate(film);
+    })
+    .join(``);
 
   return filmsTemplate;
 };
