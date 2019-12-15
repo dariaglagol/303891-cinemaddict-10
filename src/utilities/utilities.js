@@ -1,3 +1,5 @@
+import {RenderPosition} from '../mocks/constants';
+
 const getRandomArrayItem = (array) => {
   const randomIndex = getRandomIntegerNumber(0, array.length);
 
@@ -23,4 +25,22 @@ const generateRandomArrayPiece = (maxValue, array) => {
   return array.slice(startPiece, startPiece + pieceLength);
 };
 
-export {generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, pluralRulesOptions};
+const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstChild;
+};
+
+const newRender = (container, template, place) => {
+  switch (place) {
+    case RenderPosition.AFTER_BEGIN:
+      container.prepend(template);
+      break;
+    case RenderPosition.BEFORE_END:
+      container.append(template);
+      break;
+  }
+};
+
+export {newRender, createElement, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, pluralRulesOptions};

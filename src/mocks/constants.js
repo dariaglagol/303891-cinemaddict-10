@@ -157,4 +157,9 @@ const COMMENTS_COUNT = 4;
 
 const INITIAL_DESCRIPTION_TEXT = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
 
-export {MAX_AGE_RATING, COMMENTS_EMODJIES, COMMENTS_COUNT, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS, Year, MAX_VALUE, Duration, Rating, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};
+const RenderPosition = {
+  AFTER_BEGIN: `afterbegin`,
+  BEFORE_END: `beforeend`
+};
+
+export {RenderPosition, MAX_AGE_RATING, COMMENTS_EMODJIES, COMMENTS_COUNT, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS, Year, MAX_VALUE, Duration, Rating, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};
