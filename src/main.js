@@ -4,7 +4,7 @@ import FilmListTemplate from './components/film-lists-template';
 import ShowMoreButtonTemplate from './components/show-more-button-template';
 import {createFilmPopupTemplate} from './components/film-popup-template';
 import {CARDS_COUNT, COMMENTS_COUNT, RenderPosition, TOTAL_FILM_COUNT} from './mocks/constants';
-import {createAdditionalFilms} from './components/film-common-template';
+import {createFirstFilms} from './components/film-common-template';
 import {generateFilms} from "./mocks/film";
 import {generateFilters} from './mocks/filters';
 import {getRandomArrayItem, newRender} from './utilities/utilities';
@@ -40,6 +40,8 @@ newRender(mainNode, new MenuTemplate(films, filters, `all movies`).getElement(),
 newRender(mainNode, filmListTemplate.getElement(), RenderPosition.BEFORE_END);
 
 const buttonRenderPlace = filmListTemplate.getElement().querySelector(`.films-list`);
+const filmsRenderPlace = filmListTemplate.getElement().querySelector(`.films-list__container`);
+createFirstFilms(films, filmsRenderPlace, startPointSlice);
 newRender(buttonRenderPlace, showMoreButton.getElement(), RenderPosition.BEFORE_END);
 
 const commonFilmList = mainNode.querySelector(`.films-list__container`);
@@ -54,9 +56,9 @@ showMoreButton.getElement().addEventListener(`click`, () => {
     showMoreButton.removeElement();
   }
 
-  const addCardTemplates = createAdditionalFilms(films, startPointSlice);
+  createFirstFilms(films, filmsRenderPlace, startPointSlice);
 
-  render(addCardTemplates, commonFilmList);
+  // render(addCardTemplates, commonFilmList);
 });
 
 // render(createFilmPopupTemplate(randomFilm, comments), footerNode, `afterEnd`);

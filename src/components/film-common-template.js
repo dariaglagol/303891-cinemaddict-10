@@ -1,23 +1,17 @@
-import {createFilmCardTemplate} from './film-card-template';
-import {CARDS_COUNT} from '../mocks/constants';
+import FilmCard from './film-card-template';
+import {CARDS_COUNT, RenderPosition} from '../mocks/constants';
+import {newRender} from "../utilities/utilities";
 
-const createCommonFilmTemplate = (films) => {
-  const filmsTemplate = films.map((film) => {
-    return createFilmCardTemplate(film);
-  }).join(``);
+const renderFilm = (film, renderPlace) => {
+  const card = new FilmCard(film);
 
-  return filmsTemplate;
+  newRender(renderPlace, card.getElement(), RenderPosition.AFTER_BEGIN);
 };
 
-const createFirstFilms = (films) => {
-  const filmsData = films.slice(0, CARDS_COUNT);
-  return createCommonFilmTemplate(filmsData);
+const createFirstFilms = (films, renderPlace, slicePoint) => {
+  return films.slice(slicePoint, slicePoint + CARDS_COUNT).map((film) => {
+    return renderFilm(film, renderPlace);
+  }).join(`\n`);
 };
 
-const createAdditionalFilms = (films, startSlice) => {
-  const filmsData = films.slice(startSlice, startSlice + CARDS_COUNT);
-
-  return createCommonFilmTemplate(filmsData);
-};
-
-export {createCommonFilmTemplate, createFirstFilms, createAdditionalFilms};
+export {createFirstFilms};
