@@ -1,5 +1,5 @@
 import UserProfile from './components/user-profile-template';
-import {createMenuTemplate} from './components/menu-template';
+import MenuTemplate from './components/menu-template';
 import {createFilmListsTemplate} from './components/film-lists-template';
 import {createShowMoreButtonTemplate} from './components/show-more-button-template';
 import {createFilmPopupTemplate} from './components/film-popup-template';
@@ -33,8 +33,8 @@ const render = (template, container, position = `beforeEnd`) => {
 };
 
 newRender(headerNode, new UserProfile(watchedFilms).getElement(), RenderPosition.BEFORE_END);
+newRender(mainNode, new MenuTemplate(films, filters, `all movies`).getElement(), RenderPosition.AFTER_BEGIN);
 
-render(createMenuTemplate(films, filters, `all movies`), mainNode);
 render(createFilmListsTemplate(films, createShowMoreButtonTemplate()), mainNode);
 
 const loadMoreButton = mainNode.querySelector(`.films-list__show-more`);
