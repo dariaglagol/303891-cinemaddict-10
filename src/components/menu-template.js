@@ -38,7 +38,7 @@ export default class MenuTemplate {
 
   getElement() {
     if (!this._element) {
-      return this._element = createElement(this.getTemplate());
+      this._element = createElement(this.getTemplate());
     }
 
     return this._element;

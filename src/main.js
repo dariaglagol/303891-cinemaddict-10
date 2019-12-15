@@ -1,6 +1,6 @@
 import UserProfile from './components/user-profile-template';
 import MenuTemplate from './components/menu-template';
-import {createFilmListsTemplate} from './components/film-lists-template';
+import FilmListTemplate from './components/film-lists-template';
 import {createShowMoreButtonTemplate} from './components/show-more-button-template';
 import {createFilmPopupTemplate} from './components/film-popup-template';
 import {CARDS_COUNT, COMMENTS_COUNT, RenderPosition, TOTAL_FILM_COUNT} from './mocks/constants';
@@ -34,8 +34,9 @@ const render = (template, container, position = `beforeEnd`) => {
 
 newRender(headerNode, new UserProfile(watchedFilms).getElement(), RenderPosition.BEFORE_END);
 newRender(mainNode, new MenuTemplate(films, filters, `all movies`).getElement(), RenderPosition.AFTER_BEGIN);
+newRender(mainNode, new FilmListTemplate(films, createShowMoreButtonTemplate()).getElement(), RenderPosition.BEFORE_END)
 
-render(createFilmListsTemplate(films, createShowMoreButtonTemplate()), mainNode);
+
 
 const loadMoreButton = mainNode.querySelector(`.films-list__show-more`);
 const commonFilmList = mainNode.querySelector(`.films-list__container`);
