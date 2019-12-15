@@ -7,7 +7,7 @@ import {CARDS_COUNT, COMMENTS_COUNT, TOTAL_FILM_COUNT} from './mocks/constants';
 import {createAdditionalFilms} from './components/film-common-template';
 import {generateFilms} from "./mocks/film";
 import {generateFilters} from './mocks/filters';
-import {getRandomArrayItem} from './mocks/utilities';
+import {getRandomArrayItem} from './utilities/utilities';
 import {generateComments} from "./mocks/comment";
 
 const headerNode = document.querySelector(`.header`);

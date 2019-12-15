@@ -1,4 +1,4 @@
-import {pluralRulesOptions} from '../mocks/utilities';
+import {pluralRulesOptions} from '../utilities/utilities';
 
 export const createFilmCardTemplate = (filmData) => {
   const {

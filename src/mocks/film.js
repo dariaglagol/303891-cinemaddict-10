@@ -14,7 +14,7 @@ import {
   INITIAL_DESCRIPTION_TEXT,
   COMMENTS_COUNT,
 } from './constants';
-import {getRandomArrayItem, generateRandomArrayPiece, getRandomIntegerNumber, getRandomBoolean} from './utilities';
+import {getRandomArrayItem, generateRandomArrayPiece, getRandomIntegerNumber, getRandomBoolean} from '../utilities/utilities';
 import {generateComments} from "./comment";
 
 const getRatingInteger = (min, max) => {

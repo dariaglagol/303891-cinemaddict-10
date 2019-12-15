@@ -1,5 +1,5 @@
 import {COMMENTS_EMODJIES, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS} from '../mocks/constants';
-import {getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean} from './utilities';
+import {getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean} from '../utilities/utilities';
 
 const getRandomDate = () => {
   const targetDate = new Date();
