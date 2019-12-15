@@ -8,7 +8,6 @@ const createFilmListsTemplate = (films, showMoreButton) => {
       <section class="films-list">
         <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
         <div class="films-list__container">${createFirstFilms(films)}</div>
-        ${showMoreButton}
       </section>
 
       ${createTopRatedTemplate(films, `rating`)}
@@ -18,14 +17,13 @@ const createFilmListsTemplate = (films, showMoreButton) => {
 };
 
 export default class FilmListTemplate {
-  constructor(films, showMoreButton) {
+  constructor(films) {
     this._element = null;
     this._films = films;
-    this._showMoreButton = showMoreButton;
   }
 
   getTemplate() {
-    return createFilmListsTemplate(this._films, this._showMoreButton)
+    return createFilmListsTemplate(this._films);
   }
 
   getElement() {
