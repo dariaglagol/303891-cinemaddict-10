@@ -1,5 +1,6 @@
-import {createFilmCardTemplate} from './film-card-template';
-import {RATES_CARDS_COUNT} from '../mocks/constants';
+import FilmCard from './film-card-template';
+import {RATES_CARDS_COUNT, RenderPosition} from '../mocks/constants';
+import {createElement, newRender} from "../utilities/utilities";
 
 const sortData = (a, b, type) => {
   if (a[type] < b[type]) {
@@ -10,7 +11,19 @@ const sortData = (a, b, type) => {
   return 0;
 };
 
-const createRatedFilmTemplate = (films, type) => {
+const renderFilm = (film, renderPlace) => {
+  const card = new FilmCard(film);
+
+  newRender(renderPlace, card.getElement(), RenderPosition.BEFORE_END);
+};
+
+const createFirstFilms = (films, renderPlace) => {
+  return films.map((film) => {
+    return renderFilm(film, renderPlace);
+  }).join(`\n`);
+};
+
+const createRatedFilmTemplate = (films, type, renderPlace) => {
   const filmsSorted = films
     .slice()
     .sort((a, b) => {
@@ -18,13 +31,7 @@ const createRatedFilmTemplate = (films, type) => {
     })
     .slice(0, RATES_CARDS_COUNT);
 
-  const filmsTemplate = filmsSorted
-    .map((film) => {
-      return createFilmCardTemplate(film);
-    })
-    .join(``);
-
-  return filmsTemplate;
+  return createFirstFilms(filmsSorted, renderPlace);
 };
 
 const createTopRatedTemplate = (films, type) => {
@@ -33,16 +40,34 @@ const createTopRatedTemplate = (films, type) => {
   }
 
   const header = type === `rating` ? `Top rated` : `Most commented`;
-
-  return `
-    <section class="films-list--extra">
+  return (
+    `<section class="films-list--extra">
       <h2 class="films-list__title">${header}</h2>
-
-      <div class="films-list__container">
-        ${createRatedFilmTemplate(films, type)}
-      </div>
-    </section>
-  `;
+      <div class="films-list__container"></div>
+    </section>`
+  );
 };
 
-export {createTopRatedTemplate};
+export default class TopRatedFilm {
+  constructor(films, type) {
+    this._element = null;
+    this._films = films;
+    this._type = type;
+  }
+
+  getTemplate() {
+    return createTopRatedTemplate(this._films, this._type);
+  }
+
+  getWrapperElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  getCardsElement(place) {
+    const cardRenderPlace = place.querySelector(`.films-list__container`);
+    return createRatedFilmTemplate(this._films, this._type, cardRenderPlace);
+  }
+}

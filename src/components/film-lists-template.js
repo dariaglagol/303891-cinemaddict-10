@@ -1,5 +1,3 @@
-import {createFirstFilms} from './film-common-template';
-import {createTopRatedTemplate} from './top-raited-films';
 import {createElement} from "../utilities/utilities";
 
 const createFilmListsTemplate = (films) => {
@@ -9,14 +7,9 @@ const createFilmListsTemplate = (films) => {
         <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
         <div class="films-list__container"></div>
       </section>
-
-
      </section>`
   );
 };
-
-// ${createTopRatedTemplate(films, `rating`)}
-// ${createTopRatedTemplate(films, `comments`)}
 
 export default class FilmListTemplate {
   constructor(films) {

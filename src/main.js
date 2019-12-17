@@ -2,6 +2,7 @@ import UserProfile from './components/user-profile-template';
 import MenuTemplate from './components/menu-template';
 import FilmListTemplate from './components/film-lists-template';
 import ShowMoreButtonTemplate from './components/show-more-button-template';
+import TopRatedFilm from './components/top-raited-films';
 import {createFilmPopupTemplate} from './components/film-popup-template';
 import {CARDS_COUNT, COMMENTS_COUNT, RenderPosition, TOTAL_FILM_COUNT} from './mocks/constants';
 import {createFirstFilms} from './components/film-common-template';
@@ -26,12 +27,6 @@ const watchedFilms = filters.history;
 
 let startPointSlice = 0;
 
-const render = (template, container, position = `beforeEnd`) => {
-  return (
-    container.insertAdjacentHTML(position, template)
-  );
-};
-
 const filmListTemplate = new FilmListTemplate(films);
 const showMoreButton = new ShowMoreButtonTemplate();
 
@@ -41,10 +36,19 @@ newRender(mainNode, filmListTemplate.getElement(), RenderPosition.BEFORE_END);
 
 const buttonRenderPlace = filmListTemplate.getElement().querySelector(`.films-list`);
 const filmsRenderPlace = filmListTemplate.getElement().querySelector(`.films-list__container`);
-createFirstFilms(films, filmsRenderPlace, startPointSlice);
-newRender(buttonRenderPlace, showMoreButton.getElement(), RenderPosition.BEFORE_END);
 
-const commonFilmList = mainNode.querySelector(`.films-list__container`);
+createFirstFilms(films, filmsRenderPlace, startPointSlice);
+
+const topRatedFilms = new TopRatedFilm(films, `rating`, filmListTemplate.getElement());
+const mostCommentedFilms = new TopRatedFilm(films, `comments`, filmListTemplate.getElement());
+
+newRender(filmListTemplate.getElement(), topRatedFilms.getWrapperElement(), RenderPosition.BEFORE_END);
+newRender(filmListTemplate.getElement(), mostCommentedFilms.getWrapperElement(), RenderPosition.BEFORE_END);
+
+topRatedFilms.getCardsElement(topRatedFilms.getWrapperElement());
+mostCommentedFilms.getCardsElement(mostCommentedFilms.getWrapperElement());
+
+newRender(buttonRenderPlace, showMoreButton.getElement(), RenderPosition.BEFORE_END);
 
 showMoreButton.getElement().addEventListener(`click`, () => {
   startPointSlice = startPointSlice <= TOTAL_FILM_COUNT - CARDS_COUNT
@@ -57,8 +61,6 @@ showMoreButton.getElement().addEventListener(`click`, () => {
   }
 
   createFirstFilms(films, filmsRenderPlace, startPointSlice);
-
-  // render(addCardTemplates, commonFilmList);
 });
 
 // render(createFilmPopupTemplate(randomFilm, comments), footerNode, `afterEnd`);
