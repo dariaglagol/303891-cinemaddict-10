@@ -75,3 +75,4 @@ newRender(mainNode, filmPopup.getElement(), RenderPosition.BEFORE_END);
 newRender(filmPopup.getElement(), ratingForm.getElement(), RenderPosition.BEFORE_END);
 newRender(filmPopup.getElement(), commentsComponent.getElement(), RenderPosition.BEFORE_END);
 newRender(commentsComponent.getElement(), commentForm.getElement(), RenderPosition.BEFORE_END);
+commentsComponent.getCommentsList(commentsComponent.getElement());

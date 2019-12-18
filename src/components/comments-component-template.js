@@ -1,20 +1,19 @@
-import {createCommentTemplate} from './comment-template';
-import {createElement} from "../utilities/utilities";
+import Comment from './comment-template';
+import {createElement, newRender} from "../utilities/utilities";
+import {RenderPosition} from "../mocks/constants";
+
+const renderComment = (comment, renderPlace) => {
+  const commentElement = new Comment(comment);
+
+  newRender(renderPlace, commentElement.getElement(), RenderPosition.AFTER_BEGIN);
+};
 
 const createCommentsComponentTemplate = (comments) => {
-  const commentsList = comments.map((comment) => {
-    return createCommentTemplate(comment);
-  }).join(``);
-
   return (
     `<div class="form-details__bottom-container">
       <section class="film-details__comments-wrap">
         <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
-
-        <ul class="film-details__comments-list">
-          ${commentsList}
-        </ul>
-
+        <ul class="film-details__comments-list"></ul>
       </section>
     </div>`
   );
@@ -36,5 +35,15 @@ export default class CommentsComponent {
     }
 
     return this._element;
+  }
+
+  getCommentsList(renderPlace) {
+
+    console.log('renderPlace', renderPlace);
+    const commentsList = this._comments.map((comment) => {
+      return renderComment(comment, renderPlace);
+    }).join(``);
+
+    return commentsList;
   }
 }
