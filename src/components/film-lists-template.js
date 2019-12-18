@@ -1,6 +1,6 @@
 import {createElement} from "../utilities/utilities";
 
-const createFilmListsTemplate = (films) => {
+const createFilmListsTemplate = () => {
   return (
     `<section class="films">
       <section class="films-list">
@@ -12,13 +12,12 @@ const createFilmListsTemplate = (films) => {
 };
 
 export default class FilmListTemplate {
-  constructor(films) {
+  constructor() {
     this._element = null;
-    this._films = films;
   }
 
   getTemplate() {
-    return createFilmListsTemplate(this._films);
+    return createFilmListsTemplate();
   }
 
   getElement() {

@@ -27,7 +27,7 @@ const randomFilm = getRandomArrayItem(films);
 const comments = generateComments(COMMENTS_COUNT);
 const watchedFilms = filters.history;
 
-const filmListTemplate = new FilmListTemplate(films);
+const filmListTemplate = new FilmListTemplate();
 const showMoreButton = new ShowMoreButtonTemplate();
 
 const filmPopup = new FilmPopup(randomFilm);
