@@ -40,9 +40,9 @@ const generateActors = () => {
 };
 
 const generateWriters = () => {
-  const genresLength = getRandomIntegerNumber(1, MAX_VALUE);
-  const genresStartPiece = getRandomIntegerNumber(1, WRITERS.length - genresLength);
-  return WRITERS.slice(genresStartPiece, genresStartPiece + genresLength).join(`, `);
+  const writersLength = getRandomIntegerNumber(1, MAX_VALUE);
+  const genresStartPiece = getRandomIntegerNumber(1, WRITERS.length - writersLength);
+  return WRITERS.slice(genresStartPiece, genresStartPiece + writersLength).join(`, `);
 };
 
 const generateFilm = () => {

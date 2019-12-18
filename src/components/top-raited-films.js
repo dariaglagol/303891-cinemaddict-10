@@ -1,6 +1,6 @@
 import FilmCard from './film-card-template';
 import {RATES_CARDS_COUNT, RenderPosition} from '../mocks/constants';
-import {createElement, newRender} from "../utilities/utilities";
+import {createElement, render} from "../utilities/utilities";
 
 const sortData = (a, b, type) => {
   if (a[type] < b[type]) {
@@ -14,7 +14,7 @@ const sortData = (a, b, type) => {
 const renderFilm = (film, renderPlace) => {
   const card = new FilmCard(film);
 
-  newRender(renderPlace, card.getElement(), RenderPosition.BEFORE_END);
+  render(renderPlace, card.getElement(), RenderPosition.BEFORE_END);
 };
 
 const createFirstFilms = (films, renderPlace) => {

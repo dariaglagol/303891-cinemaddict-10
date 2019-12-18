@@ -1,4 +1,4 @@
-import {createElement, pluralRulesOptions} from '../utilities/utilities';
+import {createElement, getPlural} from '../utilities/utilities';
 
 const createFilmCardTemplate = (filmData) => {
   const {
@@ -15,7 +15,7 @@ const createFilmCardTemplate = (filmData) => {
     isInWatchList
   } = filmData;
 
-  const commentLabel = pluralRulesOptions(comments.length, `comment`, `comments`);
+  const commentLabel = getPlural(comments.length, `comment`, `comments`);
 
   const isMarkActive = (mark) => {
     return mark ? `film-card__controls-item--active` : ``;

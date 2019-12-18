@@ -1,11 +1,11 @@
 import Comment from './comment-template';
-import {createElement, newRender} from "../utilities/utilities";
+import {createElement, render} from "../utilities/utilities";
 import {RenderPosition} from "../mocks/constants";
 
 const renderComment = (comment, renderPlace) => {
   const commentElement = new Comment(comment);
 
-  newRender(renderPlace, commentElement.getElement(), RenderPosition.AFTER_BEGIN);
+  render(renderPlace, commentElement.getElement(), RenderPosition.AFTER_BEGIN);
 };
 
 const createCommentsComponentTemplate = (comments) => {
@@ -38,8 +38,6 @@ export default class CommentsComponent {
   }
 
   getCommentsList(renderPlace) {
-
-    console.log('renderPlace', renderPlace);
     const commentsList = this._comments.map((comment) => {
       return renderComment(comment, renderPlace);
     }).join(``);

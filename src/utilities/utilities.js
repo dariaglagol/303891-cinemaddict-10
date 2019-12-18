@@ -15,7 +15,7 @@ const getRandomBoolean = () => {
   return Math.random() > 0.5;
 };
 
-const pluralRulesOptions = (count, one, more) => {
+const getPlural = (count, one, more) => {
   return count > 1 || count === 0 ? more : one;
 };
 
@@ -36,7 +36,7 @@ const createElement = (template) => {
   return newElement.firstElementChild;
 };
 
-const newRender = (container, template, place) => {
+const render = (container, template, place) => {
   switch (place) {
     case RenderPosition.AFTER_BEGIN:
       container.prepend(template);
@@ -47,4 +47,4 @@ const newRender = (container, template, place) => {
   }
 };
 
-export {newRender, createElement, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, pluralRulesOptions};
+export {render, createElement, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};
