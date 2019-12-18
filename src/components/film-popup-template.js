@@ -1,11 +1,10 @@
-import {createCommentsComponentTemplate} from './comments-component-template';
-import {createRatingForm} from './rating-form';
+import {createElement} from "../utilities/utilities";
 
 const isCheckboxActive = (statement) => {
   return statement ? `checked` : ``;
 };
 
-export const createFilmPopupTemplate = (film, comments) => {
+const createFilmPopupTemplate = (film) => {
   const {
     filmName,
     rating,
@@ -28,8 +27,8 @@ export const createFilmPopupTemplate = (film, comments) => {
   const watchListLabel = isInWatchList ? `Remove from watchlist` : `Add to watchlist`;
   const favoritesLabel = isFavorite ? `Remove from favorites` : `Add to favorites`;
 
-  return `
-    <section class="film-details">
+  return (
+    `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
         <div class="form-details__top-container">
           <div class="film-details__close">
@@ -103,13 +102,31 @@ export const createFilmPopupTemplate = (film, comments) => {
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">${favoritesLabel}</label>
           </section>
         </div>
-
-        ${isWatched ? createRatingForm(filmName, posterUrl) : ``}
-
-        <div class="form-details__bottom-container">
-           ${createCommentsComponentTemplate(comments)}
-        </div>
       </form>
-    </section>
-  `;
+    </section>`
+  );
 };
+
+export default class FilmPopup {
+  constructor(film, comments) {
+    this._element = null;
+    this._film = film;
+    this._comments = comments;
+  }
+
+  getTemplate() {
+    return createFilmPopupTemplate(this._film, this._comments);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

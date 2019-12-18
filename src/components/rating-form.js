@@ -1,6 +1,8 @@
-export const createRatingForm = (filmName, posterUrl) => {
-  return `
-  <div class="form-details__middle-container">
+import {createElement} from "../utilities/utilities";
+
+const createRatingForm = (filmName, posterUrl) => {
+  return (
+    `<div class="form-details__middle-container">
       <section class="film-details__user-rating-wrap">
         <div class="film-details__user-rating-controls">
           <button class="film-details__watched-reset" type="button">Undo</button>
@@ -48,6 +50,31 @@ export const createRatingForm = (filmName, posterUrl) => {
           </section>
         </div>
       </section>
-    </div>
-  `;
+    </div>`
+  );
 };
+
+export default class RatingForm {
+  constructor(film) {
+    this._element = null;
+    this._filmName = film.filmName;
+    this._posterUrl = film.posterUrl;
+    this._isFilmWatched = film.isWatched;
+  }
+
+  getTemplate() {
+    if (this._isFilmWatched) {
+      return createRatingForm(this._filmName, this._posterUrl);
+    }
+
+    return ``;
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+}

@@ -1,6 +1,8 @@
-export const createCommentForm = () => {
-  return `
-    <div class="film-details__new-comment">
+import {createElement} from "../utilities/utilities";
+
+const createCommentForm = () => {
+  return (
+    `<div class="film-details__new-comment">
       <div for="add-emoji" class="film-details__add-emoji-label"></div>
 
       <label class="film-details__comment-label">
@@ -28,6 +30,24 @@ export const createCommentForm = () => {
           <img src="./images/emoji/angry.png" width="30" height="30" alt="emoji">
         </label>
       </div>
-    </div>
-  `;
+    </div>`
+  );
 };
+
+export default class CommentForm {
+  constructor() {
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createCommentForm();
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+}

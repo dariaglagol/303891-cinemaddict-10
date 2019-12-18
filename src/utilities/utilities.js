@@ -26,10 +26,14 @@ const generateRandomArrayPiece = (maxValue, array) => {
 };
 
 const createElement = (template) => {
+  if (template === ``) {
+    return ``;
+  }
+
   const newElement = document.createElement(`div`);
   newElement.innerHTML = template;
 
-  return newElement.firstChild;
+  return newElement.firstElementChild;
 };
 
 const newRender = (container, template, place) => {

@@ -3,7 +3,10 @@ import MenuTemplate from './components/menu-template';
 import FilmListTemplate from './components/film-lists-template';
 import ShowMoreButtonTemplate from './components/show-more-button-template';
 import TopRatedFilm from './components/top-raited-films';
-import {createFilmPopupTemplate} from './components/film-popup-template';
+import FilmPopup from './components/film-popup-template';
+import RatingForm from "./components/rating-form";
+import CommentsComponent from './components/comments-component-template';
+import CommentForm from './components/comment-form';
 import {CARDS_COUNT, COMMENTS_COUNT, RenderPosition, TOTAL_FILM_COUNT} from './mocks/constants';
 import {createFirstFilms} from './components/film-common-template';
 import {generateFilms} from "./mocks/film";
@@ -63,4 +66,12 @@ showMoreButton.getElement().addEventListener(`click`, () => {
   createFirstFilms(films, filmsRenderPlace, startPointSlice);
 });
 
-// render(createFilmPopupTemplate(randomFilm, comments), footerNode, `afterEnd`);
+const filmPopup = new FilmPopup(randomFilm);
+const ratingForm = new RatingForm(randomFilm);
+const commentsComponent = new CommentsComponent(comments);
+const commentForm = new CommentForm();
+
+newRender(mainNode, filmPopup.getElement(), RenderPosition.BEFORE_END);
+newRender(filmPopup.getElement(), ratingForm.getElement(), RenderPosition.BEFORE_END);
+newRender(filmPopup.getElement(), commentsComponent.getElement(), RenderPosition.BEFORE_END);
+newRender(commentsComponent.getElement(), commentForm.getElement(), RenderPosition.BEFORE_END);
