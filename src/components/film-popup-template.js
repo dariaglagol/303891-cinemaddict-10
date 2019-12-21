@@ -147,7 +147,7 @@ export default class FilmPopup {
     render(filmPopup, commentsComponent.getElement(), RenderPosition.BEFORE_END);
     render(commentsComponent.getElement(), commentForm.getElement(), RenderPosition.BEFORE_END);
     commentsComponent.getCommentsList(commentsComponent.getElement());
-  };
+  }
 
   removeElement() {
     this._element = null;

@@ -51,8 +51,8 @@ const renderFilm = (film, filmRenderPlace, popupRenderPlace) => {
   render(filmRenderPlace, card.getElement(), RenderPosition.AFTER_BEGIN);
 };
 
-const renderFilms = (filmsList, filmRenderPlace, popupRenderPlace, sliceCount, slicePoint = 0,) => {
-  filmsList.slice(slicePoint, slicePoint + sliceCount).forEach((film) => {
+const renderFilms = (filmsList, filmRenderPlace, popupRenderPlace, sliceCount, slicePoint = 0) => {
+  filmsList.slice(slicePoint, slicePoint + CARDS_COUNT).forEach((film) => {
     renderFilm(film, filmRenderPlace, popupRenderPlace);
   });
 };
@@ -89,5 +89,5 @@ showMoreButton.getElement().addEventListener(`click`, () => {
     showMoreButton.removeElement();
   }
 
-  renderFilms(films, filmsRenderPlace, mainNode, startPointSlice);
+  renderFilms(films, filmsRenderPlace, mainNode, CARDS_COUNT, startPointSlice);
 });
