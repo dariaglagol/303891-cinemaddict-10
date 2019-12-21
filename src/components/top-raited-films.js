@@ -1,6 +1,10 @@
 import FilmCard from './film-card-template';
 import {RATES_CARDS_COUNT, RenderPosition} from '../mocks/constants';
-import {createElement, render} from "../utilities/utilities";
+import {createElement, render, renderPopup, toggleEventListeners} from "../utilities/utilities";
+import FilmPopup from "./film-popup-template";
+import RatingForm from "./rating-form";
+import CommentsComponent from "./comments-component-template";
+import CommentForm from "./comment-form";
 
 const sortData = (a, b, type) => {
   if (a[type] < b[type]) {
@@ -11,19 +15,57 @@ const sortData = (a, b, type) => {
   return 0;
 };
 
-const renderFilm = (film, renderPlace) => {
+const renderFilm = (film, renderPlace, popupRenderPlace) => {
   const card = new FilmCard(film);
+  const filmPopup = new FilmPopup(film);
+  const ratingForm = new RatingForm(film);
+  const commentsComponent = new CommentsComponent(film.comments);
+  const commentForm = new CommentForm();
+
+  const clickableItems = [`.film-card__poster`, `.film-card__title`, `.film-card__comments`];
+
+  let isPopupClickListen = false;
+
+  const handleClosePopup = () => {
+    const closePopupButton = filmPopup.getElement().querySelector(`.film-details__close-btn`);
+
+    closePopupButton.removeEventListener(`click`, handleClosePopup);
+
+    filmPopup.getElement().remove();
+    filmPopup.removeElement();
+    ratingForm.removeElement();
+    commentsComponent.removeElement();
+    commentForm.removeElement();
+
+    isPopupClickListen = false;
+
+    toggleEventListeners(isPopupClickListen, clickableItems, card, handleOpenPopup);
+  };
+
+  const handleOpenPopup = () => {
+    renderPopup(popupRenderPlace, filmPopup, ratingForm, commentsComponent, commentForm);
+
+    isPopupClickListen = true;
+
+    toggleEventListeners(isPopupClickListen, clickableItems, card, handleOpenPopup);
+
+    const closePopupButton = filmPopup.getElement().querySelector(`.film-details__close-btn`);
+
+    closePopupButton.addEventListener(`click`, handleClosePopup);
+  };
+
+  toggleEventListeners(isPopupClickListen, clickableItems, card, handleOpenPopup);
 
   render(renderPlace, card.getElement(), RenderPosition.BEFORE_END);
 };
 
-const createFirstFilms = (films, renderPlace) => {
+const createFilms = (films, cardsRenderPlace, popupRenderPlace) => {
   films.forEach((film) => {
-    renderFilm(film, renderPlace);
+    renderFilm(film, cardsRenderPlace, popupRenderPlace);
   });
 };
 
-const createRatedFilmTemplate = (films, type, renderPlace) => {
+const createRatedFilmTemplate = (films, type, cardsRenderPlace, popupRenderPlace) => {
   const filmsSorted = films
     .slice()
     .sort((a, b) => {
@@ -31,7 +73,7 @@ const createRatedFilmTemplate = (films, type, renderPlace) => {
     })
     .slice(0, RATES_CARDS_COUNT);
 
-  return createFirstFilms(filmsSorted, renderPlace);
+  return createFilms(filmsSorted, cardsRenderPlace, popupRenderPlace);
 };
 
 const createTopRatedTemplate = (films, type) => {
@@ -66,8 +108,8 @@ export default class TopRatedFilm {
     return this._element;
   }
 
-  getCardsElement(place) {
-    const cardRenderPlace = place.querySelector(`.films-list__container`);
-    return createRatedFilmTemplate(this._films, this._type, cardRenderPlace);
+  getCardsElement(cardsRenderPlace, popupRenderPlace) {
+    const cardRenderPlace = cardsRenderPlace.querySelector(`.films-list__container`);
+    return createRatedFilmTemplate(this._films, this._type, cardRenderPlace, popupRenderPlace);
   }
 }

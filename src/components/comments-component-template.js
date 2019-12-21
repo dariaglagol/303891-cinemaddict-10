@@ -37,6 +37,10 @@ export default class CommentsComponent {
     return this._element;
   }
 
+  removeElement() {
+    this._element = null;
+  }
+
   getCommentsList(renderPlace) {
     this._comments.forEach((comment) => {
       renderComment(comment, renderPlace);

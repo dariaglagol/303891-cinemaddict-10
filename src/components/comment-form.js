@@ -50,4 +50,8 @@ export default class CommentForm {
 
     return this._element;
   }
+
+  removeElement() {
+    this._element = null;
+  }
 }
