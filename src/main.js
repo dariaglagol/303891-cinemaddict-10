@@ -2,12 +2,13 @@ import UserProfile from './components/user-profile-template';
 import Menu from './components/menu';
 import FilmListTemplate from './components/film-lists-template';
 import ShowMoreButtonTemplate from './components/show-more-button-template';
-import TopRatedFilm from './components/top-raited-films';
-import {CARDS_COUNT, RenderPosition, TOTAL_FILM_COUNT} from './mocks/constants';
-import {renderFilms} from './components/film-common-template';
+import TopFilm from './components/top-raited-films';
+import FilmCard from "./components/film-card-template";
+import FilmPopup from "./components/film-popup-template";
+import {CARDS_COUNT, RATES_CARDS_COUNT, CLICKABLE_ITEMS, RenderPosition, TOTAL_FILM_COUNT} from './mocks/constants';
 import {generateFilms} from "./mocks/film";
 import {generateFilters} from './mocks/filters';
-import {render} from './utilities/utilities';
+import {render, toggleEventListeners} from './utilities/utilities';
 
 let startPointSlice = 0;
 
@@ -26,22 +27,55 @@ const showMoreButton = new ShowMoreButtonTemplate();
 const footerStatistic = footerNode.querySelector(`.footer__statistics p`);
 footerStatistic.innerText = `${films.length} movies inside`;
 
+const renderFilm = (film, filmRenderPlace, popupRenderPlace) => {
+  const card = new FilmCard(film);
+  const filmPopup = new FilmPopup(film, popupRenderPlace);
+
+  const handleClosePopup = () => {
+    const closePopupButton = filmPopup.getElement().querySelector(`.film-details__close-btn`);
+
+    closePopupButton.removeEventListener(`click`, handleClosePopup);
+
+    filmPopup.getElement().remove();
+    filmPopup.removeElement();
+  };
+
+  const handleOpenPopup = () => {
+    const closePopupButton = filmPopup.getElement().querySelector(`.film-details__close-btn`);
+
+    closePopupButton.addEventListener(`click`, handleClosePopup);
+  };
+
+  toggleEventListeners(CLICKABLE_ITEMS, card, handleOpenPopup);
+
+  render(filmRenderPlace, card.getElement(), RenderPosition.AFTER_BEGIN);
+};
+
+const renderFilms = (filmsList, filmRenderPlace, popupRenderPlace, sliceCount, slicePoint = 0,) => {
+  filmsList.slice(slicePoint, slicePoint + sliceCount).forEach((film) => {
+    renderFilm(film, filmRenderPlace, popupRenderPlace);
+  });
+};
+
 render(headerNode, new UserProfile(watchedFilms).getElement(), RenderPosition.BEFORE_END);
 render(mainNode, new Menu(films, filters).getElement(), RenderPosition.AFTER_BEGIN);
 render(mainNode, filmListTemplate.getElement(), RenderPosition.BEFORE_END);
 const buttonRenderPlace = filmListTemplate.getElement().querySelector(`.films-list`);
 const filmsRenderPlace = filmListTemplate.getElement().querySelector(`.films-list__container`);
 
-renderFilms(films, filmsRenderPlace, mainNode, startPointSlice);
+renderFilms(films, filmsRenderPlace, mainNode, CARDS_COUNT, startPointSlice);
 
-const topRatedFilm = new TopRatedFilm(films, `rating`, filmListTemplate.getElement());
-const mostCommentedFilms = new TopRatedFilm(films, `comments`, filmListTemplate.getElement());
+const ratedFilm = new TopFilm(films, `rating`, filmListTemplate.getElement());
+const mostCommentedFilms = new TopFilm(films, `comments`, filmListTemplate.getElement());
 
-render(filmListTemplate.getElement(), topRatedFilm.getWrapperElement(), RenderPosition.BEFORE_END);
+render(filmListTemplate.getElement(), ratedFilm.getWrapperElement(), RenderPosition.BEFORE_END);
 render(filmListTemplate.getElement(), mostCommentedFilms.getWrapperElement(), RenderPosition.BEFORE_END);
 
-topRatedFilm.getCardsElement(topRatedFilm.getWrapperElement(), mainNode);
-mostCommentedFilms.getCardsElement(mostCommentedFilms.getWrapperElement(), mainNode);
+const ratingPlace = ratedFilm.getWrapperElement().querySelector(`.films-list__container`);
+const commentsPlace = mostCommentedFilms.getWrapperElement().querySelector(`.films-list__container`);
+
+renderFilms(ratedFilm.getTopFilms(), ratingPlace, mainNode, RATES_CARDS_COUNT);
+renderFilms(ratedFilm.getTopFilms(), commentsPlace, mainNode, RATES_CARDS_COUNT);
 
 render(buttonRenderPlace, showMoreButton.getElement(), RenderPosition.BEFORE_END);
 

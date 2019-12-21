@@ -1,4 +1,4 @@
-import Comment from './comment-template';
+import Comment from './comment';
 import {createElement, render} from "../utilities/utilities";
 import {RenderPosition} from "../mocks/constants";
 

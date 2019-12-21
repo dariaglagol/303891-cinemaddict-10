@@ -1,4 +1,8 @@
-import {createElement} from "../utilities/utilities";
+import RatingForm from "./rating-form";
+import CommentsComponent from "./comments-component-template";
+import CommentForm from "./comment-form";
+import {RenderPosition} from "../mocks/constants";
+import {createElement, render} from "../utilities/utilities";
 
 const isCheckboxActive = (statement) => {
   return statement ? `checked` : ``;
@@ -108,14 +112,14 @@ const createFilmPopupTemplate = (film) => {
 };
 
 export default class FilmPopup {
-  constructor(film, comments) {
+  constructor(film, popupRenderPlace) {
     this._element = null;
     this._film = film;
-    this._comments = comments;
+    this.popupRenderPlace = popupRenderPlace;
   }
 
   getTemplate() {
-    return createFilmPopupTemplate(this._film, this._comments);
+    return createFilmPopupTemplate(this._film);
   }
 
   getElement() {
@@ -123,8 +127,27 @@ export default class FilmPopup {
       this._element = createElement(this.getTemplate());
     }
 
+    this.renderFormElement(this._film);
+
     return this._element;
   }
+
+  renderFormElement(film) {
+    const ratingForm = film.isWatched && new RatingForm(film);
+    const commentsComponent = new CommentsComponent(film.comments);
+    const commentForm = new CommentForm();
+
+    FilmPopup.renderPopup(this.popupRenderPlace, this._element, ratingForm, commentsComponent, commentForm);
+  }
+
+  static renderPopup(popupRenderPlace, filmPopup, ratingForm, commentsComponent, commentForm) {
+    if (ratingForm) {
+      render(filmPopup, ratingForm.getElement(), RenderPosition.BEFORE_END);
+    }
+    render(filmPopup, commentsComponent.getElement(), RenderPosition.BEFORE_END);
+    render(commentsComponent.getElement(), commentForm.getElement(), RenderPosition.BEFORE_END);
+    commentsComponent.getCommentsList(commentsComponent.getElement());
+  };
 
   removeElement() {
     this._element = null;

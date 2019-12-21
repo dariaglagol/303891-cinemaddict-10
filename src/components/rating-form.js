@@ -53,11 +53,7 @@ export default class RatingForm {
   }
 
   getTemplate() {
-    if (this._isFilmWatched) {
-      return createRatingForm(this._filmName, this._posterUrl);
-    }
-
-    return ``;
+    return createRatingForm(this._filmName, this._posterUrl);
   }
 
   getElement() {
