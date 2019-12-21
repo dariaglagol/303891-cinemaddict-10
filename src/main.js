@@ -41,8 +41,8 @@ const renderFilm = (film, filmRenderPlace, popupRenderPlace) => {
   };
 
   const handleOpenPopup = () => {
+    render(mainNode, filmPopup.getElement(), RenderPosition.BEFORE_END);
     const closePopupButton = filmPopup.getElement().querySelector(`.film-details__close-btn`);
-
     closePopupButton.addEventListener(`click`, handleClosePopup);
   };
 
