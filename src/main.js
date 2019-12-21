@@ -1,5 +1,5 @@
 import UserProfile from './components/user-profile-template';
-import MenuTemplate from './components/menu-template';
+import Menu from './components/menu';
 import FilmListTemplate from './components/film-lists-template';
 import ShowMoreButtonTemplate from './components/show-more-button-template';
 import TopRatedFilm from './components/top-raited-films';
@@ -39,20 +39,20 @@ const footerStatistic = footerNode.querySelector(`.footer__statistics p`);
 footerStatistic.innerText = `${films.length} movies inside`;
 
 render(headerNode, new UserProfile(watchedFilms).getElement(), RenderPosition.BEFORE_END);
-render(mainNode, new MenuTemplate(films, filters, `all movies`).getElement(), RenderPosition.AFTER_BEGIN);
+render(mainNode, new Menu(films, filters).getElement(), RenderPosition.AFTER_BEGIN);
 render(mainNode, filmListTemplate.getElement(), RenderPosition.BEFORE_END);
 const buttonRenderPlace = filmListTemplate.getElement().querySelector(`.films-list`);
 const filmsRenderPlace = filmListTemplate.getElement().querySelector(`.films-list__container`);
 
 renderFilms(films, filmsRenderPlace, startPointSlice);
 
-const topRatedFilms = new TopRatedFilm(films, `rating`, filmListTemplate.getElement());
+const topRatedFilm = new TopRatedFilm(films, `rating`, filmListTemplate.getElement());
 const mostCommentedFilms = new TopRatedFilm(films, `comments`, filmListTemplate.getElement());
 
-render(filmListTemplate.getElement(), topRatedFilms.getWrapperElement(), RenderPosition.BEFORE_END);
+render(filmListTemplate.getElement(), topRatedFilm.getWrapperElement(), RenderPosition.BEFORE_END);
 render(filmListTemplate.getElement(), mostCommentedFilms.getWrapperElement(), RenderPosition.BEFORE_END);
 
-topRatedFilms.getCardsElement(topRatedFilms.getWrapperElement());
+topRatedFilm.getCardsElement(topRatedFilm.getWrapperElement());
 mostCommentedFilms.getCardsElement(mostCommentedFilms.getWrapperElement());
 
 render(buttonRenderPlace, showMoreButton.getElement(), RenderPosition.BEFORE_END);

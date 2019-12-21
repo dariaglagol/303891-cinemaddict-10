@@ -18,9 +18,9 @@ const renderFilm = (film, renderPlace) => {
 };
 
 const createFirstFilms = (films, renderPlace) => {
-  return films.map((film) => {
-    return renderFilm(film, renderPlace);
-  }).join(`\n`);
+  films.forEach((film) => {
+    renderFilm(film, renderPlace);
+  });
 };
 
 const createRatedFilmTemplate = (films, type, renderPlace) => {

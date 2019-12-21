@@ -41,8 +41,8 @@ const generateActors = () => {
 
 const generateWriters = () => {
   const writersLength = getRandomIntegerNumber(1, MAX_VALUE);
-  const genresStartPiece = getRandomIntegerNumber(1, WRITERS.length - writersLength);
-  return WRITERS.slice(genresStartPiece, genresStartPiece + writersLength).join(`, `);
+  const writersStartPiece = getRandomIntegerNumber(1, WRITERS.length - writersLength);
+  return WRITERS.slice(writersStartPiece, writersStartPiece + writersLength).join(`, `);
 };
 
 const generateFilm = () => {

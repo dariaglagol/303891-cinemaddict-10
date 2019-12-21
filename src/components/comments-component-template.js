@@ -3,9 +3,9 @@ import {createElement, render} from "../utilities/utilities";
 import {RenderPosition} from "../mocks/constants";
 
 const renderComment = (comment, renderPlace) => {
-  const commentElement = new Comment(comment);
+  const commentItem = new Comment(comment);
 
-  render(renderPlace, commentElement.getElement(), RenderPosition.AFTER_BEGIN);
+  render(renderPlace, commentItem.getElement(), RenderPosition.AFTER_BEGIN);
 };
 
 const createCommentsComponentTemplate = (comments) => {
@@ -38,10 +38,8 @@ export default class CommentsComponent {
   }
 
   getCommentsList(renderPlace) {
-    const commentsList = this._comments.map((comment) => {
-      return renderComment(comment, renderPlace);
-    }).join(``);
-
-    return commentsList;
+    this._comments.forEach((comment) => {
+      renderComment(comment, renderPlace);
+    });
   }
 }

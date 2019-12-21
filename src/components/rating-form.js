@@ -1,14 +1,12 @@
-import {createElement, getRandomIntegerNumber} from "../utilities/utilities";
-import {MAX_FILM_SCORE} from '../mocks/constants';
+import {createElement} from "../utilities/utilities";
+import {MAX_FILM_SCORE, RANDOM_SCORE} from '../mocks/constants';
 
 const createRatingInputs = () => {
   const ratingMarkTemplate = [];
 
-  const randomScore = getRandomIntegerNumber(1, 9);
-
-  for (let i = 1; i < MAX_FILM_SCORE; i++) {
+  for (let i = 1; i <= MAX_FILM_SCORE; i++) {
     const template = `
-        <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${i}" id="rating-${i}" ${randomScore === i ? `checked` : ``}>
+        <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${i}" id="rating-${i}" ${RANDOM_SCORE === i ? `checked` : ``}>
         <label class="film-details__user-rating-label" for="rating-${i}">${i}</label>
     `;
 
