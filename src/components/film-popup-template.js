@@ -1,11 +1,14 @@
-import {createCommentsComponentTemplate} from './comments-component-template';
-import {createRatingForm} from './rating-form';
+import RatingForm from "./rating-form";
+import CommentsComponent from "./comments-component-template";
+import CommentForm from "./comment-form";
+import {RenderPosition} from "../mocks/constants";
+import {createElement, render} from "../utilities/utilities";
 
 const isCheckboxActive = (statement) => {
   return statement ? `checked` : ``;
 };
 
-export const createFilmPopupTemplate = (film, comments) => {
+const createFilmPopupTemplate = (film) => {
   const {
     filmName,
     rating,
@@ -28,8 +31,8 @@ export const createFilmPopupTemplate = (film, comments) => {
   const watchListLabel = isInWatchList ? `Remove from watchlist` : `Add to watchlist`;
   const favoritesLabel = isFavorite ? `Remove from favorites` : `Add to favorites`;
 
-  return `
-    <section class="film-details">
+  return (
+    `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
         <div class="form-details__top-container">
           <div class="film-details__close">
@@ -80,7 +83,7 @@ export const createFilmPopupTemplate = (film, comments) => {
                   <td class="film-details__cell">${country}</td>
                 </tr>
                 <tr class="film-details__row">
-                  <td class="film-details__term">${genres.length > 2 ? `Genres` : `Genre`}</td>
+                  <td class="film-details__term">${genres.length > 1 ? `Genres` : `Genre`}</td>
                   <td class="film-details__cell">
                     ${genres.join(` `)}
                 </tr>
@@ -103,13 +106,50 @@ export const createFilmPopupTemplate = (film, comments) => {
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">${favoritesLabel}</label>
           </section>
         </div>
-
-        ${isWatched ? createRatingForm(filmName, posterUrl) : ``}
-
-        <div class="form-details__bottom-container">
-           ${createCommentsComponentTemplate(comments)}
-        </div>
       </form>
-    </section>
-  `;
+    </section>`
+  );
 };
+
+export default class FilmPopup {
+  constructor(film, popupRenderPlace) {
+    this._element = null;
+    this._film = film;
+    this.popupRenderPlace = popupRenderPlace;
+  }
+
+  getTemplate() {
+    return createFilmPopupTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    this.renderFormElement(this._film);
+
+    return this._element;
+  }
+
+  renderFormElement(film) {
+    const ratingForm = film.isWatched && new RatingForm(film);
+    const commentsComponent = new CommentsComponent(film.comments);
+    const commentForm = new CommentForm();
+
+    FilmPopup.renderPopup(this.popupRenderPlace, this._element, ratingForm, commentsComponent, commentForm);
+  }
+
+  static renderPopup(popupRenderPlace, filmPopup, ratingForm, commentsComponent, commentForm) {
+    if (ratingForm) {
+      render(filmPopup, ratingForm.getElement(), RenderPosition.BEFORE_END);
+    }
+    render(filmPopup, commentsComponent.getElement(), RenderPosition.BEFORE_END);
+    render(commentsComponent.getElement(), commentForm.getElement(), RenderPosition.BEFORE_END);
+    commentsComponent.getCommentsList(commentsComponent.getElement());
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

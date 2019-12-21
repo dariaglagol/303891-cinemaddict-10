@@ -1,6 +1,6 @@
-import {pluralRulesOptions} from '../mocks/utilities';
+import {createElement, getPlural} from '../utilities/utilities';
 
-export const createFilmCardTemplate = (filmData) => {
+const createFilmCardTemplate = (filmData) => {
   const {
     filmName,
     rating,
@@ -15,7 +15,7 @@ export const createFilmCardTemplate = (filmData) => {
     isInWatchList
   } = filmData;
 
-  const commentLabel = pluralRulesOptions(comments.length, `comment`, `comments`);
+  const commentLabel = getPlural(comments.length, `comment`, `comments`);
 
   const isMarkActive = (mark) => {
     return mark ? `film-card__controls-item--active` : ``;
@@ -34,8 +34,8 @@ export const createFilmCardTemplate = (filmData) => {
 
   const firstGenre = genres[0];
 
-  return `
-    <article class="film-card">
+  return (
+    `<article class="film-card">
       <h3 class="film-card__title">${filmName}</h3>
       <p class="film-card__rating">${rating}</p>
       <p class="film-card__info">
@@ -54,5 +54,24 @@ export const createFilmCardTemplate = (filmData) => {
         <button class="film-card__controls-item button film-card__controls-item--favorite ${isMarkActive(isFavorite)}">Mark as favorite</button>
       </form>
     </article>
-  `;
+  `);
 };
+
+export default class FilmCard {
+  constructor(filmData) {
+    this._element = null;
+    this._filmData = filmData;
+  }
+
+  getTemplate() {
+    return createFilmCardTemplate(this._filmData);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+}

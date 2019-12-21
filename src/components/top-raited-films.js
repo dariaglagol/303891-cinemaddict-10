@@ -1,5 +1,5 @@
-import {createFilmCardTemplate} from './film-card-template';
 import {RATES_CARDS_COUNT} from '../mocks/constants';
+import {createElement} from "../utilities/utilities";
 
 const sortData = (a, b, type) => {
   if (a[type] < b[type]) {
@@ -10,7 +10,7 @@ const sortData = (a, b, type) => {
   return 0;
 };
 
-const createRatedFilmTemplate = (films, type) => {
+const createTopFilms = (films, type) => {
   const filmsSorted = films
     .slice()
     .sort((a, b) => {
@@ -18,31 +18,42 @@ const createRatedFilmTemplate = (films, type) => {
     })
     .slice(0, RATES_CARDS_COUNT);
 
-  const filmsTemplate = filmsSorted
-    .map((film) => {
-      return createFilmCardTemplate(film);
-    })
-    .join(``);
-
-  return filmsTemplate;
+  return filmsSorted;
 };
 
-const createTopRatedTemplate = (films, type) => {
+const createTopTemplate = (films, type) => {
   if (films.every((film) => film[type] === 0)) {
     return ``;
   }
 
   const header = type === `rating` ? `Top rated` : `Most commented`;
-
-  return `
-    <section class="films-list--extra">
+  return (
+    `<section class="films-list--extra">
       <h2 class="films-list__title">${header}</h2>
-
-      <div class="films-list__container">
-        ${createRatedFilmTemplate(films, type)}
-      </div>
-    </section>
-  `;
+      <div class="films-list__container"></div>
+    </section>`
+  );
 };
 
-export {createTopRatedTemplate};
+export default class TopRatedFilm {
+  constructor(films, type) {
+    this._element = null;
+    this._films = films;
+    this._type = type;
+  }
+
+  getTemplate() {
+    return createTopTemplate(this._films, this._type);
+  }
+
+  getWrapperElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+    return this._element;
+  }
+
+  getTopFilms() {
+    return createTopFilms(this._films, this._type);
+  }
+}

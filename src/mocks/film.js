@@ -14,7 +14,7 @@ import {
   INITIAL_DESCRIPTION_TEXT,
   COMMENTS_COUNT,
 } from './constants';
-import {getRandomArrayItem, generateRandomArrayPiece, getRandomIntegerNumber, getRandomBoolean} from './utilities';
+import {getRandomArrayItem, generateRandomArrayPiece, getRandomIntegerNumber, getRandomBoolean} from '../utilities/utilities';
 import {generateComments} from "./comment";
 
 const getRatingInteger = (min, max) => {
@@ -40,9 +40,9 @@ const generateActors = () => {
 };
 
 const generateWriters = () => {
-  const genresLength = getRandomIntegerNumber(1, MAX_VALUE);
-  const genresStartPiece = getRandomIntegerNumber(1, WRITERS.length - genresLength);
-  return WRITERS.slice(genresStartPiece, genresStartPiece + genresLength).join(`, `);
+  const writersLength = getRandomIntegerNumber(1, MAX_VALUE);
+  const writersStartPiece = getRandomIntegerNumber(1, WRITERS.length - writersLength);
+  return WRITERS.slice(writersStartPiece, writersStartPiece + writersLength).join(`, `);
 };
 
 const generateFilm = () => {
