@@ -51,13 +51,14 @@ const POSTERS = [
 ];
 
 const INITIAL_FILTERS_STATE = {
+  'all movies': null,
   'watchlist': 0,
   'history': 0,
   'favorites': 0
 };
 
 const CARDS_COUNT = 5;
-const TOTAL_FILM_COUNT = 12;
+const TOTAL_FILM_COUNT = 0;
 const RATES_CARDS_COUNT = 2;
 
 const GENRES = [
