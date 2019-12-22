@@ -43,11 +43,11 @@ const render = (container, template, place) => {
   }
 };
 
-const toggleEventListeners = (clickableItems, card, handle) => {
+const setCardClickEventListeners = (clickableItems, card, handle) => {
   clickableItems.forEach((item) => {
     const clickableItem = card.getElement().querySelector(item);
     clickableItem.addEventListener(`click`, handle);
   });
 };
 
-export {render, createElement, toggleEventListeners, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};
+export {render, createElement, setCardClickEventListeners, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};

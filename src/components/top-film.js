@@ -11,14 +11,12 @@ const sortData = (a, b, type) => {
 };
 
 const createTopFilms = (films, type) => {
-  const filmsSorted = films
+  return films
     .slice()
     .sort((a, b) => {
       return sortData(a, b, type);
     })
     .slice(0, RATES_CARDS_COUNT);
-
-  return filmsSorted;
 };
 
 const createTopTemplate = (films, type) => {
@@ -35,7 +33,7 @@ const createTopTemplate = (films, type) => {
   );
 };
 
-export default class TopRatedFilm {
+export default class TopFilm {
   constructor(films, type) {
     this._element = null;
     this._films = films;
@@ -46,7 +44,7 @@ export default class TopRatedFilm {
     return createTopTemplate(this._films, this._type);
   }
 
-  getWrapperElement() {
+  getElement() {
     if (!this._element) {
       this._element = createElement(this.getTemplate());
     }

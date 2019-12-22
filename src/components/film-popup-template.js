@@ -1,5 +1,5 @@
 import RatingForm from "./rating-form";
-import CommentsComponent from "./comments-component-template";
+import Comments from "./comments";
 import CommentForm from "./comment-form";
 import {RenderPosition} from "../mocks/constants";
 import {createElement, render} from "../utilities/utilities";
@@ -134,7 +134,7 @@ export default class FilmPopup {
 
   renderFormElement(film) {
     const ratingForm = film.isWatched && new RatingForm(film);
-    const commentsComponent = new CommentsComponent(film.comments);
+    const commentsComponent = new Comments(film.comments);
     const commentForm = new CommentForm();
 
     FilmPopup.renderPopup(this.popupRenderPlace, this._element, ratingForm, commentsComponent, commentForm);
