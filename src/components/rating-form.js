@@ -1,8 +1,10 @@
-import {createElement} from "../utilities/utilities";
-import {MAX_FILM_SCORE, RANDOM_SCORE} from '../mocks/constants';
+import {createElement, getRandomIntegerNumber} from "../utilities/utilities";
+import {MAX_FILM_SCORE} from '../mocks/constants';
 
 const createRatingInputs = () => {
   const ratingMarkTemplate = [];
+
+  const RANDOM_SCORE = getRandomIntegerNumber(1, MAX_FILM_SCORE);
 
   for (let i = 1; i <= MAX_FILM_SCORE; i++) {
     const template = `

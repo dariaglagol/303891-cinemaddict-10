@@ -8,7 +8,7 @@ const renderComment = (comment, renderPlace) => {
   render(renderPlace, commentItem.getElement(), RenderPosition.AFTER_BEGIN);
 };
 
-const createCommentsComponentTemplate = (comments) => {
+const createCommentsTemplate = (comments) => {
   return (
     `<div class="form-details__bottom-container">
       <section class="film-details__comments-wrap">
@@ -19,14 +19,14 @@ const createCommentsComponentTemplate = (comments) => {
   );
 };
 
-export default class CommentsComponent {
+export default class Comments {
   constructor(comments) {
     this._element = null;
     this._comments = comments;
   }
 
   getTemplate() {
-    return createCommentsComponentTemplate(this._comments);
+    return createCommentsTemplate(this._comments);
   }
 
   getElement() {
