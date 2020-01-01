@@ -58,7 +58,7 @@ const createFilmCardTemplate = (filmData) => {
   `);
 };
 
-export default class FilmCard extends AbstractComponent{
+export default class FilmCard extends AbstractComponent {
   constructor(filmData) {
     super();
     this._filmData = filmData;

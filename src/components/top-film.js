@@ -33,7 +33,7 @@ const createTopTemplate = (films, type) => {
   );
 };
 
-export default class TopFilm extends AbstractComponent{
+export default class TopFilm extends AbstractComponent {
   constructor(films, type) {
     super();
     this._films = films;

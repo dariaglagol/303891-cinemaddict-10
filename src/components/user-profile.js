@@ -16,7 +16,7 @@ const createUserProfileTemplate = (watchedFilms) => {
   );
 };
 
-export default class UserProfile extends AbstractComponent{
+export default class UserProfile extends AbstractComponent {
   constructor(watchedFilms) {
     super();
     this._watchedFilms = watchedFilms;

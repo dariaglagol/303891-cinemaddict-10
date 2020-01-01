@@ -6,7 +6,7 @@ const noDataTemplate = () => {
   );
 };
 
-export default class NoData extends AbstractComponent{
+export default class NoData extends AbstractComponent {
   constructor() {
     super();
     this._element = null;

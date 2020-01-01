@@ -47,7 +47,7 @@ const createRatingForm = (filmName, posterUrl) => {
   );
 };
 
-export default class RatingForm extends AbstractComponent{
+export default class RatingForm extends AbstractComponent {
   constructor(film) {
     super();
     this._filmName = film.filmName;
