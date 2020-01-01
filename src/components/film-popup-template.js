@@ -123,9 +123,9 @@ export default class FilmPopup extends AbstractComponent {
     return createFilmPopupTemplate(this._film);
   }
 
-  renderFormElement(film) {
-    const ratingForm = film.isWatched && new RatingForm(film);
-    const commentsComponent = new Comments(film.comments);
+  renderFormElement() {
+    const ratingForm = this._film.isWatched && new RatingForm(this._film);
+    const commentsComponent = new Comments(this._film.comments);
     const commentForm = new CommentForm();
 
     FilmPopup.renderPopup(this.popupRenderPlace, this._element, ratingForm, commentsComponent, commentForm);

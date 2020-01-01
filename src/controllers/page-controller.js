@@ -28,6 +28,7 @@ const renderFilm = (film, filmRenderPlace, popupRenderPlace) => {
   const onOpenPopup = () => {
     render(popupRenderPlace, filmPopup.getElement(), RenderPosition.BEFORE_END);
     const closePopupButton = filmPopup.getElement().querySelector(`.film-details__close-btn`);
+    filmPopup.renderFormElement();
     closePopupButton.addEventListener(`click`, onClosePopup);
 
     document.addEventListener(`keydown`, onClosePopup);
