@@ -1,5 +1,6 @@
-import {createElement, getRandomIntegerNumber} from "../utilities/utilities";
+import {getRandomIntegerNumber} from "../utilities/utilities";
 import {MAX_FILM_SCORE} from '../mocks/constants';
+import AbstractComponent from "./abstract-component";
 
 const createRatingInputs = () => {
   const ratingMarkTemplate = [];
@@ -46,27 +47,14 @@ const createRatingForm = (filmName, posterUrl) => {
   );
 };
 
-export default class RatingForm {
+export default class RatingForm extends AbstractComponent{
   constructor(film) {
-    this._element = null;
+    super();
     this._filmName = film.filmName;
     this._posterUrl = film.posterUrl;
-    this._isFilmWatched = film.isWatched;
   }
 
   getTemplate() {
     return createRatingForm(this._filmName, this._posterUrl);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

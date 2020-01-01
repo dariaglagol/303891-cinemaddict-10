@@ -1,6 +1,7 @@
 import Comment from './comment';
-import {createElement, render} from "../utilities/utilities";
+import {render} from "../utilities/render";
 import {RenderPosition} from "../mocks/constants";
+import AbstractComponent from "./abstract-component";
 
 const renderComment = (comment, renderPlace) => {
   const commentItem = new Comment(comment);
@@ -19,26 +20,14 @@ const createCommentsTemplate = (comments) => {
   );
 };
 
-export default class Comments {
+export default class Comments extends AbstractComponent{
   constructor(comments) {
-    this._element = null;
+    super();
     this._comments = comments;
   }
 
   getTemplate() {
     return createCommentsTemplate(this._comments);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 
   getCommentsList(renderPlace) {

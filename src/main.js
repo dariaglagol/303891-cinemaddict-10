@@ -10,7 +10,8 @@ import Sorting from "./components/sorting";
 import {CARDS_COUNT, RATES_CARDS_COUNT, CLICKABLE_ITEMS, RenderPosition, TOTAL_FILM_COUNT, TopFilmTypes} from './mocks/constants';
 import {generateFilms} from "./mocks/film";
 import {generateFilters} from './mocks/filters';
-import {render, setCardClickEventListeners} from './utilities/utilities';
+import {setCardClickEventListeners} from './utilities/utilities';
+import {render} from './utilities/render';
 
 let startPointSlice = 0;
 

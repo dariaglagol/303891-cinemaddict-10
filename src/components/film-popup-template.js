@@ -2,7 +2,8 @@ import RatingForm from "./rating-form";
 import Comments from "./comments";
 import CommentForm from "./comment-form";
 import {RenderPosition} from "../mocks/constants";
-import {createElement, render} from "../utilities/utilities";
+import {render} from "../utilities/render";
+import AbstractComponent from "./abstract-component";
 
 const isCheckboxActive = (statement) => {
   return statement ? `checked` : ``;
@@ -111,25 +112,15 @@ const createFilmPopupTemplate = (film) => {
   );
 };
 
-export default class FilmPopup {
+export default class FilmPopup extends AbstractComponent {
   constructor(film, popupRenderPlace) {
-    this._element = null;
+    super();
     this._film = film;
     this.popupRenderPlace = popupRenderPlace;
   }
 
   getTemplate() {
     return createFilmPopupTemplate(this._film);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    this.renderFormElement(this._film);
-
-    return this._element;
   }
 
   renderFormElement(film) {
@@ -147,9 +138,5 @@ export default class FilmPopup {
     render(filmPopup, commentsComponent.getElement(), RenderPosition.BEFORE_END);
     render(commentsComponent.getElement(), commentForm.getElement(), RenderPosition.BEFORE_END);
     commentsComponent.getCommentsList(commentsComponent.getElement());
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

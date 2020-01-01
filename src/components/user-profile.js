@@ -1,5 +1,5 @@
 import {USER_STATUSES} from '../mocks/constants';
-import {createElement} from '../utilities/utilities';
+import AbstractComponent from "./abstract-component";
 
 const createUserProfileTemplate = (watchedFilms) => {
   const userStatusesKeys = USER_STATUSES.keys();
@@ -16,21 +16,13 @@ const createUserProfileTemplate = (watchedFilms) => {
   );
 };
 
-export default class UserProfile {
+export default class UserProfile extends AbstractComponent{
   constructor(watchedFilms) {
-    this._element = null;
+    super();
     this._watchedFilms = watchedFilms;
   }
 
   getTemplate() {
     return createUserProfileTemplate(this._watchedFilms);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
   }
 }
