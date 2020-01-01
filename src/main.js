@@ -11,7 +11,7 @@ import {CARDS_COUNT, RATES_CARDS_COUNT, CLICKABLE_ITEMS, RenderPosition, TOTAL_F
 import {generateFilms} from "./mocks/film";
 import {generateFilters} from './mocks/filters';
 import {setCardClickEventListeners} from './utilities/utilities';
-import {render} from './utilities/render';
+import {render, remove} from './utilities/render';
 
 let startPointSlice = 0;
 
@@ -87,14 +87,13 @@ if (generatedFilms.length < 1) {
 
   render(buttonRenderPlace, showMoreButton.getElement(), RenderPosition.BEFORE_END);
 
-  showMoreButton.getElement().addEventListener(`click`, () => {
+  showMoreButton.setShowMoreButtonClickHandler(() => {
     startPointSlice = startPointSlice <= TOTAL_FILM_COUNT - CARDS_COUNT
       ? startPointSlice + CARDS_COUNT
       : TOTAL_FILM_COUNT;
 
     if (startPointSlice + CARDS_COUNT > TOTAL_FILM_COUNT) {
-      showMoreButton.getElement().remove();
-      showMoreButton.removeElement();
+      remove(showMoreButton);
     }
 
     renderFilms(generatedFilms, filmsRenderPlace, mainNode, CARDS_COUNT, startPointSlice);
