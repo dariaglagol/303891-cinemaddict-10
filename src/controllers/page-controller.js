@@ -19,8 +19,7 @@ const renderFilm = (film, filmRenderPlace, popupRenderPlace) => {
   const filmPopup = new FilmPopup(film, popupRenderPlace);
 
   const onPopupClose = () => {
-    filmPopup.getElement().remove();
-    filmPopup.removeElement();
+    remove(filmPopup);
 
     document.removeEventListener(`keydown`, onPopupClose);
   };
@@ -31,7 +30,16 @@ const renderFilm = (film, filmRenderPlace, popupRenderPlace) => {
     filmPopup.renderFormElement();
     closePopupButton.addEventListener(`click`, onPopupClose);
 
-    document.addEventListener(`keydown`, onPopupClose);
+    document.addEventListener(`keydown`, onEscKeyDown);
+  };
+
+  const onEscKeyDown = (evt) => {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+
+    if (isEscKey) {
+      document.removeEventListener(`keydown`, onEscKeyDown);
+      remove(filmPopup);
+    }
   };
 
   setCardClickEventListeners(CLICKABLE_ITEMS, card, onPopupOpen);
