@@ -1,5 +1,5 @@
 import FilmCard from "../components/film-card";
-import FilmPopup from "../components/film-popup-template";
+import FilmPopup from "../components/film-popup";
 import TopFilm from "../components/top-film";
 import ShowMoreButton from "../components/show-more-button";
 import NoData from "../components/no-data";
@@ -9,7 +9,7 @@ import {
   CLICKABLE_ITEMS,
   RATES_CARDS_COUNT,
   RenderPosition,
-  TopFilmTypes,
+  TopFilmType,
   TOTAL_FILM_COUNT,
 } from "../mocks/constants";
 import {setCardClickEventListeners} from "../utilities/utilities";
@@ -18,23 +18,23 @@ const renderFilm = (film, filmRenderPlace, popupRenderPlace) => {
   const card = new FilmCard(film);
   const filmPopup = new FilmPopup(film, popupRenderPlace);
 
-  const onClosePopup = () => {
+  const onPopupClose = () => {
     filmPopup.getElement().remove();
     filmPopup.removeElement();
 
-    document.removeEventListener(`keydown`, onClosePopup);
+    document.removeEventListener(`keydown`, onPopupClose);
   };
 
-  const onOpenPopup = () => {
+  const onPopupOpen = () => {
     render(popupRenderPlace, filmPopup.getElement(), RenderPosition.BEFORE_END);
     const closePopupButton = filmPopup.getElement().querySelector(`.film-details__close-btn`);
     filmPopup.renderFormElement();
-    closePopupButton.addEventListener(`click`, onClosePopup);
+    closePopupButton.addEventListener(`click`, onPopupClose);
 
-    document.addEventListener(`keydown`, onClosePopup);
+    document.addEventListener(`keydown`, onPopupClose);
   };
 
-  setCardClickEventListeners(CLICKABLE_ITEMS, card, onOpenPopup);
+  setCardClickEventListeners(CLICKABLE_ITEMS, card, onPopupOpen);
 
   render(filmRenderPlace, card.getElement(), RenderPosition.BEFORE_END);
 };
@@ -62,8 +62,8 @@ export default class PageController {
       let startPointSlice = 0;
       renderFilms(generatedFilms, filmsRenderPlace, this._container, CARDS_COUNT, startPointSlice);
 
-      const ratedFilms = new TopFilm(generatedFilms, TopFilmTypes.RATING);
-      const mostCommentedFilms = new TopFilm(generatedFilms, TopFilmTypes.COMMENTS);
+      const ratedFilms = new TopFilm(generatedFilms, TopFilmType.RATING);
+      const mostCommentedFilms = new TopFilm(generatedFilms, TopFilmType.COMMENTS);
 
       render(topRatedRenderPlace, ratedFilms.getElement(), RenderPosition.BEFORE_END);
       render(topRatedRenderPlace, mostCommentedFilms.getElement(), RenderPosition.BEFORE_END);

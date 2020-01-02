@@ -3,18 +3,18 @@ import {MAX_FILM_SCORE} from '../mocks/constants';
 import AbstractComponent from "./abstract-component";
 
 const createRatingInputs = () => {
-  const ratingMarkTemplate = [];
-
   const RANDOM_SCORE = getRandomIntegerNumber(1, MAX_FILM_SCORE);
 
-  for (let i = 1; i <= MAX_FILM_SCORE; i++) {
-    const template = `
-        <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${i}" id="rating-${i}" ${RANDOM_SCORE === i ? `checked` : ``}>
-        <label class="film-details__user-rating-label" for="rating-${i}">${i}</label>
-    `;
+  const ratingMarkTemplate = new Array(MAX_FILM_SCORE)
+    .fill(``)
+    .map((item, index) => {
+      const template = `
+        <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${index}" id="rating-${index}" ${RANDOM_SCORE === index ? `checked` : ``}>
+        <label class="film-details__user-rating-label" for="rating-${index}">${index}</label>
+      `;
 
-    ratingMarkTemplate.push(template);
-  }
+      return template;
+    });
 
   return ratingMarkTemplate;
 };
