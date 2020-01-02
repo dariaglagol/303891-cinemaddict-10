@@ -1,5 +1,3 @@
-import {RenderPosition} from '../mocks/constants';
-
 const getRandomArrayItem = (array) => {
   const randomIndex = getRandomIntegerNumber(0, array.length);
 
@@ -25,24 +23,6 @@ const generateRandomArrayPiece = (maxValue, array) => {
   return array.slice(startPiece, startPiece + pieceLength);
 };
 
-const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-
-  return newElement.firstElementChild;
-};
-
-const render = (container, template, place) => {
-  switch (place) {
-    case RenderPosition.AFTER_BEGIN:
-      container.prepend(template);
-      break;
-    case RenderPosition.BEFORE_END:
-      container.append(template);
-      break;
-  }
-};
-
 const setCardClickEventListeners = (clickableItems, card, handle) => {
   clickableItems.forEach((item) => {
     const clickableItem = card.getElement().querySelector(item);
@@ -50,4 +30,4 @@ const setCardClickEventListeners = (clickableItems, card, handle) => {
   });
 };
 
-export {render, createElement, setCardClickEventListeners, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};
+export {setCardClickEventListeners, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};

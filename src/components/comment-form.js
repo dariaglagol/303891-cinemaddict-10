@@ -1,4 +1,4 @@
-import {createElement} from "../utilities/utilities";
+import AbstractComponent from "./abstract-component";
 
 const createCommentForm = () => {
   return (
@@ -34,24 +34,13 @@ const createCommentForm = () => {
   );
 };
 
-export default class CommentForm {
+export default class CommentForm extends AbstractComponent {
   constructor() {
+    super();
     this._element = null;
   }
 
   getTemplate() {
     return createCommentForm();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
