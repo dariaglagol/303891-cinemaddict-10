@@ -139,9 +139,4 @@ export default class FilmPopup extends AbstractComponent {
     render(commentsComponent.getElement(), commentForm.getElement(), RenderPosition.BEFORE_END);
     commentsComponent.getCommentsList(commentsComponent.getElement());
   }
-
-  onPopupClose(handler) {
-    const closePopupButton = this.getElement().querySelector(`.film-details__close-btn`);
-    closePopupButton.addEventListener(`click`, handler);
-  }
 }
