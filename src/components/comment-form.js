@@ -35,11 +35,6 @@ const createCommentForm = () => {
 };
 
 export default class CommentForm extends AbstractComponent {
-  constructor() {
-    super();
-    this._element = null;
-  }
-
   getTemplate() {
     return createCommentForm();
   }
