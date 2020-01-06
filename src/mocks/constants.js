@@ -176,7 +176,7 @@ const SortTypeNames = {
   RATING: `rating`,
   DATE: `date`,
   DEFAULT: `default`,
-}
+};
 
 const SortTypeCallbacks = {
   'DATE': (a, b) => b.releaseYear - a.releaseYear,
