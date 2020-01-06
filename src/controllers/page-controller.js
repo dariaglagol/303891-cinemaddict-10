@@ -13,7 +13,7 @@ import {
   RenderPosition,
   TopFilmType,
   TOTAL_FILM_COUNT,
-  SortType
+  SortTypeCallbacks
 } from "../mocks/constants";
 import {setCardClickEventListeners} from "../utilities/utilities";
 
@@ -30,7 +30,7 @@ const renderFilm = (film, filmRenderPlace, popupRenderPlace) => {
     render(popupRenderPlace, filmPopup.getElement(), RenderPosition.BEFORE_END);
 
     filmPopup.renderFormElement();
-    filmPopup.onPopupClose(onPopupCloseClick);
+    filmPopup.setPopupCloseHandler(onPopupCloseClick);
 
     document.addEventListener(`keydown`, onEscKeyDown);
   };
@@ -59,7 +59,7 @@ const renderButton = (renderPlace, button) => {
   render(renderPlace, button.getElement(), RenderPosition.BEFORE_END);
 };
 
-const onShowMoreButtonClick = (button, slicePoint, films, filmsRenderPlace, popupRenderPlace) => {
+const addFilms = (button, slicePoint, films, filmsRenderPlace, popupRenderPlace) => {
   button.setShowMoreButtonClickHandler(() => {
     slicePoint = slicePoint <= TOTAL_FILM_COUNT - CARDS_COUNT
       ? slicePoint + CARDS_COUNT
@@ -111,28 +111,18 @@ export default class PageController {
       renderFilms(mostCommentedFilms.getTopFilms(), commentsPlace, this._container, RATES_CARDS_COUNT);
 
       this._sorting.setSortTypeChangeHandler((sortType) => {
-        switch (sortType) {
-          case SortType.DATE:
-            sortedFilms = generatedFilms.slice().sort((a, b) => b.releaseYear - a.releaseYear);
-            break;
-          case SortType.RATING:
-            sortedFilms = generatedFilms.slice().sort((a, b) => b.rating - a.rating);
-            break;
-          case SortType.DEFAULT:
-            sortedFilms = generatedFilms.slice();
-            break;
-        }
+        sortedFilms = generatedFilms.slice().sort(SortTypeCallbacks[sortType.toUpperCase()]);
 
         filmsRenderPlace.innerHTML = ``;
 
         renderFilms(sortedFilms, filmsRenderPlace, this._container, CARDS_COUNT);
         startPointSlice = 0;
         renderButton(buttonRenderPlace, this._showMoreButton);
-        onShowMoreButtonClick(this._showMoreButton, startPointSlice, sortedFilms, filmsRenderPlace, this._container);
+        addFilms(this._showMoreButton, startPointSlice, sortedFilms, filmsRenderPlace, this._container);
       });
 
       renderButton(buttonRenderPlace, this._showMoreButton);
-      onShowMoreButtonClick(this._showMoreButton, startPointSlice, sortedFilms, filmsRenderPlace, this._container);
+      addFilms(this._showMoreButton, startPointSlice, sortedFilms, filmsRenderPlace, this._container);
     }
   }
 }

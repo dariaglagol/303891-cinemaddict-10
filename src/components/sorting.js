@@ -1,12 +1,12 @@
 import AbstractComponent from "./abstract-component";
-import {SortType} from '../mocks/constants';
+import {SortTypeNames} from '../mocks/constants';
 
 const createSortingTemplate = () => {
   return (
     `<ul class="sort">
-        <li><a href="#" class="sort__button sort__button--active" data-sort-type="${SortType.DEFAULT}">Sort by default</a></li>
-        <li><a href="#" class="sort__button" data-sort-type="${SortType.DATE}">Sort by date</a></li>
-        <li><a href="#" class="sort__button" data-sort-type="${SortType.RATING}">Sort by rating</a></li>
+        <li><a href="#" class="sort__button sort__button--active" data-sort-type="${SortTypeNames.DEFAULT}">Sort by default</a></li>
+        <li><a href="#" class="sort__button" data-sort-type="${SortTypeNames.DATE}">Sort by date</a></li>
+        <li><a href="#" class="sort__button" data-sort-type="${SortTypeNames.RATING}">Sort by rating</a></li>
     </ul>`
   );
 };
@@ -20,9 +20,10 @@ export default class Sorting extends AbstractComponent {
     this.getElement().addEventListener(`click`, (evt) => {
       evt.preventDefault();
 
+      const currentActiveSort = this.getElement().querySelector(`.sort__button--active`);
+
       const target = evt.target;
       const sortType = evt.target.dataset.sortType;
-      const siblingsElements = Array.from(target.parentNode.parentNode.children);
 
       if (target.tagName !== `A`) {
         return;
@@ -32,9 +33,7 @@ export default class Sorting extends AbstractComponent {
         return;
       }
 
-      siblingsElements.forEach((el) => {
-        el.firstElementChild.classList.remove(`sort__button--active`);
-      });
+      currentActiveSort.classList.remove(`sort__button--active`);
 
       this._currenSortType = sortType;
 
