@@ -1,57 +1,24 @@
 import FilmsList from '../components/films-lists';
-import FilmCard from "../components/film-card";
-import FilmPopup from "../components/film-popup";
 import TopFilm from "../components/top-film";
 import ShowMoreButton from "../components/show-more-button";
 import NoData from "../components/no-data";
+import MovieController from './movie-controller';
 import Sorting from "../components/sorting";
 import {remove, render} from "../utilities/render";
 import {
   CARDS_COUNT,
-  CLICKABLE_ITEMS,
-  RATES_CARDS_COUNT,
   RenderPosition,
   TopFilmType,
   TOTAL_FILM_COUNT,
+  RATES_CARDS_COUNT,
   SortTypeCallbacks
 } from "../mocks/constants";
-import {setCardClickEventListeners} from "../utilities/utilities";
 
-const renderFilm = (film, filmRenderPlace, popupRenderPlace) => {
-  const card = new FilmCard(film);
-  const filmPopup = new FilmPopup(film, popupRenderPlace);
 
-  const onPopupCloseClick = () => {
-    document.removeEventListener(`keydown`, onEscKeyDown);
-    remove(filmPopup);
-  };
-
-  const onFilmCardClick = () => {
-    render(popupRenderPlace, filmPopup.getElement(), RenderPosition.BEFORE_END);
-
-    filmPopup.renderFormElement();
-    filmPopup.setPopupCloseHandler(onPopupCloseClick);
-
-    document.addEventListener(`keydown`, onEscKeyDown);
-  };
-
-  const onEscKeyDown = (evt) => {
-    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-
-    if (isEscKey) {
-      document.removeEventListener(`keydown`, onEscKeyDown);
-      remove(filmPopup);
-    }
-  };
-
-  setCardClickEventListeners(CLICKABLE_ITEMS, card, onFilmCardClick);
-
-  render(filmRenderPlace, card.getElement(), RenderPosition.BEFORE_END);
-};
-
-const renderFilms = (films, filmRenderPlace, popupRenderPlace, sliceCount, slicePoint = 0) => {
+const renderFilms = (films, filmRenderPlace, sliceCount, slicePoint = 0) => {
+  const movieController = new MovieController(filmRenderPlace);
   films.slice(slicePoint, slicePoint + sliceCount).forEach((film) => {
-    renderFilm(film, filmRenderPlace, popupRenderPlace);
+    movieController.render(film);
   });
 };
 
@@ -69,7 +36,7 @@ const addFilms = (button, slicePoint, films, filmsRenderPlace, popupRenderPlace)
       remove(button);
     }
 
-    renderFilms(films, filmsRenderPlace, popupRenderPlace, CARDS_COUNT, slicePoint);
+    renderFilms(films, popupRenderPlace, CARDS_COUNT, slicePoint);
   });
 };
 
@@ -96,7 +63,7 @@ export default class PageController {
     } else {
       let startPointSlice = 0;
 
-      renderFilms(sortedFilms, filmsRenderPlace, this._container, CARDS_COUNT, startPointSlice);
+      renderFilms(sortedFilms, filmsRenderPlace, CARDS_COUNT, startPointSlice);
 
       const ratedFilms = new TopFilm(generatedFilms, TopFilmType.RATING);
       const mostCommentedFilms = new TopFilm(generatedFilms, TopFilmType.COMMENTS);
@@ -107,15 +74,15 @@ export default class PageController {
       const ratingPlace = ratedFilms.getElement().querySelector(`.films-list__container`);
       const commentsPlace = mostCommentedFilms.getElement().querySelector(`.films-list__container`);
 
-      renderFilms(ratedFilms.getTopFilms(), ratingPlace, this._container, RATES_CARDS_COUNT);
-      renderFilms(mostCommentedFilms.getTopFilms(), commentsPlace, this._container, RATES_CARDS_COUNT);
+      renderFilms(ratedFilms.getTopFilms(), ratingPlace, RATES_CARDS_COUNT);
+      renderFilms(mostCommentedFilms.getTopFilms(), commentsPlace, RATES_CARDS_COUNT);
 
       this._sorting.setSortTypeChangeHandler((sortType) => {
         sortedFilms = generatedFilms.slice().sort(SortTypeCallbacks[sortType.toUpperCase()]);
 
         filmsRenderPlace.innerHTML = ``;
 
-        renderFilms(sortedFilms, filmsRenderPlace, this._container, CARDS_COUNT);
+        renderFilms(sortedFilms, this._container, CARDS_COUNT);
         startPointSlice = 0;
         renderButton(buttonRenderPlace, this._showMoreButton);
         addFilms(this._showMoreButton, startPointSlice, sortedFilms, filmsRenderPlace, this._container);
