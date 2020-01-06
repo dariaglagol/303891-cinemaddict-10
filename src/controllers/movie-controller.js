@@ -14,6 +14,7 @@ export default class MovieController {
 
   render(film) {
     const oldFilmComponent = this._filmCard;
+    const oldPopupComponent = this._filmPopup;
 
     const popupRenderPlace = this._container.closest(`.main`);
 
@@ -26,9 +27,13 @@ export default class MovieController {
     };
 
     const onFilmCardClick = () => {
-      render(popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
+      if (oldPopupComponent) {
+        replaceElement(this._container, this._filmPopup, oldPopupComponent);
+      } else {
+        render(popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
+      }
 
-      this._filmPopup.renderFormElement();
+      // this._filmPopup.renderFormElement();
       this._filmPopup.setPopupCloseHandler(onPopupCloseClick);
 
       document.addEventListener(`keydown`, onEscKeyDown);
@@ -72,6 +77,7 @@ export default class MovieController {
 
       this._onDataChange(this, newData, film);
     });
+
 
     setCardClickEventListeners(CLICKABLE_ITEMS, this._filmCard, onFilmCardClick);
 
