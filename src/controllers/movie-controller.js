@@ -1,30 +1,35 @@
 import FilmCard from "../components/film-card";
 import FilmPopup from "../components/film-popup";
-import {remove, render} from "../utilities/render";
+import {remove, render, replaceElement} from "../utilities/render";
 import {CLICKABLE_ITEMS, RenderPosition} from "../mocks/constants";
 import {setCardClickEventListeners} from "../utilities/utilities";
 
 export default class MovieController {
-  constructor(container) {
+  constructor(container, onDataChange) {
     this._container = container;
+    this._onDataChange = onDataChange;
+
+    this._filmCard = null;
   }
 
   render(film) {
+    const oldFilmComponent = this._filmCard;
+
     const popupRenderPlace = this._container.closest(`.main`);
 
-    const card = new FilmCard(film);
-    const filmPopup = new FilmPopup(film, popupRenderPlace);
+    this._filmCard = new FilmCard(film);
+    this._filmPopup = new FilmPopup(film, popupRenderPlace);
 
     const onPopupCloseClick = () => {
       document.removeEventListener(`keydown`, onEscKeyDown);
-      remove(filmPopup);
+      remove(this._filmPopup);
     };
 
     const onFilmCardClick = () => {
-      render(popupRenderPlace, filmPopup.getElement(), RenderPosition.BEFORE_END);
+      render(popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
 
-      filmPopup.renderFormElement();
-      filmPopup.setPopupCloseHandler(onPopupCloseClick);
+      this._filmPopup.renderFormElement();
+      this._filmPopup.setPopupCloseHandler(onPopupCloseClick);
 
       document.addEventListener(`keydown`, onEscKeyDown);
     };
@@ -34,12 +39,46 @@ export default class MovieController {
 
       if (isEscKey) {
         document.removeEventListener(`keydown`, onEscKeyDown);
-        remove(filmPopup);
+        remove(this._filmPopup);
       }
     };
 
-    setCardClickEventListeners(CLICKABLE_ITEMS, card, onFilmCardClick);
+    this._filmCard.setWatchListButtonClickHandler((evt) => {
+      evt.preventDefault();
 
-    render(this._container, card.getElement(), RenderPosition.BEFORE_END);
+      const newData = Object.assign({}, film, {
+        isInWatchList: !film.isInWatchList,
+      });
+
+      this._onDataChange(this, newData, film);
+    });
+
+    this._filmCard.setWatchedButtonClickHandler((evt) => {
+      evt.preventDefault();
+
+      const newData = Object.assign({}, film, {
+        isWatched: !film.isWatched,
+      });
+
+      this._onDataChange(this, newData, film);
+    });
+
+    this._filmCard.setFavoriteButtonClickHandler((evt) => {
+      evt.preventDefault();
+
+      const newData = Object.assign({}, film, {
+        isFavorite: !film.isFavorite,
+      });
+
+      this._onDataChange(this, newData, film);
+    });
+
+    setCardClickEventListeners(CLICKABLE_ITEMS, this._filmCard, onFilmCardClick);
+
+    if (oldFilmComponent) {
+      replaceElement(this._container, this._filmCard, oldFilmComponent);
+    } else {
+      render(this._container, this._filmCard.getElement(), RenderPosition.BEFORE_END);
+    }
   }
 }
