@@ -9,7 +9,6 @@ const createCommentTemplate = (comment) => {
     date
   } = comment;
 
-  const postFromNow = moment(date).fromNow();
   const formatDate = moment(date).format(`YYYY/MM/DD HH:mm`);
 
   return (
