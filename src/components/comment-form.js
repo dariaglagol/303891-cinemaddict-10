@@ -1,5 +1,4 @@
 import AbstractComponent from "./abstract-component";
-
 import {COMMENTS_EMODJIES} from '../mocks/constants';
 import {createElement} from '../utilities/render';
 

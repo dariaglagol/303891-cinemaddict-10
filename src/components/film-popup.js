@@ -1,9 +1,9 @@
+import AbstractSmartComponent from "./abstract-smart-component";
 import RatingForm from "./rating-form";
 import Comments from "./comments";
 import CommentForm from "./comment-form";
 import {RenderPosition} from "../mocks/constants";
 import {render} from "../utilities/render";
-import AbstractSmartComponent from "./abstract-smart-component";
 
 const isCheckboxActive = (statement) => {
   return statement ? `checked` : ``;

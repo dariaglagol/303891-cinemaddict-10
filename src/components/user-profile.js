@@ -1,5 +1,5 @@
-import {USER_STATUSES} from '../mocks/constants';
 import AbstractComponent from "./abstract-component";
+import {USER_STATUSES} from '../mocks/constants';
 
 const createUserProfileTemplate = (watchedFilms) => {
   const userStatusesKeys = USER_STATUSES.keys();

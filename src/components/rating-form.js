@@ -1,6 +1,6 @@
+import AbstractComponent from "./abstract-component";
 import {getRandomIntegerNumber} from "../utilities/utilities";
 import {MAX_FILM_SCORE} from '../mocks/constants';
-import AbstractComponent from "./abstract-component";
 
 const createRatingInputs = () => {
   const RANDOM_SCORE = getRandomIntegerNumber(1, MAX_FILM_SCORE);

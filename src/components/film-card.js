@@ -1,5 +1,5 @@
-import {getPlural} from '../utilities/utilities';
 import AbstractComponent from "./abstract-component";
+import {getPlural} from '../utilities/utilities';
 
 const createFilmCardTemplate = (filmData) => {
   const {
