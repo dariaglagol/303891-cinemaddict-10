@@ -1,6 +1,6 @@
 import moment from "moment";
 import AbstractComponent from "./abstract-component";
-import {getPlural, getFilmDuration} from '../utilities/utilities';
+import {getPlural} from '../utilities/utilities';
 
 const createFilmCardTemplate = (filmData) => {
   const {

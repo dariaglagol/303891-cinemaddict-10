@@ -3,7 +3,6 @@ import Comment from './comment';
 import {render} from "../utilities/render";
 import {RenderPosition} from "../mocks/constants";
 
-
 const renderComment = (comment, renderPlace) => {
   const commentItem = new Comment(comment);
 
