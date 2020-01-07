@@ -48,10 +48,8 @@ export default class PageController {
     } else {
       let startPointSlice = 0;
 
-      let ordinaryFilms = this._createFilm(sortedFilms, filmsRenderPlace, CARDS_COUNT, this._onDataChange, this._onViewChange, startPointSlice);
+      let ordinaryFilms = this._createFilms(sortedFilms, filmsRenderPlace, CARDS_COUNT, this._onDataChange, this._onViewChange, startPointSlice);
       this._showedTaskControllers = this._showedTaskControllers.concat(ordinaryFilms);
-      // console.log(this._showedTaskControllers);
-      // this._createFilm(sortedFilms, filmsRenderPlace, CARDS_COUNT, this._onDataChange, startPointSlice);
 
       const ratedFilms = new TopFilm(this._generatedFilms, TopFilmType.RATING);
       const mostCommentedFilms = new TopFilm(this._generatedFilms, TopFilmType.COMMENTS);
@@ -62,19 +60,13 @@ export default class PageController {
       const ratingPlace = ratedFilms.getElement().querySelector(`.films-list__container`);
       const commentsPlace = mostCommentedFilms.getElement().querySelector(`.films-list__container`);
 
-      this._createFilm(ratedFilms.getTopFilms(), ratingPlace, RATES_CARDS_COUNT, this._onDataChange);
-      this._createFilm(mostCommentedFilms.getTopFilms(), commentsPlace, RATES_CARDS_COUNT, this._onDataChange);
+      const topRatedFilms = this._createFilms(ratedFilms.getTopFilms(), ratingPlace, RATES_CARDS_COUNT, this._onDataChange, this._onViewChange);
+      const topCommentedFilms = this._createFilms(mostCommentedFilms.getTopFilms(), commentsPlace, RATES_CARDS_COUNT, this._onDataChange, this._onViewChange);
 
-      this._sorting.setSortTypeChangeHandler((sortType) => {
-        sortedFilms = this._generatedFilms.slice().sort(SortTypeCallbacks[sortType.toUpperCase()]);
+      this._showedTaskControllers = this._showedTaskControllers.concat(topRatedFilms);
+      this._showedTaskControllers = this._showedTaskControllers.concat(topCommentedFilms);
 
-        filmsRenderPlace.innerHTML = ``;
-
-        this._createFilm(sortedFilms, filmsRenderPlace, CARDS_COUNT, this._onDataChange);
-        startPointSlice = 0;
-        renderButton(buttonRenderPlace, this._showMoreButton);
-        this._addFilms(this._showMoreButton, startPointSlice, sortedFilms, filmsRenderPlace);
-      });
+      this._onSortTypeChange(sortedFilms, filmsRenderPlace, buttonRenderPlace);
 
       renderButton(buttonRenderPlace, this._showMoreButton);
       this._addFilms(this._showMoreButton, startPointSlice, sortedFilms, filmsRenderPlace);
@@ -93,7 +85,7 @@ export default class PageController {
     movieController.render(this._generatedFilms[index]);
   }
 
-  _createFilm(films, filmRenderPlace, sliceCount, onDataChange, onViewChange, slicePoint = 0) {
+  _createFilms(films, filmRenderPlace, sliceCount, onDataChange, onViewChange, slicePoint = 0) {
     return films.slice(slicePoint, slicePoint + sliceCount).map((film) => {
       const movieController = new MovieController(filmRenderPlace, onDataChange, onViewChange);
       movieController.render(film);
@@ -106,6 +98,18 @@ export default class PageController {
     this._showedTaskControllers.forEach((it) => it.setDefaultView());
   }
 
+  _onSortTypeChange(sortedFilms, filmsRenderPlace, buttonRenderPlace) {
+    this._sorting.setSortTypeChangeHandler((sortType) => {
+      sortedFilms = this._generatedFilms.slice().sort(SortTypeCallbacks[sortType.toUpperCase()]);
+
+      filmsRenderPlace.innerHTML = ``;
+
+      this._showedTaskControllers = this._createFilms(sortedFilms, filmsRenderPlace, CARDS_COUNT, this._onDataChange, this._onViewChange);
+
+      renderButton(buttonRenderPlace, this._showMoreButton);
+    });
+  }
+
   _addFilms(button, slicePoint, films, filmsRenderPlace) {
     button.setShowMoreButtonClickHandler(() => {
       slicePoint = slicePoint <= TOTAL_FILM_COUNT - CARDS_COUNT
@@ -116,7 +120,8 @@ export default class PageController {
         remove(button);
       }
 
-      this._createFilm(films, filmsRenderPlace, CARDS_COUNT, this._onDataChange, slicePoint);
+      let ordinaryFilms = this._createFilms(films, filmsRenderPlace, CARDS_COUNT, this._onDataChange, this._onViewChange, slicePoint);
+      this._showedTaskControllers = this._showedTaskControllers.concat(ordinaryFilms);
     });
   }
 }

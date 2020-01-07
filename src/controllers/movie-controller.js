@@ -32,6 +32,7 @@ export default class MovieController {
       this._oldPopupComponent = this._popupRenderPlace.querySelector(`.film-details`);
       if (this._oldPopupComponent) {
         this._replacePopup();
+        this._mode = Mode.DEFAULT;
       } else {
         render(this._popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
       }
