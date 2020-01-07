@@ -1,5 +1,5 @@
-import {createFilterTemplate} from './filter-template';
 import AbstractComponent from "./abstract-component";
+import {createFilterTemplate} from './filter-template';
 
 const createFiltersTemplate = (filters) => {
   const filtersKey = Object.keys(filters);

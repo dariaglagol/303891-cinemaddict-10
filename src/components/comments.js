@@ -1,7 +1,8 @@
+import AbstractComponent from "./abstract-component";
 import Comment from './comment';
 import {render} from "../utilities/render";
 import {RenderPosition} from "../mocks/constants";
-import AbstractComponent from "./abstract-component";
+
 
 const renderComment = (comment, renderPlace) => {
   const commentItem = new Comment(comment);
