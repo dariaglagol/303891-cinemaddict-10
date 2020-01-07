@@ -1,5 +1,5 @@
-import {RATES_CARDS_COUNT} from '../mocks/constants';
 import AbstractComponent from "./abstract-component";
+import {RATES_CARDS_COUNT} from '../mocks/constants';
 
 const sortData = (a, b, type) => {
   if (a[type] < b[type]) {

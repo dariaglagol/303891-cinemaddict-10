@@ -1,87 +1,39 @@
 import FilmsList from '../components/films-lists';
-import FilmCard from "../components/film-card";
-import FilmPopup from "../components/film-popup";
 import TopFilm from "../components/top-film";
 import ShowMoreButton from "../components/show-more-button";
 import NoData from "../components/no-data";
+import MovieController from './movie-controller';
 import Sorting from "../components/sorting";
 import {remove, render} from "../utilities/render";
 import {
   CARDS_COUNT,
-  CLICKABLE_ITEMS,
-  RATES_CARDS_COUNT,
   RenderPosition,
   TopFilmType,
   TOTAL_FILM_COUNT,
-  SortType
+  RATES_CARDS_COUNT,
+  SortTypeCallbacks
 } from "../mocks/constants";
-import {setCardClickEventListeners} from "../utilities/utilities";
-
-const renderFilm = (film, filmRenderPlace, popupRenderPlace) => {
-  const card = new FilmCard(film);
-  const filmPopup = new FilmPopup(film, popupRenderPlace);
-
-  const onPopupCloseClick = () => {
-    document.removeEventListener(`keydown`, onEscKeyDown);
-    remove(filmPopup);
-  };
-
-  const onFilmCardClick = () => {
-    render(popupRenderPlace, filmPopup.getElement(), RenderPosition.BEFORE_END);
-
-    filmPopup.renderFormElement();
-    filmPopup.onPopupClose(onPopupCloseClick);
-
-    document.addEventListener(`keydown`, onEscKeyDown);
-  };
-
-  const onEscKeyDown = (evt) => {
-    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-
-    if (isEscKey) {
-      document.removeEventListener(`keydown`, onEscKeyDown);
-      remove(filmPopup);
-    }
-  };
-
-  setCardClickEventListeners(CLICKABLE_ITEMS, card, onFilmCardClick);
-
-  render(filmRenderPlace, card.getElement(), RenderPosition.BEFORE_END);
-};
-
-const renderFilms = (films, filmRenderPlace, popupRenderPlace, sliceCount, slicePoint = 0) => {
-  films.slice(slicePoint, slicePoint + sliceCount).forEach((film) => {
-    renderFilm(film, filmRenderPlace, popupRenderPlace);
-  });
-};
 
 const renderButton = (renderPlace, button) => {
   render(renderPlace, button.getElement(), RenderPosition.BEFORE_END);
 };
 
-const onShowMoreButtonClick = (button, slicePoint, films, filmsRenderPlace, popupRenderPlace) => {
-  button.setShowMoreButtonClickHandler(() => {
-    slicePoint = slicePoint <= TOTAL_FILM_COUNT - CARDS_COUNT
-      ? slicePoint + CARDS_COUNT
-      : TOTAL_FILM_COUNT;
-
-    if (slicePoint + CARDS_COUNT > TOTAL_FILM_COUNT) {
-      remove(button);
-    }
-
-    renderFilms(films, filmsRenderPlace, popupRenderPlace, CARDS_COUNT, slicePoint);
-  });
-};
-
 export default class PageController {
   constructor(container) {
+    this._generatedFilms = [];
+    this._showedTaskControllers = [];
     this._container = container;
     this._showMoreButton = new ShowMoreButton();
     this._sorting = new Sorting();
     this._filmList = new FilmsList();
+
+    this._onDataChange = this._onDataChange.bind(this);
+    this._onViewChange = this._onViewChange.bind(this);
   }
 
   render(generatedFilms) {
+    this._generatedFilms = generatedFilms;
+
     render(this._container, this._sorting.getElement(), RenderPosition.BEFORE_END);
     render(this._container, this._filmList.getElement(), RenderPosition.BEFORE_END);
 
@@ -89,17 +41,18 @@ export default class PageController {
     const buttonRenderPlace = this._container.querySelector(`.films-list`);
     const filmsRenderPlace = this._container.querySelector(`.films-list__container`);
 
-    let sortedFilms = generatedFilms.slice();
+    let sortedFilms = this._generatedFilms.slice();
 
-    if (generatedFilms.length < 1) {
+    if (this._generatedFilms.length < 1) {
       render(buttonRenderPlace, new NoData().getElement(), RenderPosition.BEFORE_END);
     } else {
       let startPointSlice = 0;
 
-      renderFilms(sortedFilms, filmsRenderPlace, this._container, CARDS_COUNT, startPointSlice);
+      let ordinaryFilms = this._createFilms(sortedFilms, filmsRenderPlace, CARDS_COUNT, this._onDataChange, this._onViewChange, startPointSlice);
+      this._showedTaskControllers = this._showedTaskControllers.concat(ordinaryFilms);
 
-      const ratedFilms = new TopFilm(generatedFilms, TopFilmType.RATING);
-      const mostCommentedFilms = new TopFilm(generatedFilms, TopFilmType.COMMENTS);
+      const ratedFilms = new TopFilm(this._generatedFilms, TopFilmType.RATING);
+      const mostCommentedFilms = new TopFilm(this._generatedFilms, TopFilmType.COMMENTS);
 
       render(topRatedRenderPlace, ratedFilms.getElement(), RenderPosition.BEFORE_END);
       render(topRatedRenderPlace, mostCommentedFilms.getElement(), RenderPosition.BEFORE_END);
@@ -107,32 +60,68 @@ export default class PageController {
       const ratingPlace = ratedFilms.getElement().querySelector(`.films-list__container`);
       const commentsPlace = mostCommentedFilms.getElement().querySelector(`.films-list__container`);
 
-      renderFilms(ratedFilms.getTopFilms(), ratingPlace, this._container, RATES_CARDS_COUNT);
-      renderFilms(mostCommentedFilms.getTopFilms(), commentsPlace, this._container, RATES_CARDS_COUNT);
+      const topRatedFilms = this._createFilms(ratedFilms.getTopFilms(), ratingPlace, RATES_CARDS_COUNT, this._onDataChange, this._onViewChange);
+      const topCommentedFilms = this._createFilms(mostCommentedFilms.getTopFilms(), commentsPlace, RATES_CARDS_COUNT, this._onDataChange, this._onViewChange);
 
-      this._sorting.setSortTypeChangeHandler((sortType) => {
-        switch (sortType) {
-          case SortType.DATE:
-            sortedFilms = generatedFilms.slice().sort((a, b) => b.releaseYear - a.releaseYear);
-            break;
-          case SortType.RATING:
-            sortedFilms = generatedFilms.slice().sort((a, b) => b.rating - a.rating);
-            break;
-          case SortType.DEFAULT:
-            sortedFilms = generatedFilms.slice();
-            break;
-        }
+      this._showedTaskControllers = this._showedTaskControllers.concat(topRatedFilms);
+      this._showedTaskControllers = this._showedTaskControllers.concat(topCommentedFilms);
 
-        filmsRenderPlace.innerHTML = ``;
-
-        renderFilms(sortedFilms, filmsRenderPlace, this._container, CARDS_COUNT);
-        startPointSlice = 0;
-        renderButton(buttonRenderPlace, this._showMoreButton);
-        onShowMoreButtonClick(this._showMoreButton, startPointSlice, sortedFilms, filmsRenderPlace, this._container);
-      });
+      this._onSortTypeChange(sortedFilms, filmsRenderPlace, buttonRenderPlace);
 
       renderButton(buttonRenderPlace, this._showMoreButton);
-      onShowMoreButtonClick(this._showMoreButton, startPointSlice, sortedFilms, filmsRenderPlace, this._container);
+      this._addFilms(this._showMoreButton, startPointSlice, sortedFilms, filmsRenderPlace);
     }
+  }
+
+  _onDataChange(movieController, newFilm, oldFilm) {
+    const index = this._generatedFilms.findIndex((it) => it === oldFilm);
+
+    if (index === -1) {
+      return;
+    }
+
+    this._generatedFilms = [].concat(this._generatedFilms.slice(0, index), newFilm, this._generatedFilms.slice(index + 1));
+
+    movieController.render(this._generatedFilms[index]);
+  }
+
+  _createFilms(films, filmRenderPlace, sliceCount, onDataChange, onViewChange, slicePoint = 0) {
+    return films.slice(slicePoint, slicePoint + sliceCount).map((film) => {
+      const movieController = new MovieController(filmRenderPlace, onDataChange, onViewChange);
+      movieController.render(film);
+
+      return movieController;
+    });
+  }
+
+  _onViewChange() {
+    this._showedTaskControllers.forEach((it) => it.setDefaultView());
+  }
+
+  _onSortTypeChange(sortedFilms, filmsRenderPlace, buttonRenderPlace) {
+    this._sorting.setSortTypeChangeHandler((sortType) => {
+      sortedFilms = this._generatedFilms.slice().sort(SortTypeCallbacks[sortType.toUpperCase()]);
+
+      filmsRenderPlace.innerHTML = ``;
+
+      this._showedTaskControllers = this._createFilms(sortedFilms, filmsRenderPlace, CARDS_COUNT, this._onDataChange, this._onViewChange);
+
+      renderButton(buttonRenderPlace, this._showMoreButton);
+    });
+  }
+
+  _addFilms(button, slicePoint, films, filmsRenderPlace) {
+    button.setShowMoreButtonClickHandler(() => {
+      slicePoint = slicePoint <= TOTAL_FILM_COUNT - CARDS_COUNT
+        ? slicePoint + CARDS_COUNT
+        : TOTAL_FILM_COUNT;
+
+      if (slicePoint + CARDS_COUNT > TOTAL_FILM_COUNT) {
+        remove(button);
+      }
+
+      let ordinaryFilms = this._createFilms(films, filmsRenderPlace, CARDS_COUNT, this._onDataChange, this._onViewChange, slicePoint);
+      this._showedTaskControllers = this._showedTaskControllers.concat(ordinaryFilms);
+    });
   }
 }

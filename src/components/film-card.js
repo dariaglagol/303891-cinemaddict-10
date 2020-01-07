@@ -1,5 +1,5 @@
-import {getPlural} from '../utilities/utilities';
 import AbstractComponent from "./abstract-component";
+import {getPlural} from '../utilities/utilities';
 
 const createFilmCardTemplate = (filmData) => {
   const {
@@ -66,5 +66,23 @@ export default class FilmCard extends AbstractComponent {
 
   getTemplate() {
     return createFilmCardTemplate(this._filmData);
+  }
+
+  setWatchListButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.film-card__controls-item--add-to-watchlist`)
+      .addEventListener(`click`, handler);
+  }
+
+  setWatchedButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.film-card__controls-item--mark-as-watched`)
+      .addEventListener(`click`, handler);
+  }
+
+  setFavoriteButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.film-card__controls-item--favorite`)
+      .addEventListener(`click`, handler);
   }
 }
