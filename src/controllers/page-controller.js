@@ -21,13 +21,14 @@ const renderButton = (renderPlace, button) => {
 export default class PageController {
   constructor(container) {
     this._generatedFilms = [];
-
+    this._showedTaskControllers = [];
     this._container = container;
     this._showMoreButton = new ShowMoreButton();
     this._sorting = new Sorting();
     this._filmList = new FilmsList();
 
     this._onDataChange = this._onDataChange.bind(this);
+    this._onViewChange = this._onViewChange.bind(this);
   }
 
   render(generatedFilms) {
@@ -47,7 +48,10 @@ export default class PageController {
     } else {
       let startPointSlice = 0;
 
-      this._createFilm(sortedFilms, filmsRenderPlace, CARDS_COUNT, this._onDataChange, startPointSlice);
+      let ordinaryFilms = this._createFilm(sortedFilms, filmsRenderPlace, CARDS_COUNT, this._onDataChange, this._onViewChange, startPointSlice);
+      this._showedTaskControllers = this._showedTaskControllers.concat(ordinaryFilms);
+      // console.log(this._showedTaskControllers);
+      // this._createFilm(sortedFilms, filmsRenderPlace, CARDS_COUNT, this._onDataChange, startPointSlice);
 
       const ratedFilms = new TopFilm(this._generatedFilms, TopFilmType.RATING);
       const mostCommentedFilms = new TopFilm(this._generatedFilms, TopFilmType.COMMENTS);
@@ -89,13 +93,17 @@ export default class PageController {
     movieController.render(this._generatedFilms[index]);
   }
 
-  _createFilm(films, filmRenderPlace, sliceCount, onDataChange, slicePoint = 0) {
+  _createFilm(films, filmRenderPlace, sliceCount, onDataChange, onViewChange, slicePoint = 0) {
     return films.slice(slicePoint, slicePoint + sliceCount).map((film) => {
-      const movieController = new MovieController(filmRenderPlace, onDataChange);
+      const movieController = new MovieController(filmRenderPlace, onDataChange, onViewChange);
       movieController.render(film);
 
       return movieController;
     });
+  }
+
+  _onViewChange() {
+    this._showedTaskControllers.forEach((it) => it.setDefaultView());
   }
 
   _addFilms(button, slicePoint, films, filmsRenderPlace) {

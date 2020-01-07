@@ -1,23 +1,27 @@
 import FilmCard from "../components/film-card";
 import FilmPopup from "../components/film-popup";
 import {remove, render, replaceElement} from "../utilities/render";
-import {CLICKABLE_ITEMS, RenderPosition} from "../mocks/constants";
+import {CLICKABLE_ITEMS, RenderPosition, Mode} from "../mocks/constants";
 import {setCardClickEventListeners} from "../utilities/utilities";
 
 export default class MovieController {
-  constructor(container, onDataChange) {
+  constructor(container, onDataChange, onViewChange) {
     this._container = container;
     this._onDataChange = onDataChange;
+    this._onViewChange = onViewChange;
+
+    this._mode = Mode.DEFAULT;
+
+    this._oldPopupComponent = null;
   }
 
   render(film) {
     const oldFilmComponent = this._filmCard;
-    const oldPopupComponent = this._filmPopup;
 
-    const popupRenderPlace = this._container.closest(`.main`);
+    this._popupRenderPlace = this._container.closest(`.main`);
 
     this._filmCard = new FilmCard(film);
-    this._filmPopup = new FilmPopup(film, popupRenderPlace);
+    this._filmPopup = new FilmPopup(film, this._popupRenderPlace);
 
     const onPopupCloseClick = () => {
       document.removeEventListener(`keydown`, onEscKeyDown);
@@ -25,10 +29,11 @@ export default class MovieController {
     };
 
     const onFilmCardClick = () => {
-      if (oldPopupComponent && popupRenderPlace.querySelector(`.film-details`)) {
-        replaceElement(popupRenderPlace, this._filmPopup, oldPopupComponent);
+      this._oldPopupComponent = this._popupRenderPlace.querySelector(`.film-details`);
+      if (this._oldPopupComponent) {
+        this._replacePopup();
       } else {
-        render(popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
+        render(this._popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
       }
 
       this._filmPopup.setPopupCloseHandler(onPopupCloseClick);
@@ -78,9 +83,21 @@ export default class MovieController {
     setCardClickEventListeners(CLICKABLE_ITEMS, this._filmCard, onFilmCardClick);
 
     if (oldFilmComponent) {
-      replaceElement(this._container, this._filmCard, oldFilmComponent);
+      replaceElement(this._container, this._filmCard.getElement(), oldFilmComponent.getElement());
     } else {
       render(this._container, this._filmCard.getElement(), RenderPosition.BEFORE_END);
+    }
+  }
+
+  _replacePopup() {
+    this._onViewChange();
+    replaceElement(this._popupRenderPlace, this._filmPopup.getElement(), this._oldPopupComponent);
+    this._mode = Mode.EDIT;
+  }
+
+  setDefaultView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._replacePopup();
     }
   }
 }
