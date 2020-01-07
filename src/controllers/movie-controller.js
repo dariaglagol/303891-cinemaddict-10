@@ -8,8 +8,6 @@ export default class MovieController {
   constructor(container, onDataChange) {
     this._container = container;
     this._onDataChange = onDataChange;
-
-    this._filmCard = null;
   }
 
   render(film) {
@@ -27,7 +25,7 @@ export default class MovieController {
     };
 
     const onFilmCardClick = () => {
-      if (oldPopupComponent && popupRenderPlace.closest(`.film-details`)) {
+      if (oldPopupComponent && popupRenderPlace.querySelector(`.film-details`)) {
         replaceElement(popupRenderPlace, this._filmPopup, oldPopupComponent);
       } else {
         render(popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
@@ -76,7 +74,6 @@ export default class MovieController {
 
       this._onDataChange(this, newData, film);
     });
-
 
     setCardClickEventListeners(CLICKABLE_ITEMS, this._filmCard, onFilmCardClick);
 
