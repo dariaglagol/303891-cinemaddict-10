@@ -30,4 +30,15 @@ const setCardClickEventListeners = (clickableItems, card, handle) => {
   });
 };
 
-export {setCardClickEventListeners, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};
+const getFilmDuration = (movieDuration) => {
+  const hours = movieDuration / 60 ^ 0;
+  if (hours) {
+    let minutes = movieDuration % 60;
+    minutes = minutes < 10 ? `0${minutes}` : minutes;
+    return `${hours}h ${minutes}m`;
+  } else {
+    return `${movieDuration}m`;
+  }
+};
+
+export {setCardClickEventListeners, getFilmDuration, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};

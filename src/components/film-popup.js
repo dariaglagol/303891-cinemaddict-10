@@ -1,9 +1,11 @@
+import moment from "moment";
 import RatingForm from "./rating-form";
 import Comments from "./comments";
 import CommentForm from "./comment-form";
+import AbstractSmartComponent from "./abstract-smart-component";
 import {RenderPosition} from "../mocks/constants";
 import {render} from "../utilities/render";
-import AbstractSmartComponent from "./abstract-smart-component";
+import {getFilmDuration} from "../utilities/utilities";
 
 const isCheckboxActive = (statement) => {
   return statement ? `checked` : ``;
@@ -13,7 +15,7 @@ const createFilmPopupTemplate = (film, options) => {
   const {
     filmName,
     rating,
-    releaseYear,
+    releaseDate,
     movieDuration,
     genres,
     description,
@@ -31,9 +33,13 @@ const createFilmPopupTemplate = (film, options) => {
     isInWatchList
   } = options;
 
+  const preparedReleaseDate = moment(releaseDate).format(`DD MMMM YYYY`);
+
   const watchedLabel = isWatched ? `Already watched` : `Add to watched`;
   const watchListLabel = isInWatchList ? `Remove from watchlist` : `Add to watchlist`;
   const favoritesLabel = isFavorite ? `Remove from favorites` : `Add to favorites`;
+
+  const preparedMovieDuration = getFilmDuration(movieDuration);
 
   return (
     `<section class="film-details">
@@ -76,11 +82,11 @@ const createFilmPopupTemplate = (film, options) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">${releaseYear}</td>
+                  <td class="film-details__cell">${preparedReleaseDate}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">${movieDuration}</td>
+                  <td class="film-details__cell">${preparedMovieDuration}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
