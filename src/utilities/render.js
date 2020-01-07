@@ -24,6 +24,7 @@ const remove = (component) => {
 };
 
 const replaceElement = (parentElement, replacementElement, replaceableElement) => {
+  console.log(parentElement, replacementElement, replaceableElement);
   parentElement.replaceChild(replacementElement.getElement(), replaceableElement.getElement());
 };
 

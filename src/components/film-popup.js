@@ -126,7 +126,6 @@ export default class FilmPopup extends AbstractSmartComponent {
     this._isWatched = this._film.isWatched;
 
     this._subscribeOnEvents();
-
     this.renderFormElement();
   }
 
@@ -148,22 +147,30 @@ export default class FilmPopup extends AbstractSmartComponent {
   }
 
   renderFormElement() {
-    const ratingForm = this._isWatched && new RatingForm(this._film);
-    const commentsComponent = new Comments(this._film.comments);
-    const commentForm = new CommentForm();
+    if (this._isWatched) {
+      const ratingForm = new RatingForm(this._film);
+      const commentsComponent = new Comments(this._film.comments);
+      const commentForm = new CommentForm();
 
-    FilmPopup.renderPopup(this.popupRenderPlace, this._element, ratingForm, commentsComponent, commentForm);
+      FilmPopup.renderPopup(this.popupRenderPlace, this._element, ratingForm, commentsComponent, commentForm);
+    }
   }
 
   rerender() {
     super.rerender();
+
+    this.renderFormElement();
   }
 
   recoveryListeners() {
     this._subscribeOnEvents();
+
+    this.setPopupCloseHandler(this._handler);
   }
 
   setPopupCloseHandler(handler) {
+    this._handler = handler;
+
     this.getElement()
       .querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, handler);

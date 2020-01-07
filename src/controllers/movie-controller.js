@@ -27,13 +27,12 @@ export default class MovieController {
     };
 
     const onFilmCardClick = () => {
-      if (oldPopupComponent) {
-        replaceElement(this._container, this._filmPopup, oldPopupComponent);
+      if (oldPopupComponent && popupRenderPlace.closest(`.film-details`)) {
+        replaceElement(popupRenderPlace, this._filmPopup, oldPopupComponent);
       } else {
         render(popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
       }
 
-      // this._filmPopup.renderFormElement();
       this._filmPopup.setPopupCloseHandler(onPopupCloseClick);
 
       document.addEventListener(`keydown`, onEscKeyDown);
