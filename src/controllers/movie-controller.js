@@ -12,7 +12,7 @@ export default class MovieController {
 
     this._mode = Mode.DEFAULT;
 
-    this._oldPopupComponent = null;
+    this._onEscKeyDown = this._onEscKeyDown.bind(this);
   }
 
   render(film) {
@@ -25,7 +25,7 @@ export default class MovieController {
     this._filmPopup = new FilmPopup(film, this._popupRenderPlace);
 
     const onPopupCloseClick = () => {
-      document.removeEventListener(`keydown`, onEscKeyDown);
+      document.removeEventListener(`keydown`, this._onEscKeyDown);
       remove(this._filmPopup);
     };
 
@@ -33,7 +33,6 @@ export default class MovieController {
       const replaceableElement = this._popupRenderPlace.querySelector(`.film-details`);
       if (replaceableElement) {
         this._replacePopup(replaceableElement);
-        this._mode = Mode.DEFAULT;
       } else {
         render(this._popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
         this._filmPopup.renderFormElement();
@@ -41,16 +40,7 @@ export default class MovieController {
 
       this._filmPopup.setPopupCloseHandler(onPopupCloseClick);
 
-      document.addEventListener(`keydown`, onEscKeyDown);
-    };
-
-    const onEscKeyDown = (evt) => {
-      const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-
-      if (isEscKey) {
-        document.removeEventListener(`keydown`, onEscKeyDown);
-        remove(this._filmPopup);
-      }
+      document.addEventListener(`keydown`, this._onEscKeyDown);
     };
 
     this._filmCard.setWatchListButtonClickHandler((evt) => {
@@ -90,6 +80,8 @@ export default class MovieController {
         isInWatchList: !film.isInWatchList,
       });
 
+      this._mode = Mode.EDIT;
+
       this._onDataChange(this, newData, film);
     });
 
@@ -100,6 +92,8 @@ export default class MovieController {
         isWatched: !film.isWatched,
       });
 
+      this._mode = Mode.EDIT;
+
       this._onDataChange(this, newData, film);
     });
 
@@ -109,6 +103,8 @@ export default class MovieController {
       const newData = Object.assign({}, film, {
         isFavorite: !film.isFavorite,
       });
+
+      this._mode = Mode.EDIT;
 
       this._onDataChange(this, newData, film);
     });
@@ -121,9 +117,9 @@ export default class MovieController {
       render(this._container, this._filmCard.getElement(), RenderPosition.BEFORE_END);
     }
 
-    if (oldPopupComponent && Mode.EDIT) {
-      this._replacePopup(oldPopupComponent.getElement());
+    if (oldPopupComponent && this._mode !== Mode.DEFAULT) {
       this._mode = Mode.DEFAULT;
+      this._replacePopup(oldPopupComponent.getElement());
     }
   }
 
@@ -131,12 +127,21 @@ export default class MovieController {
     this._onViewChange();
     replaceElement(this._popupRenderPlace, this._filmPopup.getElement(), replaceableElement);
     this._filmPopup.renderFormElement();
-    this._mode = Mode.EDIT;
+    this._mode = Mode.DEFAULT;
   }
 
   setDefaultView() {
     if (this._mode !== Mode.DEFAULT) {
       this._replacePopup();
+    }
+  }
+
+  _onEscKeyDown(evt) {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+
+    if (isEscKey) {
+      document.removeEventListener(`keydown`, this._onEscKeyDown);
+      remove(this._filmPopup);
     }
   }
 }
