@@ -17,6 +17,7 @@ export default class MovieController {
 
   render(film) {
     const oldFilmComponent = this._filmCard;
+    const oldPopupComponent = this._filmPopup;
 
     this._popupRenderPlace = this._container.closest(`.main`);
 
@@ -29,12 +30,13 @@ export default class MovieController {
     };
 
     const onFilmCardClick = () => {
-      this._oldPopupComponent = this._popupRenderPlace.querySelector(`.film-details`);
-      if (this._oldPopupComponent) {
-        this._replacePopup();
+      const replaceableElement = this._popupRenderPlace.querySelector(`.film-details`);
+      if (replaceableElement) {
+        this._replacePopup(replaceableElement);
         this._mode = Mode.DEFAULT;
       } else {
         render(this._popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
+        this._filmPopup.renderFormElement();
       }
 
       this._filmPopup.setPopupCloseHandler(onPopupCloseClick);
@@ -81,6 +83,36 @@ export default class MovieController {
       this._onDataChange(this, newData, film);
     });
 
+    this._filmPopup.setWatchListButtonClickHandler((evt) => {
+      evt.preventDefault();
+
+      const newData = Object.assign({}, film, {
+        isInWatchList: !film.isInWatchList,
+      });
+
+      this._onDataChange(this, newData, film);
+    });
+
+    this._filmPopup.setWatchedButtonClickHandler((evt) => {
+      evt.preventDefault();
+
+      const newData = Object.assign({}, film, {
+        isWatched: !film.isWatched,
+      });
+
+      this._onDataChange(this, newData, film);
+    });
+
+    this._filmPopup.setFavoriteButtonClickHandler((evt) => {
+      evt.preventDefault();
+
+      const newData = Object.assign({}, film, {
+        isFavorite: !film.isFavorite,
+      });
+
+      this._onDataChange(this, newData, film);
+    });
+
     setCardClickEventListeners(CLICKABLE_ITEMS, this._filmCard, onFilmCardClick);
 
     if (oldFilmComponent) {
@@ -88,11 +120,17 @@ export default class MovieController {
     } else {
       render(this._container, this._filmCard.getElement(), RenderPosition.BEFORE_END);
     }
+
+    if (oldPopupComponent && Mode.EDIT) {
+      this._replacePopup(oldPopupComponent.getElement());
+      this._mode = Mode.DEFAULT;
+    }
   }
 
-  _replacePopup() {
+  _replacePopup(replaceableElement) {
     this._onViewChange();
-    replaceElement(this._popupRenderPlace, this._filmPopup.getElement(), this._oldPopupComponent);
+    replaceElement(this._popupRenderPlace, this._filmPopup.getElement(), replaceableElement);
+    this._filmPopup.renderFormElement();
     this._mode = Mode.EDIT;
   }
 
