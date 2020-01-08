@@ -130,9 +130,6 @@ export default class FilmPopup extends AbstractComponent {
     this._isFilmFavorite = this._film.isFavorite;
     this._isInWatchList = this._film.isInWatchList;
     this._isWatched = this._film.isWatched;
-
-    // this._subscribeOnEvents();
-    // this.renderFormElement();
   }
 
   static renderPopup(popupRenderPlace, filmPopup, ratingForm, commentsComponent, commentForm) {
