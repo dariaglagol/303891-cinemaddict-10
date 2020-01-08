@@ -112,7 +112,7 @@ export default class MovieController {
     setCardClickEventListeners(CLICKABLE_ITEMS, this._filmCard, onFilmCardClick);
 
     if (oldFilmComponent) {
-      replaceElement(this._container, this._filmCard.getElement(), oldFilmComponent.getElement());
+      replaceElement(this._filmCard.getElement(), oldFilmComponent.getElement());
     } else {
       render(this._container, this._filmCard.getElement(), RenderPosition.BEFORE_END);
     }
@@ -125,7 +125,7 @@ export default class MovieController {
 
   _replacePopup(replaceableElement) {
     this._onViewChange();
-    replaceElement(this._popupRenderPlace, this._filmPopup.getElement(), replaceableElement);
+    replaceElement(this._filmPopup.getElement(), replaceableElement);
     this._filmPopup.renderFormElement();
     this._mode = Mode.DEFAULT;
   }

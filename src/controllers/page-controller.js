@@ -48,7 +48,7 @@ export default class PageController {
     } else {
       let startPointSlice = 0;
 
-      let ordinaryFilms = this._createFilms(sortedFilms, filmsRenderPlace, CARDS_COUNT, this._onDataChange, this._onViewChange, startPointSlice);
+      const ordinaryFilms = this._createFilms(sortedFilms, filmsRenderPlace, CARDS_COUNT, this._onDataChange, this._onViewChange, startPointSlice);
       this._showedTaskControllers = this._showedTaskControllers.concat(ordinaryFilms);
 
       const ratedFilms = new TopFilm(this._generatedFilms, TopFilmType.RATING);
@@ -100,7 +100,7 @@ export default class PageController {
 
   _onSortTypeChange(sortedFilms, filmsRenderPlace, buttonRenderPlace) {
     this._sorting.setSortTypeChangeHandler((sortType) => {
-      sortedFilms = this._generatedFilms.slice().sort(SortTypeCallbacks[sortType.toUpperCase()]);
+      sortedFilms = this._generatedFilms.slice().sort(SortTypeCallbacks[sortType]);
 
       filmsRenderPlace.innerHTML = ``;
 
@@ -120,7 +120,7 @@ export default class PageController {
         remove(button);
       }
 
-      let ordinaryFilms = this._createFilms(films, filmsRenderPlace, CARDS_COUNT, this._onDataChange, this._onViewChange, slicePoint);
+      const ordinaryFilms = this._createFilms(films, filmsRenderPlace, CARDS_COUNT, this._onDataChange, this._onViewChange, slicePoint);
       this._showedTaskControllers = this._showedTaskControllers.concat(ordinaryFilms);
     });
   }
