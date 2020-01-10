@@ -1,3 +1,4 @@
+import moment from "moment";
 import AbstractComponent from "./abstract-component";
 
 const createCommentTemplate = (comment) => {
@@ -8,9 +9,7 @@ const createCommentTemplate = (comment) => {
     date
   } = comment;
 
-  const formatDatePart = (part) => part > 0 ? part : `0${part}`;
-
-  const formatDate = `${date.getFullYear()}/${formatDatePart(date.getMonth())}/${formatDatePart(date.getDate())} ${date.getHours()}:${date.getMinutes()}`;
+  const formatDate = moment(date).format(`YYYY/MM/DD HH:mm`);
 
   return (
     `<li class="film-details__comment">

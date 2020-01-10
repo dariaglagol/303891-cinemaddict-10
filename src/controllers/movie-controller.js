@@ -12,11 +12,12 @@ export default class MovieController {
 
     this._mode = Mode.DEFAULT;
 
-    this._oldPopupComponent = null;
+    this._onEscKeyDown = this._onEscKeyDown.bind(this);
   }
 
   render(film) {
     const oldFilmComponent = this._filmCard;
+    const oldPopupComponent = this._filmPopup;
 
     this._popupRenderPlace = this._container.closest(`.main`);
 
@@ -24,31 +25,22 @@ export default class MovieController {
     this._filmPopup = new FilmPopup(film, this._popupRenderPlace);
 
     const onPopupCloseClick = () => {
-      document.removeEventListener(`keydown`, onEscKeyDown);
+      document.removeEventListener(`keydown`, this._onEscKeyDown);
       remove(this._filmPopup);
     };
 
     const onFilmCardClick = () => {
-      this._oldPopupComponent = this._popupRenderPlace.querySelector(`.film-details`);
-      if (this._oldPopupComponent) {
-        this._replacePopup();
-        this._mode = Mode.DEFAULT;
+      const replaceableElement = this._popupRenderPlace.querySelector(`.film-details`);
+      if (replaceableElement) {
+        this._replacePopup(replaceableElement);
       } else {
         render(this._popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
+        this._filmPopup.renderFormElement();
       }
 
       this._filmPopup.setPopupCloseHandler(onPopupCloseClick);
 
-      document.addEventListener(`keydown`, onEscKeyDown);
-    };
-
-    const onEscKeyDown = (evt) => {
-      const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-
-      if (isEscKey) {
-        document.removeEventListener(`keydown`, onEscKeyDown);
-        remove(this._filmPopup);
-      }
+      document.addEventListener(`keydown`, this._onEscKeyDown);
     };
 
     this._filmCard.setWatchListButtonClickHandler((evt) => {
@@ -81,24 +73,81 @@ export default class MovieController {
       this._onDataChange(this, newData, film);
     });
 
+    this._filmPopup.setWatchListButtonClickHandler((evt) => {
+      evt.preventDefault();
+
+      const newData = Object.assign({}, film, {
+        isInWatchList: !film.isInWatchList,
+      });
+
+      this._mode = Mode.EDIT;
+
+      this._onDataChange(this, newData, film);
+    });
+
+    this._filmPopup.setWatchedButtonClickHandler((evt) => {
+      evt.preventDefault();
+
+      const newData = Object.assign({}, film, {
+        isWatched: !film.isWatched,
+      });
+
+      this._mode = Mode.EDIT;
+
+      this._onDataChange(this, newData, film);
+    });
+
+    this._filmPopup.setFavoriteButtonClickHandler((evt) => {
+      evt.preventDefault();
+
+      const newData = Object.assign({}, film, {
+        isFavorite: !film.isFavorite,
+      });
+
+      this._mode = Mode.EDIT;
+
+      this._onDataChange(this, newData, film);
+    });
+
     setCardClickEventListeners(CLICKABLE_ITEMS, this._filmCard, onFilmCardClick);
 
     if (oldFilmComponent) {
-      replaceElement(this._container, this._filmCard.getElement(), oldFilmComponent.getElement());
+      replaceElement(this._filmCard.getElement(), oldFilmComponent.getElement());
     } else {
       render(this._container, this._filmCard.getElement(), RenderPosition.BEFORE_END);
     }
+
+    if (oldPopupComponent && this._mode !== Mode.DEFAULT) {
+      this._mode = Mode.DEFAULT;
+      this._replacePopup(oldPopupComponent.getElement());
+    }
   }
 
-  _replacePopup() {
+  _replacePopup(replaceableElement) {
     this._onViewChange();
-    replaceElement(this._popupRenderPlace, this._filmPopup.getElement(), this._oldPopupComponent);
-    this._mode = Mode.EDIT;
+    replaceElement(this._filmPopup.getElement(), replaceableElement);
+    this._filmPopup.renderFormElement();
+    this._mode = Mode.DEFAULT;
   }
 
   setDefaultView() {
     if (this._mode !== Mode.DEFAULT) {
-      this._replacePopup();
+      const replaceableElement = this._popupRenderPlace.querySelector(`.film-details`);
+
+      this._replacePopup(replaceableElement);
+    }
+  }
+
+  removeEscDownListener() {
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
+  }
+
+  _onEscKeyDown(evt) {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+
+    if (isEscKey) {
+      document.removeEventListener(`keydown`, this._onEscKeyDown);
+      remove(this._filmPopup);
     }
   }
 }

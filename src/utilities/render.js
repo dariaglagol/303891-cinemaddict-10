@@ -23,8 +23,8 @@ const remove = (component) => {
   component.removeElement();
 };
 
-const replaceElement = (parentElement, replacementElement, replaceableElement) => {
-  parentElement.replaceChild(replacementElement, replaceableElement);
+const replaceElement = (replacementElement, replaceableElement) => {
+  replaceableElement.replaceWith(replacementElement);
 };
 
 export {createElement, render, remove, replaceElement};

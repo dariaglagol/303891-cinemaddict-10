@@ -1,3 +1,8 @@
+import moment from "moment";
+import momentDurationFormatSetup from "moment-duration-format";
+
+momentDurationFormatSetup(moment);
+
 const getRandomArrayItem = (array) => {
   const randomIndex = getRandomIntegerNumber(0, array.length);
 
@@ -30,4 +35,10 @@ const setCardClickEventListeners = (clickableItems, card, handle) => {
   });
 };
 
-export {setCardClickEventListeners, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};
+const getFilmDuration = (movieDuration) => {
+  const duration = moment.duration(movieDuration, `minutes`).format(`h[h] m[m]`);
+
+  return duration;
+};
+
+export {setCardClickEventListeners, getFilmDuration, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};

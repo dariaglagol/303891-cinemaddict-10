@@ -1,12 +1,12 @@
 import AbstractComponent from "./abstract-component";
-import {SortTypeNames} from '../mocks/constants';
+import {SortTypeName} from '../mocks/constants';
 
 const createSortingTemplate = () => {
   return (
     `<ul class="sort">
-        <li><a href="#" class="sort__button sort__button--active" data-sort-type="${SortTypeNames.DEFAULT}">Sort by default</a></li>
-        <li><a href="#" class="sort__button" data-sort-type="${SortTypeNames.DATE}">Sort by date</a></li>
-        <li><a href="#" class="sort__button" data-sort-type="${SortTypeNames.RATING}">Sort by rating</a></li>
+        <li><a href="#" class="sort__button sort__button--active" data-sort-type="${SortTypeName.DEFAULT}">Sort by default</a></li>
+        <li><a href="#" class="sort__button" data-sort-type="${SortTypeName.DATE}">Sort by date</a></li>
+        <li><a href="#" class="sort__button" data-sort-type="${SortTypeName.RATING}">Sort by rating</a></li>
     </ul>`
   );
 };

@@ -1,9 +1,11 @@
-import AbstractSmartComponent from "./abstract-smart-component";
+import moment from "moment";
+import AbstractComponent from "./abstract-component";
 import RatingForm from "./rating-form";
 import Comments from "./comments";
 import CommentForm from "./comment-form";
 import {RenderPosition} from "../mocks/constants";
 import {render} from "../utilities/render";
+import {getFilmDuration} from "../utilities/utilities";
 
 const isCheckboxActive = (statement) => {
   return statement ? `checked` : ``;
@@ -13,7 +15,7 @@ const createFilmPopupTemplate = (film, options) => {
   const {
     filmName,
     rating,
-    releaseYear,
+    releaseDate,
     movieDuration,
     genres,
     description,
@@ -31,9 +33,13 @@ const createFilmPopupTemplate = (film, options) => {
     isInWatchList
   } = options;
 
+  const preparedReleaseDate = moment(releaseDate).format(`DD MMMM YYYY`);
+
   const watchedLabel = isWatched ? `Already watched` : `Add to watched`;
   const watchListLabel = isInWatchList ? `Remove from watchlist` : `Add to watchlist`;
   const favoritesLabel = isFavorite ? `Remove from favorites` : `Add to favorites`;
+
+  const preparedMovieDuration = getFilmDuration(movieDuration);
 
   return (
     `<section class="film-details">
@@ -76,11 +82,11 @@ const createFilmPopupTemplate = (film, options) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>
-                  <td class="film-details__cell">${releaseYear}</td>
+                  <td class="film-details__cell">${preparedReleaseDate}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">${movieDuration}</td>
+                  <td class="film-details__cell">${preparedMovieDuration}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
@@ -115,7 +121,7 @@ const createFilmPopupTemplate = (film, options) => {
   );
 };
 
-export default class FilmPopup extends AbstractSmartComponent {
+export default class FilmPopup extends AbstractComponent {
   constructor(film, popupRenderPlace) {
     super();
     this._film = film;
@@ -124,9 +130,6 @@ export default class FilmPopup extends AbstractSmartComponent {
     this._isFilmFavorite = this._film.isFavorite;
     this._isInWatchList = this._film.isInWatchList;
     this._isWatched = this._film.isWatched;
-
-    this._subscribeOnEvents();
-    this.renderFormElement();
   }
 
   static renderPopup(popupRenderPlace, filmPopup, ratingForm, commentsComponent, commentForm) {
@@ -156,49 +159,27 @@ export default class FilmPopup extends AbstractSmartComponent {
     }
   }
 
-  rerender() {
-    super.rerender();
-
-    this.renderFormElement();
-  }
-
-  recoveryListeners() {
-    this._subscribeOnEvents();
-
-    this.setPopupCloseHandler(this._handler);
-  }
-
   setPopupCloseHandler(handler) {
-    this._handler = handler;
-
     this.getElement()
       .querySelector(`.film-details__close-btn`)
       .addEventListener(`click`, handler);
   }
 
-  _subscribeOnEvents() {
-    const element = this.getElement();
+  setWatchListButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.film-details__control-label--watchlist`)
+      .addEventListener(`click`, handler);
+  }
 
-    element.querySelector(`.film-details__control-label--watchlist`)
-      .addEventListener(`click`, () => {
-        this._isInWatchList = !this._isInWatchList;
+  setWatchedButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.film-details__control-label--watched`)
+      .addEventListener(`click`, handler);
+  }
 
-        this.rerender();
-      });
-
-    element.querySelector(`.film-details__control-label--watched`)
-      .addEventListener(`click`, () => {
-        this._isWatched = !this._isWatched;
-
-        this.rerender();
-      });
-
-
-    element.querySelector(`.film-details__control-label--favorite`)
-      .addEventListener(`click`, () => {
-        this._isFilmFavorite = !this._isFilmFavorite;
-
-        this.rerender();
-      });
+  setFavoriteButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.film-details__control-label--favorite`)
+      .addEventListener(`click`, handler);
   }
 }

@@ -45,12 +45,20 @@ const generateWriters = () => {
   return WRITERS.slice(writersStartPiece, writersStartPiece + writersLength).join(`, `);
 };
 
+const generateReleaseDate = () => {
+  const year = getRandomIntegerNumber(Year.MIN, Year.MAX);
+  const month = getRandomIntegerNumber(0, 11);
+  const day = getRandomIntegerNumber(1, 31);
+
+  return new Date(year, month, day);
+};
+
 const generateFilm = () => {
   return {
     filmName: getRandomArrayItem(FILM_NAMES),
     rating: getRating(),
     posterUrl: getRandomArrayItem(POSTERS),
-    releaseYear: getRandomIntegerNumber(Year.MIN, Year.MAX),
+    releaseDate: generateReleaseDate(),
     movieDuration: getRandomIntegerNumber(Duration.MIN, Duration.MAX),
     genres: generateGenres(),
     comments: generateComments(COMMENTS_COUNT),

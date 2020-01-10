@@ -1,11 +1,12 @@
+import moment from "moment";
 import AbstractComponent from "./abstract-component";
-import {getPlural} from '../utilities/utilities';
+import {getPlural, getFilmDuration} from '../utilities/utilities';
 
 const createFilmCardTemplate = (filmData) => {
   const {
     filmName,
     rating,
-    releaseYear,
+    releaseDate,
     movieDuration,
     genres,
     posterUrl,
@@ -22,26 +23,18 @@ const createFilmCardTemplate = (filmData) => {
     return mark ? `film-card__controls-item--active` : ``;
   };
 
-  const getFilmDuration = () => {
-    const hours = movieDuration / 60 ^ 0;
-    if (hours) {
-      let minutes = movieDuration % 60;
-      minutes = minutes < 10 ? `0${minutes}` : minutes;
-      return `${hours}h ${minutes}m`;
-    } else {
-      return `${movieDuration}m`;
-    }
-  };
-
   const firstGenre = genres[0];
+
+  const preparedReleaseDate = moment(releaseDate).format(`YYYY`);
+  const preparedMovieDuration = getFilmDuration(movieDuration);
 
   return (
     `<article class="film-card">
       <h3 class="film-card__title">${filmName}</h3>
       <p class="film-card__rating">${rating}</p>
       <p class="film-card__info">
-        <span class="film-card__year">${releaseYear}</span>
-        <span class="film-card__duration">${getFilmDuration()}</span>
+        <span class="film-card__year">${preparedReleaseDate}</span>
+        <span class="film-card__duration">${preparedMovieDuration}</span>
         <span class="film-card__genre">${firstGenre}</span>
       </p>
       <img src="./images/posters/${posterUrl}" alt="" class="film-card__poster">

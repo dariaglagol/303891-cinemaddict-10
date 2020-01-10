@@ -172,16 +172,16 @@ const MAX_FILM_SCORE = 9;
 
 const CLICKABLE_ITEMS = [`.film-card__poster`, `.film-card__title`, `.film-card__comments`];
 
-const SortTypeNames = {
+const SortTypeName = {
   RATING: `rating`,
   DATE: `date`,
   DEFAULT: `default`,
 };
 
 const SortTypeCallbacks = {
-  'DATE': (a, b) => b.releaseYear - a.releaseYear,
-  'RATING': (a, b) => b.rating - a.rating,
-  'DEFAULT': () => {}
+  [SortTypeName.DATE]: (a, b) => b.releaseYear - a.releaseYear,
+  [SortTypeName.RATING]: (a, b) => b.rating - a.rating,
+  [SortTypeName.DEFAULT]: () => {}
 };
 
 const Mode = {
@@ -189,4 +189,4 @@ const Mode = {
   EDIT: `edit`,
 };
 
-export {RenderPosition, Mode, SortTypeNames, SortTypeCallbacks, TopFilmType, CLICKABLE_ITEMS, MAX_FILM_SCORE, MAX_AGE_RATING, COMMENTS_EMODJIES, COMMENTS_COUNT, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS, Year, MAX_VALUE, Duration, Rating, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};
+export {RenderPosition, Mode, SortTypeName, SortTypeCallbacks, TopFilmType, CLICKABLE_ITEMS, MAX_FILM_SCORE, MAX_AGE_RATING, COMMENTS_EMODJIES, COMMENTS_COUNT, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS, Year, MAX_VALUE, Duration, Rating, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};
