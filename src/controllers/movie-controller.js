@@ -132,8 +132,14 @@ export default class MovieController {
 
   setDefaultView() {
     if (this._mode !== Mode.DEFAULT) {
-      this._replacePopup();
+      const replaceableElement = this._popupRenderPlace.querySelector(`.film-details`);
+
+      this._replacePopup(replaceableElement);
     }
+  }
+
+  removeEscDownListener() {
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 
   _onEscKeyDown(evt) {

@@ -97,6 +97,7 @@ export default class PageController {
 
   _onViewChange() {
     this._showedFilmControllers.forEach((it) => it.setDefaultView());
+    this._showedFilmControllers.forEach((it) => it.removeEscDownListener());
   }
 
   _onSortTypeChange(sortedFilms, filmsRenderPlace, buttonRenderPlace) {
