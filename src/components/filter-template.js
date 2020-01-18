@@ -6,7 +6,11 @@ export const createFilterTemplate = (filterItem) => {
   const activeFilter = `all movies`;
 
   return `
-    <a href="#${name}" class="main-navigation__item ${activeFilter === name && `main-navigation__item--active`}">${preparedNameString}
+    <a
+      href="#${name}"
+      class="main-navigation__item ${activeFilter === name && `main-navigation__item--active`}"
+      data-filter-type=${name}
+    >${preparedNameString}
       ${count ? `<span class="main-navigation__item-count">${count}</span>` : ``}
     </a>
   `;

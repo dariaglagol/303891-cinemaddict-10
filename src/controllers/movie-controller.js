@@ -150,4 +150,10 @@ export default class MovieController {
       remove(this._filmPopup);
     }
   }
+
+  destroy() {
+    remove(this._filmCard);
+    remove(this._filmPopup);
+    document.addEventListener(`keydown`, this._onEscKeyDown);
+  }
 }

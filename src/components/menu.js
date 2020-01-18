@@ -22,11 +22,20 @@ const createMenuTemplate = (films, filters) => {
 export default class Menu extends AbstractComponent {
   constructor(films, filters) {
     super();
-    this._films = films;
+    this._films = films.getFilms();
     this._filters = filters;
   }
 
   getTemplate() {
     return createMenuTemplate(this._films, this._filters);
+  }
+
+  setFilterChangeHandler(handler) {
+    this.getElement().addEventListener(`click`, (evt) => {
+      const filterName = evt.target.getAttribute(`data-filter-type`);
+      if (filterName) {
+        handler(filterName);
+      }
+    });
   }
 }
