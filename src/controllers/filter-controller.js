@@ -12,7 +12,7 @@ export default class FilterController {
     this._activeFilterType = FiltersNames.ALL;
     const filters = generateFilters(this._filmsModel.getAllFilms());
 
-    this._menuComponent = new Menu(this._filmsModel, filters);
+    this._menuComponent = new Menu(this._activeFilterType, filters);
 
     this._onFilterChange = this._onFilterChange.bind(this);
   }
@@ -23,7 +23,6 @@ export default class FilterController {
   }
 
   _onFilterChange(filterType) {
-
     this._filmsModel.setFilter(filterType);
     this._activeFilterType = FiltersNames[filterType];
   }
