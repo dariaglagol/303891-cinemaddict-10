@@ -186,7 +186,7 @@ const SortTypeName = {
 };
 
 const SortTypeCallbacks = {
-  [SortTypeName.DATE]: (a, b) => b.releaseYear - a.releaseYear,
+  [SortTypeName.DATE]: (a, b) => b.releaseDate - a.releaseDate,
   [SortTypeName.RATING]: (a, b) => b.rating - a.rating,
   [SortTypeName.DEFAULT]: () => {}
 };

@@ -17,7 +17,6 @@ const getFavoritesFilms = (films) => {
 };
 
 export const getFilmsByFilter = (films, filter) => {
-  console.log('getFilmsByFilter', filter === FiltersNames.WATCHLIST);
   switch (filter) {
     case FiltersNames.ALL:
       return getAllFilms(films);

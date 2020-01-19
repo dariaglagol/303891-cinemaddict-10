@@ -10,7 +10,6 @@ export default class MoviesModel {
   }
 
   getFilms() {
-    console.log(this._activeFilterType, getFilmsByFilter(this._films, this._activeFilterType));
     return getFilmsByFilter(this._films, this._activeFilterType);
   }
 
@@ -41,5 +40,9 @@ export default class MoviesModel {
 
   setFilterChangeHandler(handler) {
     this._filterChangeHandlers.push(handler);
+  }
+
+  getFilmsLength() {
+    return this.getFilms().length;
   }
 }
