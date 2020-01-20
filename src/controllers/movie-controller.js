@@ -35,6 +35,7 @@ export default class MovieController {
         this._replacePopup(replaceableElement);
       } else {
         render(this._popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
+        console.log('we');
         this._filmPopup.renderFormElement();
       }
 
@@ -108,6 +109,20 @@ export default class MovieController {
 
       this._onDataChange(this, newData, film);
     });
+
+    if (film.isWatched) {
+      this._filmPopup.setDeleteButtonClickHandler((evt) => {
+        evt.preventDefault();
+
+        console.log(evt);
+
+        const newData = Object.assign({}, film, {
+          comments: [],
+        });
+
+        this._onDataChange(this, newData, film);
+      });
+    }
 
     setCardClickEventListeners(CLICKABLE_ITEMS, this._filmCard, onFilmCardClick);
 

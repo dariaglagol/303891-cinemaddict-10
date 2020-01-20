@@ -35,4 +35,14 @@ export default class Comments extends AbstractComponent {
       renderComment(comment, renderPlace);
     });
   }
+
+  setDeleteButtonClickHandler(handler) {
+    console.log(this.getElement());
+    this.getElement()
+      .querySelectorAll(`.film-details__comment-delete`)
+      .forEach((item) => {
+        console.log('item', item);
+        item.addEventListener(`click`, handler);
+      });
+  }
 }

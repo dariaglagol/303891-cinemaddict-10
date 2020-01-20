@@ -151,11 +151,11 @@ export default class FilmPopup extends AbstractComponent {
 
   renderFormElement() {
     if (this._isWatched) {
-      const ratingForm = new RatingForm(this._film);
-      const commentsComponent = new Comments(this._film.comments);
-      const commentForm = new CommentForm();
+      this._ratingForm = new RatingForm(this._film);
+      this._commentsComponent = new Comments(this._film.comments);
+      this._commentForm = new CommentForm();
 
-      FilmPopup.renderPopup(this.popupRenderPlace, this._element, ratingForm, commentsComponent, commentForm);
+      FilmPopup.renderPopup(this.popupRenderPlace, this._element, this._ratingForm, this._commentsComponent, this._commentForm);
     }
   }
 
@@ -181,5 +181,12 @@ export default class FilmPopup extends AbstractComponent {
     this.getElement()
       .querySelector(`.film-details__control-label--favorite`)
       .addEventListener(`click`, handler);
+  }
+
+  setDeleteButtonClickHandler(handler) {
+    console.log('setDeleteButtonClickHandler', this.popupRenderPlace.querySelectorAll(`.film-details__comment-delete`));
+    if (this._commentsComponent) {
+      this._commentsComponent.setDeleteButtonClickHandler(handler);
+    }
   }
 }

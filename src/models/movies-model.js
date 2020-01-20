@@ -41,8 +41,4 @@ export default class MoviesModel {
   setFilterChangeHandler(handler) {
     this._filterChangeHandlers.push(handler);
   }
-
-  getFilmsLength() {
-    return this.getFilms().length;
-  }
 }
