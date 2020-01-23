@@ -6,8 +6,6 @@ const createFilterTemplate = (filterItem) => {
 
   const preparedNameString = name[0].toUpperCase() + name.slice(1);
 
-  console.log(isFilterActive);
-
   return `
     <a
       href="#${name}"

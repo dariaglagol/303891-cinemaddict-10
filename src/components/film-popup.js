@@ -11,7 +11,7 @@ const isCheckboxActive = (statement) => {
   return statement ? `checked` : ``;
 };
 
-const createFilmPopupTemplate = (film, options) => {
+const createFilmPopupTemplate = (film, options, nodes) => {
   const {
     filmName,
     rating,
@@ -33,6 +33,11 @@ const createFilmPopupTemplate = (film, options) => {
     isInWatchList
   } = options;
 
+  const {
+    ratingForm,
+    commentsComponent
+  } = nodes;
+
   const preparedReleaseDate = moment(releaseDate).format(`DD MMMM YYYY`);
 
   const watchedLabel = isWatched ? `Already watched` : `Add to watched`;
@@ -40,6 +45,8 @@ const createFilmPopupTemplate = (film, options) => {
   const favoritesLabel = isFavorite ? `Remove from favorites` : `Add to favorites`;
 
   const preparedMovieDuration = getFilmDuration(movieDuration);
+
+  const renderFormTemplate = isWatched ? ratingForm : ``;
 
   return (
     `<section class="film-details">
@@ -116,29 +123,24 @@ const createFilmPopupTemplate = (film, options) => {
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">${favoritesLabel}</label>
           </section>
         </div>
+        ${renderFormTemplate}
+        ${commentsComponent}
       </form>
     </section>`
   );
 };
 
 export default class FilmPopup extends AbstractComponent {
-  constructor(film, popupRenderPlace) {
+  constructor(film) {
     super();
     this._film = film;
-    this.popupRenderPlace = popupRenderPlace;
+
+    this._ratingForm = new RatingForm(this._film);
+    this._commentsComponent = new Comments(this._film.comments);
 
     this._isFilmFavorite = this._film.isFavorite;
     this._isInWatchList = this._film.isInWatchList;
     this._isWatched = this._film.isWatched;
-  }
-
-  static renderPopup(popupRenderPlace, filmPopup, ratingForm, commentsComponent, commentForm) {
-    if (ratingForm) {
-      render(filmPopup, ratingForm.getElement(), RenderPosition.BEFORE_END);
-    }
-    render(filmPopup, commentsComponent.getElement(), RenderPosition.BEFORE_END);
-    render(commentsComponent.getElement(), commentForm.getElement(), RenderPosition.BEFORE_END);
-    commentsComponent.getCommentsList(commentsComponent.getElement());
   }
 
   getTemplate() {
@@ -146,17 +148,10 @@ export default class FilmPopup extends AbstractComponent {
       isFavorite: this._isFilmFavorite,
       isInWatchList: this._isInWatchList,
       isWatched: this._isWatched
+    }, {
+      ratingForm: this._ratingForm.getTemplate(),
+      commentsComponent: this._commentsComponent.getTemplate(),
     });
-  }
-
-  renderFormElement() {
-    if (this._isWatched) {
-      this._ratingForm = new RatingForm(this._film);
-      this._commentsComponent = new Comments(this._film.comments);
-      this._commentForm = new CommentForm();
-
-      FilmPopup.renderPopup(this.popupRenderPlace, this._element, this._ratingForm, this._commentsComponent, this._commentForm);
-    }
   }
 
   setPopupCloseHandler(handler) {
@@ -184,9 +179,10 @@ export default class FilmPopup extends AbstractComponent {
   }
 
   setDeleteButtonClickHandler(handler) {
-    console.log('setDeleteButtonClickHandler', this.popupRenderPlace.querySelectorAll(`.film-details__comment-delete`));
-    if (this._commentsComponent) {
-      this._commentsComponent.setDeleteButtonClickHandler(handler);
-    }
+    this.getElement()
+      .querySelectorAll(`.film-details__comment-delete`)
+      .forEach((item) => {
+        item.addEventListener(`click`, handler);
+      });
   }
 }
