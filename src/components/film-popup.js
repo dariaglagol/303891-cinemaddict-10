@@ -2,9 +2,6 @@ import moment from "moment";
 import AbstractComponent from "./abstract-component";
 import RatingForm from "./rating-form";
 import Comments from "./comments";
-import CommentForm from "./comment-form";
-import {RenderPosition} from "../mocks/constants";
-import {render} from "../utilities/render";
 import {getFilmDuration} from "../utilities/utilities";
 
 const isCheckboxActive = (statement) => {
