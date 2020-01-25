@@ -179,7 +179,25 @@ export default class FilmPopup extends AbstractComponent {
     this.getElement()
       .querySelectorAll(`.film-details__comment-delete`)
       .forEach((item) => {
-        item.addEventListener(`click`, handler);
+        item.addEventListener(`click`, (evt) => {
+          evt.preventDefault();
+          const commentElement = evt.target.closest(`.film-details__comment`);
+          const deletedCommentId = parseInt(commentElement.dataset.commentId, 10);
+          handler(deletedCommentId);
+        });
       });
+  }
+
+  getFormData() {
+    const commentForm = this.getElement().querySelector(`.film-details__new-comment`);
+
+    const commentTextAreaValue = commentForm
+      .querySelector(`.film-details__comment-input`)
+      .value;
+    const commentEmoji = commentForm
+      .querySelector(`.film-details__add-emoji-label img`)
+      .getAttribute(`alt`);
+
+    return {commentTextAreaValue, commentEmoji};
   }
 }

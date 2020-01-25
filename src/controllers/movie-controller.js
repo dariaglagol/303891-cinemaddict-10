@@ -117,13 +117,9 @@ export default class MovieController {
       this._onDataChange(this, film.id, newData);
     });
 
-    this._filmPopup.setDeleteButtonClickHandler((evt) => {
-      evt.preventDefault();
-      const commentElement = evt.target.closest(`.film-details__comment`);
-      const deletedCommentId = parseInt(commentElement.dataset.commentId, 10);
-
+    this._filmPopup.setDeleteButtonClickHandler((id) => {
       const newData = Object.assign({}, film, {
-        comments: this._filmModel.removeComment(film, deletedCommentId)
+        comments: this._filmModel.removeComment(film, id)
       });
 
       this._mode = Mode.EDIT;
@@ -184,15 +180,13 @@ export default class MovieController {
     const isCmdOrCtrlPressed = evt.metaKey || evt.ctrlKey;
     if (evt.key === `Enter` && isCmdOrCtrlPressed) {
       evt.preventDefault();
-      const commentForm = this._filmPopup.getElement().querySelector(`.film-details__new-comment`);
 
-      const commentTextArea = commentForm.querySelector(`.film-details__comment-input`);
-      const commentEmoji = commentForm.querySelector(`.film-details__add-emoji-label img`);
+      const formData = this._filmPopup.getFormData();
 
       const newComment = {
-        text: commentTextArea.value,
+        text: formData.commentTextAreaValue,
         author: getRandomArrayItem(COMMENTS_AUTHORS),
-        emoji: commentEmoji.getAttribute(`alt`),
+        emoji: formData.commentEmoji,
         date: getRandomDate(),
         id: getRandomIntegerNumber(this._film.comments.length, 1000)
       };

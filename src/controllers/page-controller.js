@@ -37,7 +37,6 @@ export default class PageController {
 
   _createShowedFilmControllers(sortedFilms, filmsRenderPlace, counter = CARDS_COUNT, startPointSlice = 0) {
     const films = this._createFilms(sortedFilms, filmsRenderPlace, counter, this._onDataChange, this._onViewChange, startPointSlice);
-    console.log(films);
     this._showedFilmControllers = this._showedFilmControllers.concat(films);
   }
 
@@ -127,7 +126,6 @@ export default class PageController {
   _addFilms(button, films, filmsRenderPlace, slicePoint = 0) {
     button.setShowMoreButtonClickHandler(() => {
       const filmsLength = this._filmsModel.getFilms().length;
-      console.log(filmsLength, slicePoint, this._filmsModel.getFilms());
       slicePoint = slicePoint <= filmsLength - CARDS_COUNT
         ? slicePoint + CARDS_COUNT
         : TOTAL_FILM_COUNT;
