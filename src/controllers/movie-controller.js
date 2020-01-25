@@ -1,6 +1,7 @@
 import FilmCard from "../components/film-card";
 import FilmPopup from "../components/film-popup";
 import CommentForm from "../components/comment-form";
+import FilmModel from '../models/movies-model';
 import {remove, render, replaceElement} from "../utilities/render";
 import {CLICKABLE_ITEMS, RenderPosition, Mode, COMMENTS_AUTHORS} from "../mocks/constants";
 import {getRandomArrayItem, getRandomIntegerNumber, setCardClickEventListeners, getRandomDate} from "../utilities/utilities";
@@ -13,8 +14,10 @@ export default class MovieController {
 
     this._mode = Mode.DEFAULT;
 
-    this._onEscKeyDown = this._onEscKeyDown.bind(this);
-    this._setCommentSubmitHandler = this._setCommentSubmitHandler.bind(this);
+    this._setEscKeyDownHandler = this._setEscKeyDownHandler.bind(this);
+    this._commentSubmitHandler = this._commentSubmitHandler.bind(this);
+
+    this._filmModel = new FilmModel();
   }
 
   render(film) {
@@ -29,8 +32,7 @@ export default class MovieController {
     this._commentForm = new CommentForm();
 
     const onPopupCloseClick = () => {
-      document.removeEventListener(`keydown`, this._onEscKeyDown);
-      document.removeEventListener(`keydown`, this._setCommentSubmitHandler);
+      this.removeEventsListener();
       remove(this._filmPopup);
     };
 
@@ -45,8 +47,8 @@ export default class MovieController {
 
       this._filmPopup.setPopupCloseHandler(onPopupCloseClick);
 
-      document.addEventListener(`keydown`, this._onEscKeyDown);
-      document.addEventListener(`keydown`, this._setCommentSubmitHandler);
+      document.addEventListener(`keydown`, this._setEscKeyDownHandler);
+      document.addEventListener(`keydown`, this._commentSubmitHandler);
     };
 
     this._filmCard.setWatchListButtonClickHandler((evt) => {
@@ -56,7 +58,7 @@ export default class MovieController {
         isInWatchList: !film.isInWatchList,
       });
 
-      this._onDataChange(this, newData, film);
+      this._onDataChange(this, film.id, newData);
     });
 
     this._filmCard.setWatchedButtonClickHandler((evt) => {
@@ -66,7 +68,7 @@ export default class MovieController {
         isWatched: !film.isWatched,
       });
 
-      this._onDataChange(this, newData, film);
+      this._onDataChange(this, film.id, newData);
     });
 
     this._filmCard.setFavoriteButtonClickHandler((evt) => {
@@ -76,7 +78,7 @@ export default class MovieController {
         isFavorite: !film.isFavorite,
       });
 
-      this._onDataChange(this, newData, film);
+      this._onDataChange(this, film.id, newData);
     });
 
     this._filmPopup.setWatchListButtonClickHandler((evt) => {
@@ -88,7 +90,7 @@ export default class MovieController {
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, newData, film);
+      this._onDataChange(this, film.id, newData);
     });
 
     this._filmPopup.setWatchedButtonClickHandler((evt) => {
@@ -100,7 +102,7 @@ export default class MovieController {
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, newData, film);
+      this._onDataChange(this, film.id, newData);
     });
 
     this._filmPopup.setFavoriteButtonClickHandler((evt) => {
@@ -112,21 +114,21 @@ export default class MovieController {
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, newData, film);
+      this._onDataChange(this, film.id, newData);
     });
 
     this._filmPopup.setDeleteButtonClickHandler((evt) => {
       evt.preventDefault();
       const commentElement = evt.target.closest(`.film-details__comment`);
-      const deletedCommentId = parseInt(commentElement.getAttribute(`id`), 10);
+      const deletedCommentId = parseInt(commentElement.dataset.commentId, 10);
 
       const newData = Object.assign({}, film, {
-        comments: film.comments.slice().filter((comment) => comment.id !== deletedCommentId)
+        comments: this._filmModel.removeComment(film, deletedCommentId)
       });
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, newData, film);
+      this._onDataChange(this, film.id, newData);
     });
 
     setCardClickEventListeners(CLICKABLE_ITEMS, this._filmCard, onFilmCardClick);
@@ -146,6 +148,7 @@ export default class MovieController {
   _replacePopup(replaceableElement) {
     this._onViewChange();
     replaceElement(this._filmPopup.getElement(), replaceableElement);
+    this.addEventsListener();
     this._renderCommentsForm();
     this._mode = Mode.DEFAULT;
   }
@@ -158,23 +161,28 @@ export default class MovieController {
     }
   }
 
-  removeEscDownListener() {
-    document.removeEventListener(`keydown`, this._onEscKeyDown);
-    document.removeEventListener(`keydown`, this._setCommentSubmitHandler);
+  removeEventsListener() {
+    document.removeEventListener(`keydown`, this._setEscKeyDownHandler);
+    document.removeEventListener(`keydown`, this._commentSubmitHandler);
   }
 
-  _onEscKeyDown(evt) {
+  addEventsListener() {
+    document.addEventListener(`keydown`, this._setEscKeyDownHandler);
+    document.addEventListener(`keydown`, this._commentSubmitHandler);
+  }
+
+  _setEscKeyDownHandler(evt) {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
 
     if (isEscKey) {
-      document.removeEventListener(`keydown`, this._onEscKeyDown);
-      document.removeEventListener(`keydown`, this._setCommentSubmitHandler);
+      this.removeEventsListener();
       remove(this._filmPopup);
     }
   }
 
-  _setCommentSubmitHandler(evt) {
-    if (evt.key === `Enter` && evt.metaKey || evt.key === `Enter` && evt.ctrlKey) {
+  _commentSubmitHandler(evt) {
+    const isCmdOrCtrlPressed = evt.metaKey || evt.ctrlKey;
+    if (evt.key === `Enter` && isCmdOrCtrlPressed) {
       evt.preventDefault();
       const commentForm = this._filmPopup.getElement().querySelector(`.film-details__new-comment`);
 
@@ -189,15 +197,15 @@ export default class MovieController {
         id: getRandomIntegerNumber(this._film.comments.length, 1000)
       };
 
-      const newCommentsArray = [].concat(this._film.comments, [newComment]);
+      const newComments = [].concat(this._film.comments, [newComment]);
 
       const newData = Object.assign({}, this._film, {
-        comments: newCommentsArray
+        comments: newComments
       });
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, newData, this._film);
+      this._onDataChange(this, this._film.id, newData);
     }
   }
 
@@ -209,6 +217,5 @@ export default class MovieController {
   destroy() {
     remove(this._filmCard);
     remove(this._filmPopup);
-    document.addEventListener(`keydown`, this._onEscKeyDown);
   }
 }

@@ -1,4 +1,4 @@
-import {FiltersNames} from '../mocks/constants.js';
+import {FiltersName} from '../mocks/constants.js';
 
 const getWatchListFilms = (films) => {
   return films.filter((film) => film.isInWatchList);
@@ -18,13 +18,13 @@ const getFavoritesFilms = (films) => {
 
 export const getFilmsByFilter = (films, filter) => {
   switch (filter) {
-    case FiltersNames.ALL:
+    case FiltersName.ALL:
       return getAllFilms(films);
-    case FiltersNames.WATCHLIST:
+    case FiltersName.WATCHLIST:
       return getWatchListFilms(films);
-    case FiltersNames.HISTORY:
+    case FiltersName.HISTORY:
       return getWatchedFilms(films);
-    case FiltersNames.FAVORITES:
+    case FiltersName.FAVORITES:
       return getFavoritesFilms(films);
   }
 

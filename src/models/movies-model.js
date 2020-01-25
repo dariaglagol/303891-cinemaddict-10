@@ -1,11 +1,11 @@
-import {FiltersNames} from "../mocks/constants";
+import {FiltersName} from "../mocks/constants";
 import {getFilmsByFilter} from "../utilities/filter";
 
 export default class MoviesModel {
   constructor() {
     this._films = [];
 
-    this._activeFilterType = FiltersNames.ALL;
+    this._activeFilterType = FiltersName.ALL;
     this._filterChangeHandlers = [];
   }
 
@@ -40,5 +40,9 @@ export default class MoviesModel {
 
   setFilterChangeHandler(handler) {
     this._filterChangeHandlers.push(handler);
+  }
+
+  removeComment(film, id) {
+    return film.comments.filter((comment) => comment.id !== id);
   }
 }

@@ -1,5 +1,5 @@
 import Menu from '../components/menu';
-import {FiltersNames} from '../mocks/constants';
+import {FiltersName} from '../mocks/constants';
 import {render} from '../utilities/render';
 import {generateFilters} from "../mocks/filters";
 import {RenderPosition} from '../mocks/constants';
@@ -9,7 +9,7 @@ export default class FilterController {
     this._container = container;
     this._filmsModel = filmsModel;
 
-    this._activeFilterType = FiltersNames.ALL;
+    this._activeFilterType = FiltersName.ALL;
     const filters = generateFilters(this._filmsModel.getAllFilms());
 
     this._menuComponent = new Menu(this._activeFilterType, filters);
@@ -24,6 +24,6 @@ export default class FilterController {
 
   _onFilterChange(filterType) {
     this._filmsModel.setFilter(filterType);
-    this._activeFilterType = FiltersNames[filterType];
+    this._activeFilterType = FiltersName[filterType];
   }
 }

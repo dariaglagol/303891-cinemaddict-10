@@ -37,6 +37,7 @@ export default class PageController {
 
   _createShowedFilmControllers(sortedFilms, filmsRenderPlace, counter = CARDS_COUNT, startPointSlice = 0) {
     const films = this._createFilms(sortedFilms, filmsRenderPlace, counter, this._onDataChange, this._onViewChange, startPointSlice);
+    console.log(films);
     this._showedFilmControllers = this._showedFilmControllers.concat(films);
   }
 
@@ -46,11 +47,10 @@ export default class PageController {
   }
 
   _renderButton(renderPlace, button, sortedFilms) {
-    let startPointSlice = 0;
     const showMoreButton = this._container.querySelector(`.films-list__show-more`);
     if (!showMoreButton) {
       render(renderPlace, button.getElement(), RenderPosition.BEFORE_END);
-      this._addFilms(this._showMoreButton, startPointSlice, sortedFilms, this._filmsRenderPlace);
+      this._addFilms(this._showMoreButton, sortedFilms, this._filmsRenderPlace);
     }
   }
 
@@ -82,7 +82,7 @@ export default class PageController {
 
       this._onSortTypeChange(this._filmsModel.getFilms(), this._filmsRenderPlace, this._buttonRenderPlace);
 
-      if (this._generatedFilms.length > CARDS_COUNT) {
+      if (this.shouldButtonRender()) {
         this._renderButton(this._buttonRenderPlace, this._showMoreButton, this._filmsModel.getFilms());
       } else {
         remove(this._showMoreButton);
@@ -90,16 +90,12 @@ export default class PageController {
     }
   }
 
-  _onDataChange(movieController, newFilm, oldFilm) {
-    const index = this._generatedFilms.findIndex((it) => it === oldFilm);
+  _onDataChange(movieController, id, film) {
+    const isSuccess = this._filmsModel.refreshFilm(id, film);
 
-    if (index === -1) {
-      return;
+    if (isSuccess) {
+      movieController.render(film);
     }
-
-    this._generatedFilms = [].concat(this._generatedFilms.slice(0, index), newFilm, this._generatedFilms.slice(index + 1));
-
-    movieController.render(this._generatedFilms[index]);
   }
 
   _createFilms(films, filmRenderPlace, sliceCount, onDataChange, onViewChange, slicePoint = 0) {
@@ -113,7 +109,7 @@ export default class PageController {
 
   _onViewChange() {
     this._showedFilmControllers.forEach((it) => it.setDefaultView());
-    this._showedFilmControllers.forEach((it) => it.removeEscDownListener());
+    this._showedFilmControllers.forEach((it) => it.removeEventsListener());
   }
 
   _onSortTypeChange(films, filmsRenderPlace, buttonRenderPlace) {
@@ -128,9 +124,10 @@ export default class PageController {
     });
   }
 
-  _addFilms(button, slicePoint, films, filmsRenderPlace) {
+  _addFilms(button, films, filmsRenderPlace, slicePoint = 0) {
     button.setShowMoreButtonClickHandler(() => {
       const filmsLength = this._filmsModel.getFilms().length;
+      console.log(filmsLength, slicePoint, this._filmsModel.getFilms());
       slicePoint = slicePoint <= filmsLength - CARDS_COUNT
         ? slicePoint + CARDS_COUNT
         : TOTAL_FILM_COUNT;
@@ -153,10 +150,14 @@ export default class PageController {
     const films = this._filmsModel.getFilms();
     this._createShowedFilmControllers(films, this._filmsRenderPlace);
 
-    if (this._filmsModel.getFilms().length > CARDS_COUNT) {
+    if (this.shouldButtonRender()) {
       this._renderButton(this._buttonRenderPlace, this._showMoreButton, films);
     } else if (this._filmsModel.getFilms().length <= CARDS_COUNT) {
       remove(this._showMoreButton);
     }
+  }
+
+  shouldButtonRender() {
+    return this._filmsModel.getFilms().length > CARDS_COUNT;
   }
 }
