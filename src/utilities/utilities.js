@@ -1,6 +1,6 @@
 import moment from "moment";
 import momentDurationFormatSetup from "moment-duration-format";
-import {COMMENTS_TIME_RANGE} from "../mocks/constants";
+import {COMMENTS_TIME_RANGE, HIDDEN_CLASS} from "../mocks/constants";
 
 momentDurationFormatSetup(moment);
 
@@ -56,4 +56,12 @@ const getRandomDate = () => {
   return targetDate;
 };
 
-export {setCardClickEventListeners, getRandomDate, getFilmDuration, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};
+const showElement = (element) => {
+  element.classList.add(HIDDEN_CLASS);
+};
+
+const hideElement = (element) => {
+  element.classList.remove(HIDDEN_CLASS);
+};
+
+export {setCardClickEventListeners, showElement, hideElement, getRandomDate, getFilmDuration, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};

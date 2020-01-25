@@ -5,6 +5,7 @@ import NoData from "../components/no-data";
 import MovieController from './movie-controller';
 import Sorting from "../components/sorting";
 import {remove, render} from "../utilities/render";
+import {showElement, hideElement} from "../utilities/utilities";
 import {
   CARDS_COUNT,
   RenderPosition,
@@ -157,5 +158,19 @@ export default class PageController {
 
   shouldButtonRender() {
     return this._filmsModel.getFilms().length > CARDS_COUNT;
+  }
+
+  hideMainPage() {
+    const sort = this._container.querySelector(`.sort`);
+    const filmList = this._container.querySelector(`.films`);
+    showElement(sort);
+    showElement(filmList);
+  }
+
+  showMainPage() {
+    const sort = this._container.querySelector(`.sort`);
+    const filmList = this._container.querySelector(`.films`);
+    hideElement(sort);
+    hideElement(filmList);
   }
 }

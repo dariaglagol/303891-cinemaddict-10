@@ -1,4 +1,5 @@
 import {createElement} from "../utilities/render";
+import {HIDDEN_CLASS} from '../mocks/constants';
 
 export default class AbstractComponent {
   constructor() {
@@ -23,5 +24,20 @@ export default class AbstractComponent {
 
   removeElement() {
     this._element = null;
+  }
+
+  show() {
+    console.log(this._element);
+    if (this._element) {
+      console.log(this._element);
+      this._element.classList.remove(HIDDEN_CLASS);
+    }
+  }
+
+  hide() {
+    if (this._element) {
+      console.log('hide', this._element);
+      this._element.classList.add(HIDDEN_CLASS);
+    }
   }
 }

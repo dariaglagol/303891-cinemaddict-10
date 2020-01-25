@@ -3,6 +3,7 @@ import PageController from "./controllers/page-controller";
 import FilterController from "./controllers/filter-controller";
 import Footer from "./components/footer";
 import MoviesModel from "./models/movies-model";
+import Statistic from "./components/statistic";
 import {RenderPosition, TOTAL_FILM_COUNT} from './mocks/constants';
 import {generateFilms} from "./mocks/film";
 import {generateFilters} from './mocks/filters';
@@ -15,6 +16,7 @@ const mainNode = bodyNode.querySelector(`.main`);
 const generatedFilms = generateFilms(TOTAL_FILM_COUNT);
 
 const filmModel = new MoviesModel();
+const statistic = new Statistic();
 
 filmModel.setFilm(generatedFilms);
 
@@ -26,5 +28,7 @@ const filterController = new FilterController(mainNode, filmModel);
 render(headerNode, new UserProfile(watchedFilms).getElement(), RenderPosition.BEFORE_END);
 filterController.render();
 pageController.render();
+render(mainNode, statistic.getElement(), RenderPosition.BEFORE_END);
+filterController.setStatisticState();
 render(bodyNode, new Footer(generatedFilms.length).getElement(), RenderPosition.BEFORE_END);
 

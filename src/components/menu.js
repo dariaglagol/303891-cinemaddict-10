@@ -63,4 +63,10 @@ export default class Menu extends AbstractComponent {
       .querySelector(`.main-navigation__item--active`)
       .classList.remove(`main-navigation__item--active`);
   }
+
+  setStatsShowHandler(handler) {
+    this.getElement()
+      .querySelector(`.main-navigation__item--additional`)
+      .addEventListener(`click`, handler);
+  }
 }
