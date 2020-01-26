@@ -50,6 +50,13 @@ const POSTERS = [
   `the-man-with-the-golden-arm.jpg`
 ];
 
+const FiltersName = {
+  ALL: `all movies`,
+  WATCHLIST: `watchlist`,
+  HISTORY: `history`,
+  FAVORITES: `favorites`
+};
+
 const INITIAL_FILTERS_STATE = {
   'all movies': null,
   'watchlist': 0,
@@ -179,7 +186,7 @@ const SortTypeName = {
 };
 
 const SortTypeCallbacks = {
-  [SortTypeName.DATE]: (a, b) => b.releaseYear - a.releaseYear,
+  [SortTypeName.DATE]: (a, b) => b.releaseDate - a.releaseDate,
   [SortTypeName.RATING]: (a, b) => b.rating - a.rating,
   [SortTypeName.DEFAULT]: () => {}
 };
@@ -189,4 +196,4 @@ const Mode = {
   EDIT: `edit`,
 };
 
-export {RenderPosition, Mode, SortTypeName, SortTypeCallbacks, TopFilmType, CLICKABLE_ITEMS, MAX_FILM_SCORE, MAX_AGE_RATING, COMMENTS_EMODJIES, COMMENTS_COUNT, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS, Year, MAX_VALUE, Duration, Rating, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};
+export {RenderPosition, FiltersName, Mode, SortTypeName, SortTypeCallbacks, TopFilmType, CLICKABLE_ITEMS, MAX_FILM_SCORE, MAX_AGE_RATING, COMMENTS_EMODJIES, COMMENTS_COUNT, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS, Year, MAX_VALUE, Duration, Rating, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};

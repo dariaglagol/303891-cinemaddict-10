@@ -2,16 +2,13 @@ import moment from "moment";
 import AbstractComponent from "./abstract-component";
 import RatingForm from "./rating-form";
 import Comments from "./comments";
-import CommentForm from "./comment-form";
-import {RenderPosition} from "../mocks/constants";
-import {render} from "../utilities/render";
 import {getFilmDuration} from "../utilities/utilities";
 
 const isCheckboxActive = (statement) => {
   return statement ? `checked` : ``;
 };
 
-const createFilmPopupTemplate = (film, options) => {
+const createFilmPopupTemplate = (film, options, nodes) => {
   const {
     filmName,
     rating,
@@ -33,6 +30,11 @@ const createFilmPopupTemplate = (film, options) => {
     isInWatchList
   } = options;
 
+  const {
+    ratingForm,
+    commentsComponent
+  } = nodes;
+
   const preparedReleaseDate = moment(releaseDate).format(`DD MMMM YYYY`);
 
   const watchedLabel = isWatched ? `Already watched` : `Add to watched`;
@@ -40,6 +42,8 @@ const createFilmPopupTemplate = (film, options) => {
   const favoritesLabel = isFavorite ? `Remove from favorites` : `Add to favorites`;
 
   const preparedMovieDuration = getFilmDuration(movieDuration);
+
+  const renderFormTemplate = isWatched ? ratingForm : ``;
 
   return (
     `<section class="film-details">
@@ -116,29 +120,24 @@ const createFilmPopupTemplate = (film, options) => {
             <label for="favorite" class="film-details__control-label film-details__control-label--favorite">${favoritesLabel}</label>
           </section>
         </div>
+        ${renderFormTemplate}
+        ${commentsComponent}
       </form>
     </section>`
   );
 };
 
 export default class FilmPopup extends AbstractComponent {
-  constructor(film, popupRenderPlace) {
+  constructor(film) {
     super();
     this._film = film;
-    this.popupRenderPlace = popupRenderPlace;
+
+    this._ratingForm = new RatingForm(this._film);
+    this._commentsComponent = new Comments(this._film.comments);
 
     this._isFilmFavorite = this._film.isFavorite;
     this._isInWatchList = this._film.isInWatchList;
     this._isWatched = this._film.isWatched;
-  }
-
-  static renderPopup(popupRenderPlace, filmPopup, ratingForm, commentsComponent, commentForm) {
-    if (ratingForm) {
-      render(filmPopup, ratingForm.getElement(), RenderPosition.BEFORE_END);
-    }
-    render(filmPopup, commentsComponent.getElement(), RenderPosition.BEFORE_END);
-    render(commentsComponent.getElement(), commentForm.getElement(), RenderPosition.BEFORE_END);
-    commentsComponent.getCommentsList(commentsComponent.getElement());
   }
 
   getTemplate() {
@@ -146,17 +145,10 @@ export default class FilmPopup extends AbstractComponent {
       isFavorite: this._isFilmFavorite,
       isInWatchList: this._isInWatchList,
       isWatched: this._isWatched
+    }, {
+      ratingForm: this._ratingForm.getTemplate(),
+      commentsComponent: this._commentsComponent.getTemplate(),
     });
-  }
-
-  renderFormElement() {
-    if (this._isWatched) {
-      const ratingForm = new RatingForm(this._film);
-      const commentsComponent = new Comments(this._film.comments);
-      const commentForm = new CommentForm();
-
-      FilmPopup.renderPopup(this.popupRenderPlace, this._element, ratingForm, commentsComponent, commentForm);
-    }
   }
 
   setPopupCloseHandler(handler) {
@@ -181,5 +173,29 @@ export default class FilmPopup extends AbstractComponent {
     this.getElement()
       .querySelector(`.film-details__control-label--favorite`)
       .addEventListener(`click`, handler);
+  }
+
+  setDeleteButtonClickHandler(handler) {
+    this.getElement()
+      .querySelector(`.film-details__comments-list`)
+      .addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+        const commentElement = evt.target.closest(`.film-details__comment`);
+        const deletedCommentId = parseInt(commentElement.dataset.commentId, 10);
+        handler(deletedCommentId);
+      });
+  }
+
+  getFormData() {
+    const commentForm = this.getElement().querySelector(`.film-details__new-comment`);
+
+    const commentTextAreaValue = commentForm
+      .querySelector(`.film-details__comment-input`)
+      .value;
+    const commentEmoji = commentForm
+      .querySelector(`.film-details__add-emoji-label img`)
+      .getAttribute(`alt`);
+
+    return {commentTextAreaValue, commentEmoji};
   }
 }

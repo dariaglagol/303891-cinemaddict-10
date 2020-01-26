@@ -6,15 +6,16 @@ const createCommentTemplate = (comment) => {
     emoji,
     text,
     author,
-    date
+    date,
+    id
   } = comment;
 
   const formatDate = moment(date).format(`YYYY/MM/DD HH:mm`);
 
   return (
-    `<li class="film-details__comment">
+    `<li class="film-details__comment" data-comment-id=${id}>
       <span class="film-details__comment-emoji">
-        <img src="./images/emoji/${emoji}.png" width="55" height="55" alt="emoji">
+        <img src="./images/emoji/${emoji}.png" width="55" height="55" alt="${emoji}">
       </span>
       <div>
         <p class="film-details__comment-text">${text}</p>

@@ -3,7 +3,7 @@ import {COMMENTS_EMODJIES} from '../mocks/constants';
 import {createElement} from '../utilities/render';
 
 const getEmojiLabel = (emoji) => {
-  return (`<img src="images/emoji/${emoji}.png" width="55" height="55" alt="emoji">`);
+  return (`<img src="images/emoji/${emoji}.png" width="55" height="55" alt="${emoji}">`);
 };
 
 const getEmojiTemplate = () => {
@@ -52,6 +52,7 @@ export default class CommentForm extends AbstractComponent {
 
   _subscribeOnEvents() {
     const emojiLabel = this.getElement().querySelector(`.film-details__add-emoji-label`);
+
     this.getElement()
       .querySelectorAll(`.film-details__emoji-label`)
       .forEach((element) => {

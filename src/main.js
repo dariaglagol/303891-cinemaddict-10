@@ -1,7 +1,8 @@
 import UserProfile from './components/user-profile';
-import Menu from './components/menu';
 import PageController from "./controllers/page-controller";
+import FilterController from "./controllers/filter-controller";
 import Footer from "./components/footer";
+import MoviesModel from "./models/movies-model";
 import {RenderPosition, TOTAL_FILM_COUNT} from './mocks/constants';
 import {generateFilms} from "./mocks/film";
 import {generateFilters} from './mocks/filters';
@@ -11,16 +12,19 @@ const bodyNode = document.querySelector(`body`);
 const headerNode = bodyNode.querySelector(`.header`);
 const mainNode = bodyNode.querySelector(`.main`);
 
-const pageController = new PageController(mainNode);
-
 const generatedFilms = generateFilms(TOTAL_FILM_COUNT);
 
-const filters = generateFilters(generatedFilms);
+const filmModel = new MoviesModel();
 
-const watchedFilms = filters.history;
+filmModel.setFilm(generatedFilms);
+
+const watchedFilms = generateFilters(filmModel.getAllFilms()).history;
+
+const filterController = new FilterController(mainNode, filmModel);
+const pageController = new PageController(mainNode, filmModel, filterController);
 
 render(headerNode, new UserProfile(watchedFilms).getElement(), RenderPosition.BEFORE_END);
-render(mainNode, new Menu(generatedFilms, filters).getElement(), RenderPosition.AFTER_BEGIN);
-pageController.render(generatedFilms);
+filterController.render(filmModel);
+pageController.render();
 render(bodyNode, new Footer(generatedFilms.length).getElement(), RenderPosition.BEFORE_END);
 

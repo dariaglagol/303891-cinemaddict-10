@@ -53,7 +53,7 @@ const generateReleaseDate = () => {
   return new Date(year, month, day);
 };
 
-const generateFilm = () => {
+const generateFilm = (id) => {
   return {
     filmName: getRandomArrayItem(FILM_NAMES),
     rating: getRating(),
@@ -70,14 +70,15 @@ const generateFilm = () => {
     actors: generateActors(),
     writers: generateWriters(),
     director: getRandomArrayItem(DIRECTORS),
-    country: getRandomArrayItem(COUTRIES)
+    country: getRandomArrayItem(COUTRIES),
+    id
   };
 };
 
 const generateFilms = (count) => {
   return new Array(count)
     .fill(``)
-    .map(generateFilm);
+    .map((item, index) => generateFilm(index));
 };
 
 export {generateFilm, generateFilms};
