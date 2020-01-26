@@ -6,7 +6,7 @@ import MoviesModel from "./models/movies-model";
 import Statistic from "./components/statistic";
 import {RenderPosition, TOTAL_FILM_COUNT, USER_STATUSES} from './mocks/constants';
 import {generateFilms} from "./mocks/film";
-import {generateFilters} from './mocks/filters';
+import {getWatchedFilms} from './utilities/utilities';
 import {render} from './utilities/render';
 
 const bodyNode = document.querySelector(`body`);
@@ -16,20 +16,22 @@ const mainNode = bodyNode.querySelector(`.main`);
 const generatedFilms = generateFilms(TOTAL_FILM_COUNT);
 
 const filmModel = new MoviesModel();
+filmModel.setFilm(generatedFilms);
 
-const watchedFilms = generateFilters(filmModel.getAllFilms()).history;
+const watchedFilms = getWatchedFilms(filmModel.getAllFilms());
 
 const userStatusesKeys = USER_STATUSES.keys();
-
 const userStatusKey = [...userStatusesKeys].find((statusKey) => {
   return watchedFilms < parseInt(statusKey, 10);
 });
-
 const userStatus = USER_STATUSES.get(userStatusKey);
 
-const statistic = new Statistic(userStatus);
-
-filmModel.setFilm(generatedFilms);
+const statistic = new Statistic();
+const userStatisticData = {
+  userStatus,
+  filmModel
+};
+statistic.getUserStatistic(userStatisticData);
 
 const pageController = new PageController(mainNode, filmModel);
 const filterController = new FilterController(mainNode, filmModel);

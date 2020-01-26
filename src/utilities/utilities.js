@@ -1,6 +1,7 @@
 import moment from "moment";
 import momentDurationFormatSetup from "moment-duration-format";
 import {COMMENTS_TIME_RANGE, HIDDEN_CLASS} from "../mocks/constants";
+import {generateFilters} from "../mocks/filters";
 
 momentDurationFormatSetup(moment);
 
@@ -42,6 +43,12 @@ const getFilmDuration = (movieDuration) => {
   return duration;
 };
 
+const getFilmTotalDuration = (movieDuration) => {
+  const duration = moment.duration(movieDuration, `minutes`).format(`h m`);
+
+  return duration;
+};
+
 const getRandomDate = () => {
   const targetDate = new Date();
   const sign = getRandomBoolean() ? 1 : -1;
@@ -64,4 +71,8 @@ const hideElement = (element) => {
   element.classList.remove(HIDDEN_CLASS);
 };
 
-export {setCardClickEventListeners, showElement, hideElement, getRandomDate, getFilmDuration, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};
+const getWatchedFilms = (films) => {
+  return generateFilters(films).history;
+};
+
+export {setCardClickEventListeners, getFilmTotalDuration, getWatchedFilms, showElement, hideElement, getRandomDate, getFilmDuration, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};

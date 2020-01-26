@@ -27,16 +27,13 @@ export default class AbstractComponent {
   }
 
   show() {
-    console.log(this._element);
     if (this._element) {
-      console.log(this._element);
       this._element.classList.remove(HIDDEN_CLASS);
     }
   }
 
   hide() {
     if (this._element) {
-      console.log('hide', this._element);
       this._element.classList.add(HIDDEN_CLASS);
     }
   }

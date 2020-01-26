@@ -22,7 +22,7 @@ export default class FilterController {
     this._onFilterChange = this._onFilterChange.bind(this);
     this._onStatsClick = this._onStatsClick.bind(this);
 
-    this._isStatsShow = false;
+    this._isStatsShow = true;
   }
 
   render() {
@@ -44,11 +44,11 @@ export default class FilterController {
     if (this._isStatsShow) {
       this._isStatsShow = false;
       this._statistic.hide();
-      this._pageController.hideMainPage();
+      this._pageController.showMainPage();
       return;
     }
     this._isStatsShow = true;
-    this._statistic.hide();
-    this._pageController.showMainPage();
+    this._statistic.show();
+    this._pageController.hideMainPage();
   }
 }
