@@ -39,9 +39,9 @@ export default class MovieController {
         render(this._popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
         this._renderCommentsForm();
       }
-
-      this.addEventsListener();
     };
+
+    this.addEventsListener();
 
     this._filmPopup.setPopupCloseHandler((evt) => {
       evt.preventDefault();
