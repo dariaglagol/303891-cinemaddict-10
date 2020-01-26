@@ -44,7 +44,6 @@ export default class MovieController {
     };
 
     this._filmPopup.setPopupCloseHandler((evt) => {
-      console.log('setPopupCloseHandler', evt);
       evt.preventDefault();
       this.removeEventsListener();
       remove(this._filmPopup);
@@ -117,8 +116,6 @@ export default class MovieController {
     });
 
     this._filmPopup.setDeleteButtonClickHandler((id) => {
-      console.log('setDeleteButtonClickHandler', id);
-
       const newData = Object.assign({}, film, {
         comments: this._filmModel.removeComment(film, id)
       });

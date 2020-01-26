@@ -177,15 +177,12 @@ export default class FilmPopup extends AbstractComponent {
 
   setDeleteButtonClickHandler(handler) {
     this.getElement()
-      .querySelectorAll(`.film-details__comment-delete`)
-      .forEach((item) => {
-        item.addEventListener(`click`, (evt) => {
-          console.log('setDeleteButtonClickHandler', evt);
-          evt.preventDefault();
-          const commentElement = evt.target.closest(`.film-details__comment`);
-          const deletedCommentId = parseInt(commentElement.dataset.commentId, 10);
-          handler(deletedCommentId);
-        });
+      .querySelector(`.film-details__comments-list`)
+      .addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+        const commentElement = evt.target.closest(`.film-details__comment`);
+        const deletedCommentId = parseInt(commentElement.dataset.commentId, 10);
+        handler(deletedCommentId);
       });
   }
 

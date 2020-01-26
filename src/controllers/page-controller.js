@@ -10,8 +10,7 @@ import {
   RenderPosition,
   TopFilmType,
   TOTAL_FILM_COUNT,
-  RATES_CARDS_COUNT,
-  SortTypeCallbacks
+  RATES_CARDS_COUNT
 } from "../mocks/constants";
 
 export default class PageController {
