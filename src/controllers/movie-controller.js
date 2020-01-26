@@ -31,11 +31,6 @@ export default class MovieController {
     this._filmPopup = new FilmPopup(film);
     this._commentForm = new CommentForm();
 
-    const onPopupCloseClick = () => {
-      this.removeEventsListener();
-      remove(this._filmPopup);
-    };
-
     const onFilmCardClick = () => {
       const replaceableElement = this._popupRenderPlace.querySelector(`.film-details`);
       if (replaceableElement) {
@@ -45,11 +40,15 @@ export default class MovieController {
         this._renderCommentsForm();
       }
 
-      this._filmPopup.setPopupCloseHandler(onPopupCloseClick);
-
-      document.addEventListener(`keydown`, this._setEscKeyDownHandler);
-      document.addEventListener(`keydown`, this._commentSubmitHandler);
+      this.addEventsListener();
     };
+
+    this._filmPopup.setPopupCloseHandler((evt) => {
+      console.log('setPopupCloseHandler', evt);
+      evt.preventDefault();
+      this.removeEventsListener();
+      remove(this._filmPopup);
+    });
 
     this._filmCard.setWatchListButtonClickHandler((evt) => {
       evt.preventDefault();
@@ -118,6 +117,8 @@ export default class MovieController {
     });
 
     this._filmPopup.setDeleteButtonClickHandler((id) => {
+      console.log('setDeleteButtonClickHandler', id);
+
       const newData = Object.assign({}, film, {
         comments: this._filmModel.removeComment(film, id)
       });

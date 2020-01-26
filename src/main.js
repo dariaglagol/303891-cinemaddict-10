@@ -20,11 +20,11 @@ filmModel.setFilm(generatedFilms);
 
 const watchedFilms = generateFilters(filmModel.getAllFilms()).history;
 
-const pageController = new PageController(mainNode, filmModel);
 const filterController = new FilterController(mainNode, filmModel);
+const pageController = new PageController(mainNode, filmModel, filterController);
 
 render(headerNode, new UserProfile(watchedFilms).getElement(), RenderPosition.BEFORE_END);
-filterController.render();
+filterController.render(filmModel);
 pageController.render();
 render(bodyNode, new Footer(generatedFilms.length).getElement(), RenderPosition.BEFORE_END);
 
