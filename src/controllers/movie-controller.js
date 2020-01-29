@@ -34,14 +34,13 @@ export default class MovieController {
       const replaceableElement = this._popupRenderPlace.querySelector(`.film-details`);
       if (replaceableElement) {
         this._replacePopup(replaceableElement);
+        this.setEventsListener();
       } else {
         render(this._popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
         this._renderCommentsForm();
         this.setEventsListener();
       }
     };
-
-    this.setEventsListener();
 
     setCardClickEventListeners(CLICKABLE_ITEMS, this._filmCard, onFilmCardClick);
 
@@ -79,6 +78,7 @@ export default class MovieController {
   }
 
   setEventsListener() {
+    console.log('set listener');
     document.addEventListener(`keydown`, this._setEscKeyDownHandler);
     document.addEventListener(`keydown`, this._commentSubmitHandler);
 
