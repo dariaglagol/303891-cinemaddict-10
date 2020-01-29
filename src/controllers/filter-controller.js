@@ -6,7 +6,6 @@ import {RenderPosition} from '../mocks/constants';
 
 export default class FilterController {
   constructor(container) {
-  // constructor(container, filmsModel) {
     this._container = container;
     this._activeFilterType = FiltersName.ALL;
     this._onFilterChange = this._onFilterChange.bind(this);
