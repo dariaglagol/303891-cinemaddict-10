@@ -196,4 +196,24 @@ const Mode = {
   EDIT: `edit`,
 };
 
-export {RenderPosition, FiltersName, Mode, SortTypeName, SortTypeCallbacks, TopFilmType, CLICKABLE_ITEMS, MAX_FILM_SCORE, MAX_AGE_RATING, COMMENTS_EMODJIES, COMMENTS_COUNT, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS, Year, MAX_VALUE, Duration, Rating, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};
+const ChartBackgroundColor = [
+  `rgb(255, 99, 132)`,
+  `rgb(54, 162, 235)`,
+  `rgb(255, 206, 86)`,
+  `rgb(75, 192, 192)`,
+  `rgb(153, 102, 255)`,
+  `rgb(255, 159, 64)`,
+  `rgb(28, 107, 114)`,
+  `rgb(190, 245, 116)`,
+];
+
+const HIDDEN_CLASS = `visually-hidden`;
+
+const PeriodForMoment = {
+  'today': `days`,
+  'week': `weeks`,
+  'month': `months`,
+  'year': `years`,
+};
+
+export {RenderPosition, PeriodForMoment, ChartBackgroundColor, HIDDEN_CLASS, FiltersName, Mode, SortTypeName, SortTypeCallbacks, TopFilmType, CLICKABLE_ITEMS, MAX_FILM_SCORE, MAX_AGE_RATING, COMMENTS_EMODJIES, COMMENTS_COUNT, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS, Year, MAX_VALUE, Duration, Rating, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};

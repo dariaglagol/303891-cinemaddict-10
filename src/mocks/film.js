@@ -1,3 +1,4 @@
+import moment from "moment";
 import {
   MAX_AGE_RATING,
   Year,
@@ -53,7 +54,27 @@ const generateReleaseDate = () => {
   return new Date(year, month, day);
 };
 
+const generateWatchDate = (isWatched) => {
+  if (isWatched) {
+    const year = getRandomIntegerNumber(2017, 2020);
+    const month = getRandomIntegerNumber(0, 11);
+    const day = getRandomIntegerNumber(1, 31);
+
+    const date = new Date(year, month, day);
+    const todayDate = new Date();
+
+    if (moment(date).isSameOrAfter(todayDate)) {
+      generateWatchDate(isWatched);
+    }
+
+    return date;
+  }
+
+  return null;
+};
+
 const generateFilm = (id) => {
+  const isWatched = getRandomBoolean();
   return {
     filmName: getRandomArrayItem(FILM_NAMES),
     rating: getRating(),
@@ -64,14 +85,15 @@ const generateFilm = (id) => {
     comments: generateComments(COMMENTS_COUNT),
     description: generateDescription(),
     isFavorite: getRandomBoolean(),
-    isWatched: getRandomBoolean(),
+    isWatched,
     isInWatchList: getRandomBoolean(),
     ageRating: getRandomIntegerNumber(1, MAX_AGE_RATING),
     actors: generateActors(),
     writers: generateWriters(),
     director: getRandomArrayItem(DIRECTORS),
     country: getRandomArrayItem(COUTRIES),
-    id
+    id,
+    watchingDate: generateWatchDate(isWatched)
   };
 };
 
