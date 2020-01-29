@@ -65,7 +65,7 @@ const INITIAL_FILTERS_STATE = {
 };
 
 const CARDS_COUNT = 5;
-const TOTAL_FILM_COUNT = 20;
+const TOTAL_FILM_COUNT = 40;
 const RATES_CARDS_COUNT = 2;
 
 const GENRES = [
