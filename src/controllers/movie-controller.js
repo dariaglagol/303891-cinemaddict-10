@@ -183,6 +183,10 @@ export default class MovieController {
 
       const formData = this._filmPopup.getFormData();
 
+      if (!formData) {
+        return;
+      }
+
       const newComment = {
         text: formData.commentTextAreaValue,
         author: getRandomArrayItem(COMMENTS_AUTHORS),
