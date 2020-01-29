@@ -20,13 +20,13 @@ filmModel.setFilm(generatedFilms);
 
 const statistic = new Statistic(filmModel);
 
-const filterController = new FilterController(mainNode, filmModel, statistic);
-const pageController = new PageController(mainNode, filmModel);
+const filterController = new FilterController(mainNode, statistic);
+const pageController = new PageController(mainNode, filmModel, filterController);
 
 render(headerNode, new UserProfile(filmModel).getElement(), RenderPosition.BEFORE_END);
 filterController.render(filmModel);
 pageController.render();
 render(mainNode, statistic.getElement(), RenderPosition.BEFORE_END);
-filterController.setStatisticState();
+// filterController.setStatisticState();
 render(bodyNode, new Footer(generatedFilms.length).getElement(), RenderPosition.BEFORE_END);
 
