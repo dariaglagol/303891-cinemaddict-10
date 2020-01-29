@@ -34,13 +34,15 @@ export default class MovieController {
       const replaceableElement = this._popupRenderPlace.querySelector(`.film-details`);
       if (replaceableElement) {
         this._replacePopup(replaceableElement);
-        this.setEventsListener();
+        this.setPopupEventsListener();
       } else {
         render(this._popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
         this._renderCommentsForm();
-        this.setEventsListener();
+        this.setPopupEventsListener();
       }
     };
+
+    this.setCardsListeners();
 
     setCardClickEventListeners(CLICKABLE_ITEMS, this._filmCard, onFilmCardClick);
 
@@ -59,7 +61,7 @@ export default class MovieController {
   _replacePopup(replaceableElement) {
     this._onViewChange();
     replaceElement(this._filmPopup.getElement(), replaceableElement);
-    this.setEventsListener();
+    this.setPopupEventsListener();
     this._renderCommentsForm();
     this._mode = Mode.DEFAULT;
   }
@@ -72,23 +74,8 @@ export default class MovieController {
     }
   }
 
-  removeEventsListener() {
-    document.removeEventListener(`keydown`, this._setEscKeyDownHandler);
-    document.removeEventListener(`keydown`, this._commentSubmitHandler);
-  }
-
-  setEventsListener() {
-    document.addEventListener(`keydown`, this._setEscKeyDownHandler);
-    document.addEventListener(`keydown`, this._commentSubmitHandler);
-
+  setCardsListeners() {
     const film = this._film;
-
-    this._filmPopup.setPopupCloseHandler((evt) => {
-      evt.preventDefault();
-      this.removeEventsListener();
-      remove(this._filmPopup);
-    });
-
     this._filmCard.setWatchListButtonClickHandler((evt) => {
       evt.preventDefault();
 
@@ -117,6 +104,24 @@ export default class MovieController {
       });
 
       this._onDataChange(this, film.id, newData);
+    });
+  }
+
+  removePopupEventsListener() {
+    document.removeEventListener(`keydown`, this._setEscKeyDownHandler);
+    document.removeEventListener(`keydown`, this._commentSubmitHandler);
+  }
+
+  setPopupEventsListener() {
+    document.addEventListener(`keydown`, this._setEscKeyDownHandler);
+    document.addEventListener(`keydown`, this._commentSubmitHandler);
+
+    const film = this._film;
+
+    this._filmPopup.setPopupCloseHandler((evt) => {
+      evt.preventDefault();
+      this.removePopupEventsListener();
+      remove(this._filmPopup);
     });
 
     this._filmPopup.setWatchListButtonClickHandler((evt) => {
@@ -170,7 +175,7 @@ export default class MovieController {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
 
     if (isEscKey) {
-      this.removeEventsListener();
+      this.removePopupEventsListener();
       remove(this._filmPopup);
     }
   }

@@ -131,7 +131,7 @@ export default class PageController {
 
   _onViewChange() {
     this._showedFilmControllers.forEach((it) => it.setDefaultView());
-    this._showedFilmControllers.forEach((it) => it.removeEventsListener());
+    this._showedFilmControllers.forEach((it) => it.removePopupEventsListener());
   }
 
   _setSortTypeChangeHandler(films, filmsRenderPlace, buttonRenderPlace) {
