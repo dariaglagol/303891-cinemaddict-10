@@ -65,7 +65,7 @@ const INITIAL_FILTERS_STATE = {
 };
 
 const CARDS_COUNT = 5;
-const TOTAL_FILM_COUNT = 40;
+const TOTAL_FILM_COUNT = 12;
 const RATES_CARDS_COUNT = 2;
 
 const GENRES = [
@@ -80,10 +80,10 @@ const GENRES = [
 ];
 
 const USER_STATUSES = new Map([
-  [`21`, `Movie Buff`],
-  [`11`, `Fan`],
+  [`0`, ``],
   [`1`, `Novice`],
-  [`0`, ``]
+  [`11`, `Fan`],
+  [`21`, `Movie Buff`]
 ]);
 
 const DIRECTORS = [
@@ -209,4 +209,11 @@ const ChartBackgroundColor = [
 
 const HIDDEN_CLASS = `visually-hidden`;
 
-export {RenderPosition, ChartBackgroundColor, HIDDEN_CLASS, FiltersName, Mode, SortTypeName, SortTypeCallbacks, TopFilmType, CLICKABLE_ITEMS, MAX_FILM_SCORE, MAX_AGE_RATING, COMMENTS_EMODJIES, COMMENTS_COUNT, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS, Year, MAX_VALUE, Duration, Rating, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};
+const PeriodForMoment = {
+  'today': `days`,
+  'week': `weeks`,
+  'month': `months`,
+  'year': `years`,
+};
+
+export {RenderPosition, PeriodForMoment, ChartBackgroundColor, HIDDEN_CLASS, FiltersName, Mode, SortTypeName, SortTypeCallbacks, TopFilmType, CLICKABLE_ITEMS, MAX_FILM_SCORE, MAX_AGE_RATING, COMMENTS_EMODJIES, COMMENTS_COUNT, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS, Year, MAX_VALUE, Duration, Rating, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};

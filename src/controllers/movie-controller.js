@@ -90,7 +90,8 @@ export default class MovieController {
       evt.preventDefault();
 
       const newData = Object.assign({}, film, {
-        isWatched: !film.isWatched
+        isWatched: !film.isWatched,
+        watchingDate: !film.isWatched ? new Date() : film.watchingDate
       });
 
       this._onDataChange(this, film.id, newData);
@@ -141,6 +142,7 @@ export default class MovieController {
 
       const newData = Object.assign({}, film, {
         isWatched: !film.isWatched,
+        watchingDate: !film.isWatched ? new Date() : film.watchingDate
       });
 
       this._mode = Mode.EDIT;

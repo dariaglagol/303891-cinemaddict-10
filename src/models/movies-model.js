@@ -1,5 +1,5 @@
 import moment from "moment";
-import {FiltersName, SortTypeName, SortTypeCallbacks} from "../mocks/constants";
+import {FiltersName, SortTypeName, SortTypeCallbacks, PeriodForMoment} from "../mocks/constants";
 import {getFilmsByFilter} from "../utilities/filter";
 
 export default class MoviesModel {
@@ -54,7 +54,7 @@ export default class MoviesModel {
       const todayDate = new Date();
       return this.getAllFilms().slice()
         .filter((film) => {
-          const periodDate = moment(todayDate).subtract(1, period);
+          const periodDate = moment(todayDate).subtract(1, PeriodForMoment[period]);
           return moment(film.watchingDate).isSameOrAfter(periodDate, period) && film.isWatched;
         });
     }
