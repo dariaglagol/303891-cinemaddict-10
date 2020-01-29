@@ -1,14 +1,14 @@
 import AbstractComponent from "./abstract-component";
 
 const createFilterTemplate = (filterItem) => {
-  const [name, count, isFilterActive] = filterItem;
+  const [name, count, activeFilter] = filterItem;
 
   const preparedNameString = name[0].toUpperCase() + name.slice(1);
 
   return `
     <a
       href="#${name}"
-      class="main-navigation__item ${isFilterActive === name && `main-navigation__item--active`}"
+      class="main-navigation__item ${activeFilter === name && `main-navigation__item--active`}"
       data-filter-type=${name}
     >${preparedNameString}
       ${count ? `<span class="main-navigation__item-count">${count}</span>` : ``}
@@ -16,33 +16,33 @@ const createFilterTemplate = (filterItem) => {
   `;
 };
 
-const createFiltersTemplate = (filters, isFilterActive) => {
+const createFiltersTemplate = (filters, activeFilter) => {
   const filtersKey = Object.keys(filters);
 
   return filtersKey.map((filterName) => {
-    const filterItem = [filterName, filters[filterName], isFilterActive];
+    const filterItem = [filterName, filters[filterName], activeFilter];
     return createFilterTemplate(filterItem);
   }).join(``);
 };
 
-const createMenuTemplate = (isFilterActive, filters) => {
+const createMenuTemplate = (activeFilter, filters) => {
   return (
     `<nav class="main-navigation">
-        ${createFiltersTemplate(filters, isFilterActive)}
+        ${createFiltersTemplate(filters, activeFilter)}
         <a href="#stats" class="main-navigation__item main-navigation__item--additional">Stats</a>
     </nav>`
   );
 };
 
 export default class Menu extends AbstractComponent {
-  constructor(isFilterActive, filters) {
+  constructor(activeFilter, filters) {
     super();
-    this._isFilterActive = isFilterActive;
+    this._activeFilter = activeFilter;
     this._filters = filters;
   }
 
   getTemplate() {
-    return createMenuTemplate(this._isFilterActive, this._filters);
+    return createMenuTemplate(this._activeFilter, this._filters);
   }
 
   setFilterChangeHandler(handler) {

@@ -27,9 +27,10 @@ export default class FilterController {
       replaceElement(this._menuComponent.getElement(), oldMenuComponent.getElement());
     } else {
       render(this._container, this._menuComponent.getElement(), RenderPosition.AFTER_BEGIN);
-      this._menuComponent.setStatsShowHandler(this.setStatisticState);
-      this._menuComponent.setFilterChangeHandler(this._onFilterChange);
     }
+
+    this._menuComponent.setStatsShowHandler(this.setStatisticState);
+    this._menuComponent.setFilterChangeHandler(this._onFilterChange);
   }
 
   _onFilterChange(filterType) {
@@ -37,7 +38,7 @@ export default class FilterController {
       this.setStatisticState();
     }
     this._filmsModel.setFilter(filterType);
-    this._activeFilterType = FiltersName[filterType];
+    this._activeFilterType = FiltersName[filterType.toUpperCase()];
   }
 
   setStatisticState() {
