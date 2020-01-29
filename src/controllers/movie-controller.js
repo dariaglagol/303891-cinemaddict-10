@@ -78,7 +78,6 @@ export default class MovieController {
   }
 
   setEventsListener() {
-    console.log('set listener');
     document.addEventListener(`keydown`, this._setEscKeyDownHandler);
     document.addEventListener(`keydown`, this._commentSubmitHandler);
 
