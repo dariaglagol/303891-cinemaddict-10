@@ -1,5 +1,5 @@
 import AbstractComponent from "./abstract-component";
-import {USER_STATUSES} from '../mocks/constants';
+import {getUserStatus} from "../utilities/utilities";
 
 const createUserProfileTemplate = (status) => {
   return (
@@ -11,12 +11,12 @@ const createUserProfileTemplate = (status) => {
 };
 
 export default class UserProfile extends AbstractComponent {
-  constructor(status) {
+  constructor(filmModel) {
     super();
-    this._status = status;
+    this._userStatus = getUserStatus(filmModel.getAllFilms());
   }
 
   getTemplate() {
-    return createUserProfileTemplate(this._status);
+    return createUserProfileTemplate(this._userStatus);
   }
 }

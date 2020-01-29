@@ -18,14 +18,11 @@ const generatedFilms = generateFilms(TOTAL_FILM_COUNT);
 const filmModel = new MoviesModel();
 filmModel.setFilm(generatedFilms);
 
-const userStatus = getUserStatus(filmModel.getAllFilms());
-
 const statistic = new Statistic(filmModel);
 
 const pageController = new PageController(mainNode, filmModel);
 const filterController = new FilterController(mainNode, filmModel, statistic);
-// TODO определять статус в комопонете
-render(headerNode, new UserProfile(userStatus).getElement(), RenderPosition.BEFORE_END);
+render(headerNode, new UserProfile(filmModel).getElement(), RenderPosition.BEFORE_END);
 filterController.render();
 pageController.render();
 render(mainNode, statistic.getElement(), RenderPosition.BEFORE_END);

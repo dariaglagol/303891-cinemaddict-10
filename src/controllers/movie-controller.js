@@ -24,7 +24,6 @@ export default class MovieController {
     const oldFilmComponent = this._filmCard;
     const oldPopupComponent = this._filmPopup;
     this._film = film;
-
     this._popupRenderPlace = this._container.closest(`.main`);
 
     this._filmCard = new FilmCard(film);

@@ -13,8 +13,8 @@ const createStatisticTemplate = (userData) => {
   } = userData;
 
   const preparedTotalDuration = getFilmTotalDuration(totalDuration).split(` `);
-  const hours = preparedTotalDuration[0];
-  const minutes = preparedTotalDuration[1];
+  const hours = totalDuration ? preparedTotalDuration[0] : `0`;
+  const minutes = totalDuration ? preparedTotalDuration[1] : `0`;
 
   return (
     `<section class="statistic">
@@ -105,7 +105,7 @@ const getMostWatchedGenre = (films) => {
   const genres = getWatchedStatisticGenres(films);
   const genresKeys = Object.keys(genres);
   let maxWatchedGenreCount = 0;
-  let genre = ``;
+  let genre = `-`;
 
   genresKeys.forEach((genreName) => {
     if (maxWatchedGenreCount < genres[genreName]) {
@@ -117,10 +117,10 @@ const getMostWatchedGenre = (films) => {
   return genre;
 };
 
-const renderChart = (ctx, chartData) => {
-  const {dataSets} = chartData;
-  const genreLabels = Object.keys(dataSets);
-  const values = genreLabels.map((label) => dataSets[label]);
+const renderChart = (ctx, chartData, period) => {
+  const genreLabels = Object.keys(chartData);
+  const values = genreLabels.map((label) => chartData[label]);
+  const periodLabel = period !== `all-time` ? period : `all time`;
 
   return new Chart(ctx, {
     plugins: [ChartDataLabels],
@@ -129,7 +129,7 @@ const renderChart = (ctx, chartData) => {
       labels: genreLabels,
       datasets: [{
         data: values,
-        label: `Watched by all time`,
+        label: `Watched by ${periodLabel}`,
         backgroundColor: ChartBackgroundColor
       }]
     },
@@ -208,13 +208,14 @@ export default class Statistic extends AbstractSmartComponent {
   }
 
   _renderChart(films) {
+    if (!films.length) {
+      return;
+    }
     const statisticChart = this.getElement().querySelector(`.statistic__chart`);
 
-    const chartData = {
-      dataSets: getWatchedStatisticGenres(films)
-    };
+    const chartData = getWatchedStatisticGenres(films);
 
-    renderChart(statisticChart, chartData);
+    renderChart(statisticChart, chartData, this._period);
   }
 
   rerender(films) {
@@ -245,9 +246,11 @@ export default class Statistic extends AbstractSmartComponent {
         const target = evt.target;
         const period = target.dataset.period;
 
-        this._period = period;
-        this._films = this._filmModel.filterFilmsByTime(period);
-        this.rerender(this._films);
+        if (period) {
+          this._period = period;
+          this._films = this._filmModel.filterFilmsByTime(period);
+          this.rerender(this._films);
+        }
       });
   }
 }

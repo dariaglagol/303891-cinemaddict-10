@@ -79,7 +79,6 @@ const getUserStatus = (films) => {
   const userStatusesKeys = USER_STATUSES.keys();
 
   const userStatusKey = [...userStatusesKeys].find((statusKey) => {
-    console.log(getWatchedFilms(films), parseInt(statusKey, 10), getWatchedFilms(films) < parseInt(statusKey, 10));
     return getWatchedFilms(films) >= parseInt(statusKey, 10);
   });
 

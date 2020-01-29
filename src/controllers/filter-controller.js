@@ -21,7 +21,7 @@ export default class FilterController {
     this._onFilterChange = this._onFilterChange.bind(this);
     this._onStatsClick = this._onStatsClick.bind(this);
 
-    this._isStatsShow = false;
+    this._isStatsHide = false;
   }
 
   render() {
@@ -40,13 +40,13 @@ export default class FilterController {
   }
 
   setStatisticState() {
-    if (this._isStatsShow) {
-      this._isStatsShow = false;
+    if (!this._isStatsHide) {
+      this._isStatsHide = true;
       this._statistic.hide();
       this._pageController.showMainPage();
       return;
     }
-    this._isStatsShow = true;
+    this._isStatsHide = false;
     this._statistic.show();
     this._pageController.hideMainPage();
   }
