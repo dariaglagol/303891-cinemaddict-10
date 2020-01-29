@@ -6,7 +6,6 @@ import MoviesModel from "./models/movies-model";
 import Statistic from "./components/statistic";
 import {RenderPosition, TOTAL_FILM_COUNT} from './mocks/constants';
 import {generateFilms} from "./mocks/film";
-import {getUserStatus} from './utilities/utilities';
 import {render} from './utilities/render';
 
 const bodyNode = document.querySelector(`body`);

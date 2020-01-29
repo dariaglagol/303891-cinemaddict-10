@@ -44,7 +44,7 @@ export default class TopFilm extends AbstractComponent {
     return createTopTemplate(this._films, this._type);
   }
 
-  getTopFilms() {
-    return createTopFilms(this._films, this._type);
+  getTopFilms(films) {
+    return createTopFilms(films, this._type);
   }
 }
