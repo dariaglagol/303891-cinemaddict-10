@@ -65,7 +65,7 @@ export default class MovieController {
       evt.preventDefault();
 
       const newData = Object.assign({}, film, {
-        isWatched: !film.isWatched,
+        isWatched: !film.isWatched
       });
 
       this._onDataChange(this, film.id, newData);

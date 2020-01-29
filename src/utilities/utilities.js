@@ -1,6 +1,6 @@
 import moment from "moment";
 import momentDurationFormatSetup from "moment-duration-format";
-import {COMMENTS_TIME_RANGE, HIDDEN_CLASS} from "../mocks/constants";
+import {COMMENTS_TIME_RANGE, HIDDEN_CLASS, USER_STATUSES} from "../mocks/constants";
 import {generateFilters} from "../mocks/filters";
 
 momentDurationFormatSetup(moment);
@@ -26,7 +26,7 @@ const getPlural = (count, one, more) => {
 
 const generateRandomArrayPiece = (maxValue, array) => {
   const pieceLength = getRandomIntegerNumber(1, maxValue);
-  const startPiece = getRandomIntegerNumber(1, array.length - pieceLength);
+  const startPiece = getRandomIntegerNumber(0, array.length - 1);
   return array.slice(startPiece, startPiece + pieceLength);
 };
 
@@ -75,4 +75,15 @@ const getWatchedFilms = (films) => {
   return generateFilters(films).history;
 };
 
-export {setCardClickEventListeners, getFilmTotalDuration, getWatchedFilms, showElement, hideElement, getRandomDate, getFilmDuration, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};
+const getUserStatus = (films) => {
+  const userStatusesKeys = USER_STATUSES.keys();
+
+  const userStatusKey = [...userStatusesKeys].find((statusKey) => {
+    console.log(getWatchedFilms(films), parseInt(statusKey, 10), getWatchedFilms(films) < parseInt(statusKey, 10));
+    return getWatchedFilms(films) >= parseInt(statusKey, 10);
+  });
+
+  return USER_STATUSES.get(userStatusKey);
+};
+
+export {setCardClickEventListeners, getUserStatus, getFilmTotalDuration, getWatchedFilms, showElement, hideElement, getRandomDate, getFilmDuration, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};

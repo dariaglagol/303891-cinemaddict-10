@@ -1,5 +1,4 @@
 import Menu from '../components/menu';
-import Statistic from '../components/statistic';
 import PageController from './page-controller'
 import {FiltersName} from '../mocks/constants';
 import {render} from '../utilities/render';
@@ -7,14 +6,14 @@ import {generateFilters} from "../mocks/filters";
 import {RenderPosition} from '../mocks/constants';
 
 export default class FilterController {
-  constructor(container, filmsModel) {
+  constructor(container, filmsModel, statistic) {
     this._container = container;
     this._filmsModel = filmsModel;
 
     this._activeFilterType = FiltersName.ALL;
     const filters = generateFilters(this._filmsModel.getAllFilms());
 
-    this._statistic = new Statistic();
+    this._statistic = statistic;
     this._pageController = new PageController(this._container, this._filmsModel);
 
     this._menuComponent = new Menu(this._activeFilterType, filters);
@@ -22,7 +21,7 @@ export default class FilterController {
     this._onFilterChange = this._onFilterChange.bind(this);
     this._onStatsClick = this._onStatsClick.bind(this);
 
-    this._isStatsShow = true;
+    this._isStatsShow = false;
   }
 
   render() {

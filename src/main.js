@@ -4,9 +4,9 @@ import FilterController from "./controllers/filter-controller";
 import Footer from "./components/footer";
 import MoviesModel from "./models/movies-model";
 import Statistic from "./components/statistic";
-import {RenderPosition, TOTAL_FILM_COUNT, USER_STATUSES} from './mocks/constants';
+import {RenderPosition, TOTAL_FILM_COUNT} from './mocks/constants';
 import {generateFilms} from "./mocks/film";
-import {getWatchedFilms} from './utilities/utilities';
+import {getUserStatus} from './utilities/utilities';
 import {render} from './utilities/render';
 
 const bodyNode = document.querySelector(`body`);
@@ -18,24 +18,13 @@ const generatedFilms = generateFilms(TOTAL_FILM_COUNT);
 const filmModel = new MoviesModel();
 filmModel.setFilm(generatedFilms);
 
-const watchedFilms = getWatchedFilms(filmModel.getAllFilms());
+const userStatus = getUserStatus(filmModel.getAllFilms());
 
-const userStatusesKeys = USER_STATUSES.keys();
-const userStatusKey = [...userStatusesKeys].find((statusKey) => {
-  return watchedFilms < parseInt(statusKey, 10);
-});
-const userStatus = USER_STATUSES.get(userStatusKey);
-
-const statistic = new Statistic();
-const userStatisticData = {
-  userStatus,
-  filmModel
-};
-statistic.getUserStatistic(userStatisticData);
+const statistic = new Statistic(filmModel);
 
 const pageController = new PageController(mainNode, filmModel);
-const filterController = new FilterController(mainNode, filmModel);
-
+const filterController = new FilterController(mainNode, filmModel, statistic);
+// TODO определять статус в комопонете
 render(headerNode, new UserProfile(userStatus).getElement(), RenderPosition.BEFORE_END);
 filterController.render();
 pageController.render();

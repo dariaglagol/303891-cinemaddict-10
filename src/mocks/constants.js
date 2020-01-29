@@ -80,10 +80,10 @@ const GENRES = [
 ];
 
 const USER_STATUSES = new Map([
-  [`0`, ``],
-  [`1`, `Novice`],
+  [`21`, `Movie Buff`],
   [`11`, `Fan`],
-  [`21`, `Movie Buff`]
+  [`1`, `Novice`],
+  [`0`, ``]
 ]);
 
 const DIRECTORS = [
@@ -196,6 +196,17 @@ const Mode = {
   EDIT: `edit`,
 };
 
+const ChartBackgroundColor = [
+  `rgb(255, 99, 132)`,
+  `rgb(54, 162, 235)`,
+  `rgb(255, 206, 86)`,
+  `rgb(75, 192, 192)`,
+  `rgb(153, 102, 255)`,
+  `rgb(255, 159, 64)`,
+  `rgb(28, 107, 114)`,
+  `rgb(190, 245, 116)`,
+];
+
 const HIDDEN_CLASS = `visually-hidden`;
 
-export {RenderPosition, HIDDEN_CLASS, FiltersName, Mode, SortTypeName, SortTypeCallbacks, TopFilmType, CLICKABLE_ITEMS, MAX_FILM_SCORE, MAX_AGE_RATING, COMMENTS_EMODJIES, COMMENTS_COUNT, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS, Year, MAX_VALUE, Duration, Rating, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};
+export {RenderPosition, ChartBackgroundColor, HIDDEN_CLASS, FiltersName, Mode, SortTypeName, SortTypeCallbacks, TopFilmType, CLICKABLE_ITEMS, MAX_FILM_SCORE, MAX_AGE_RATING, COMMENTS_EMODJIES, COMMENTS_COUNT, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS, Year, MAX_VALUE, Duration, Rating, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};

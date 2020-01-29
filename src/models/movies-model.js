@@ -1,3 +1,4 @@
+import moment from "moment";
 import {FiltersName} from "../mocks/constants";
 import {getFilmsByFilter} from "../utilities/filter";
 
@@ -44,5 +45,17 @@ export default class MoviesModel {
 
   removeComment(film, id) {
     return film.comments.filter((comment) => comment.id !== id);
+  }
+
+  filterFilmsByTime(period) {
+    if (period !== `all-time`) {
+      const todayDate = new Date();
+      return this.getAllFilms().slice()
+        .filter((film) => {
+          return moment(film.watchingDate).isSameOrAfter(todayDate, period) && film.isWatched;
+        });
+    }
+
+    return this.getAllFilms();
   }
 }
