@@ -199,6 +199,6 @@ export default class FilmPopup extends AbstractComponent {
       return {commentTextAreaValue, commentEmoji};
     }
 
-    return null
+    return null;
   }
 }

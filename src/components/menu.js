@@ -1,5 +1,4 @@
 import AbstractComponent from "./abstract-component";
-// import {createFilterTemplate} from './filter-template';
 
 const createFilterTemplate = (filterItem) => {
   const [name, count, isFilterActive] = filterItem;
@@ -48,9 +47,9 @@ export default class Menu extends AbstractComponent {
 
   setFilterChangeHandler(handler) {
     this.getElement().addEventListener(`click`, (evt) => {
+      evt.preventDefault();
       const target = evt.target;
-      this._removeActiveClass();
-      target.classList.add(`main-navigation__item--active`);
+      this._toggleActiveClass(target);
       const filterName = target.getAttribute(`data-filter-type`);
       if (filterName) {
         handler(filterName);
@@ -58,10 +57,12 @@ export default class Menu extends AbstractComponent {
     });
   }
 
-  _removeActiveClass() {
+  _toggleActiveClass(target) {
     this.getElement()
       .querySelector(`.main-navigation__item--active`)
       .classList.remove(`main-navigation__item--active`);
+
+    target.classList.add(`main-navigation__item--active`);
   }
 
   setStatsShowHandler(handler) {

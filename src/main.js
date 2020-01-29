@@ -25,8 +25,11 @@ const pageController = new PageController(mainNode, filmModel, filterController)
 
 render(headerNode, new UserProfile(filmModel).getElement(), RenderPosition.BEFORE_END);
 filterController.render(filmModel);
+
 pageController.render();
+
+filterController.getPageController(pageController);
 render(mainNode, statistic.getElement(), RenderPosition.BEFORE_END);
-// filterController.setStatisticState();
+
 render(bodyNode, new Footer(generatedFilms.length).getElement(), RenderPosition.BEFORE_END);
 
