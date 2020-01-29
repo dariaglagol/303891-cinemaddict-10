@@ -101,6 +101,7 @@ export default class PageController {
   _createFilms(films, filmRenderPlace, sliceCount, onDataChange, onViewChange, slicePoint = 0) {
     return films.slice(slicePoint, slicePoint + sliceCount).map((film) => {
       const movieController = new MovieController(filmRenderPlace, onDataChange, onViewChange);
+      console.log(film);
       movieController.render(film);
 
       return movieController;

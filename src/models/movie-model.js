@@ -1,21 +1,24 @@
 export default class Movie {
   constructor(data) {
-    this.filmName = data[`filmName`];
-    this.rating = data[`rating`];
-    this.posterUrl = data[`posterUrl`];
-    this.releaseDate = data[`releaseDate`] ? new Date(data[`releaseDate`]) : null;
-    this.movieDuration = data[`movieDuration`];
-    this.genres = data[`genres`] || [];
+    console.log(data);
+    const {film_info} = data;
+    this.filmName = film_info[`title`];
+    this.alternativeFilmName = film_info[`alternative_title`];
+    this.rating = film_info[`total_rating`];
+    this.posterUrl = film_info[`poster`];
+    this.releaseDate = film_info[`release`][`date`] ? new Date(film_info[`release`][`date`]) : null;
+    this.movieDuration = film_info[`runtime`];
+    this.genres = film_info[`genre`] || [];
     this.comments = data[`comments`] || [];
     this.description = data[`description`] || ``;
     this.isFavorite = Boolean(data[`isFavorite`]);
     this.isWatched = Boolean(data[`isWatched`]);
     this.isInWatchList = Boolean(data[`isInWatchList`]);
-    this.ageRating = data[`ageRating`];
-    this.actors = data[`actors`] || [];
-    this.writers = data[`writers`] || [];
-    this.director = data[`director`];
-    this.country = data[`country`];
+    this.ageRating = film_info[`age_rating`];
+    this.actors = film_info[`actors`] || [];
+    this.writers = film_info[`writers`] || [];
+    this.director = film_info[`director`];
+    this.country = film_info[`release`][`release_country`];
     this.id = data[`id`];
     this.watchingDate = data[`watchingDate`] ? new Date(data[`watchingDate`]) : null;
   }
@@ -23,6 +26,7 @@ export default class Movie {
   toRAW() {
     return {
       'filmName': this.filmName,
+      'alternativeFilmName': this.alternativeFilmName,
       'rating': this.rating,
       'posterUrl': this.posterUrl,
       'releaseDate': this.releaseDate,
