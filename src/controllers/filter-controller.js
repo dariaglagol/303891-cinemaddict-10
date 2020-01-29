@@ -1,22 +1,18 @@
 import Menu from '../components/menu';
 import PageController from './page-controller'
 import {FiltersName} from '../mocks/constants';
-import {render} from '../utilities/render';
+import {render, replaceElement} from '../utilities/render';
 import {generateFilters} from "../mocks/filters";
 import {RenderPosition} from '../mocks/constants';
 
 export default class FilterController {
-  constructor(container, filmsModel, statistic) {
+  constructor(container, statistic) {
     this._container = container;
-    this._filmsModel = filmsModel;
 
     this._activeFilterType = FiltersName.ALL;
-    const filters = generateFilters(this._filmsModel.getAllFilms());
 
     this._statistic = statistic;
     this._pageController = new PageController(this._container, this._filmsModel);
-
-    this._menuComponent = new Menu(this._activeFilterType, filters);
 
     this._onFilterChange = this._onFilterChange.bind(this);
     this._onStatsClick = this._onStatsClick.bind(this);
@@ -24,10 +20,23 @@ export default class FilterController {
     this._isStatsHide = false;
   }
 
-  render() {
-    render(this._container, this._menuComponent.getElement(), RenderPosition.AFTER_BEGIN);
-    this._menuComponent.setFilterChangeHandler(this._onFilterChange);
-    this._menuComponent.setStatsShowHandler(this._onStatsClick);
+  render(filmsModel) {
+    // render(this._container, this._menuComponent.getElement(), RenderPosition.AFTER_BEGIN);
+    // this._menuComponent.setFilterChangeHandler(this._onFilterChange);
+    // this._menuComponent.setStatsShowHandler(this._onStatsClick);
+
+    const oldMenuComponent = this._menuComponent;
+
+    this._filmsModel = filmsModel;
+    const filters = generateFilters(this._filmsModel.getAllFilms());
+    this._menuComponent = new Menu(this._activeFilterType, filters);
+
+    if (oldMenuComponent) {
+      replaceElement(this._menuComponent.getElement(), oldMenuComponent.getElement());
+    } else {
+      render(this._container, this._menuComponent.getElement(), RenderPosition.AFTER_BEGIN);
+      this._menuComponent.setFilterChangeHandler(this._onFilterChange);
+    }
   }
 
   _onFilterChange(filterType) {

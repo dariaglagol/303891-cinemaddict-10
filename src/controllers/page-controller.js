@@ -16,8 +16,9 @@ import {
 } from "../mocks/constants";
 
 export default class PageController {
-  constructor(container, filmsModel) {
+  constructor(container, filmsModel, filterController) {
     this._filmsModel = filmsModel;
+    this._filterController = filterController;
     this._generatedFilms = this._filmsModel.getFilms();
 
     this._showedFilmControllers = [];
@@ -68,7 +69,7 @@ export default class PageController {
 
       this._renderRatedFilms();
 
-      this._onSortTypeChange(this._filmsModel.getFilms(), this._filmsRenderPlace, this._buttonRenderPlace);
+      this._setSortTypeChangeHandler(this._filmsModel.getFilms(), this._filmsRenderPlace, this._buttonRenderPlace);
 
       if (this.shouldButtonRender()) {
         this._renderButton(this._buttonRenderPlace, this._showMoreButton, this._filmsModel.getFilms());
@@ -115,6 +116,7 @@ export default class PageController {
     if (isSuccess) {
       movieController.render(film);
       this._updateRatedFilms();
+      this._filterController.render(this._filmsModel);
     }
   }
 
@@ -132,9 +134,11 @@ export default class PageController {
     this._showedFilmControllers.forEach((it) => it.removeEventsListener());
   }
 
-  _onSortTypeChange(films, filmsRenderPlace, buttonRenderPlace) {
+  _setSortTypeChangeHandler(films, filmsRenderPlace, buttonRenderPlace) {
     this._sorting.setSortTypeChangeHandler((sortType) => {
-      const sortedFilms = this._generatedFilms.slice().sort(SortTypeCallbacks[sortType]);
+      this._filmsModel.setSorting(sortType);
+
+      const sortedFilms = this._filmsModel.getFilms();
 
       filmsRenderPlace.innerHTML = ``;
 

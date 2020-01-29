@@ -15,14 +15,16 @@ const mainNode = bodyNode.querySelector(`.main`);
 const generatedFilms = generateFilms(TOTAL_FILM_COUNT);
 
 const filmModel = new MoviesModel();
+
 filmModel.setFilm(generatedFilms);
 
 const statistic = new Statistic(filmModel);
 
-const pageController = new PageController(mainNode, filmModel);
 const filterController = new FilterController(mainNode, filmModel, statistic);
+const pageController = new PageController(mainNode, filmModel);
+
 render(headerNode, new UserProfile(filmModel).getElement(), RenderPosition.BEFORE_END);
-filterController.render();
+filterController.render(filmModel);
 pageController.render();
 render(mainNode, statistic.getElement(), RenderPosition.BEFORE_END);
 filterController.setStatisticState();

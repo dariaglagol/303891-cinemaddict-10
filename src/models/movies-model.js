@@ -1,5 +1,5 @@
 import moment from "moment";
-import {FiltersName} from "../mocks/constants";
+import {FiltersName, SortTypeName, SortTypeCallbacks} from "../mocks/constants";
 import {getFilmsByFilter} from "../utilities/filter";
 
 export default class MoviesModel {
@@ -7,11 +7,13 @@ export default class MoviesModel {
     this._films = [];
 
     this._activeFilterType = FiltersName.ALL;
+    this._activeSortType = SortTypeName.DEFAULT;
     this._filterChangeHandlers = [];
   }
 
   getFilms() {
-    return getFilmsByFilter(this._films, this._activeFilterType);
+    return getFilmsByFilter(this._films, this._activeFilterType)
+      .sort(SortTypeCallbacks[this._activeSortType]);
   }
 
   getAllFilms() {
@@ -57,5 +59,9 @@ export default class MoviesModel {
     }
 
     return this.getAllFilms();
+  }
+
+  setSorting(sortType) {
+    this._activeSortType = sortType;
   }
 }
