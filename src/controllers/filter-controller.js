@@ -25,9 +25,6 @@ export default class FilterController {
       render(this._container, this._menuComponent.getElement(), RenderPosition.AFTER_BEGIN);
       this._menuComponent.setFilterChangeHandler(this._onFilterChange);
     }
-
-    // render(this._container, this._menuComponent.getElement(), RenderPosition.AFTER_BEGIN);
-    // this._menuComponent.setFilterChangeHandler(this._onFilterChange);
   }
 
   _onFilterChange(filterType) {
