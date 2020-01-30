@@ -2,7 +2,6 @@ import {INITIAL_FILTERS_STATE} from './constants';
 
 const generateFilters = (filmsData) => {
   return filmsData.reduce((prev, film) => {
-    console.log(film)
     return {
       'all movies': null,
       'watchlist': film.isInWatchList ? prev.watchlist + 1 : prev.watchlist,

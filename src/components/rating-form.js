@@ -27,7 +27,7 @@ const createRatingForm = (filmName, posterUrl) => {
 
         <div class="film-details__user-score">
           <div class="film-details__user-rating-poster">
-            <img src="./images/posters/${posterUrl}" alt="film-poster" class="film-details__user-rating-img">
+            <img src="./${posterUrl}" alt="film-poster" class="film-details__user-rating-img">
           </div>
 
           <section class="film-details__user-rating-inner">

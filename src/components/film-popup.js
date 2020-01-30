@@ -12,6 +12,7 @@ const createFilmPopupTemplate = (film, options, nodes) => {
   const {
     filmName,
     rating,
+    alternativeFilmName,
     releaseDate,
     movieDuration,
     genres,
@@ -54,7 +55,7 @@ const createFilmPopupTemplate = (film, options, nodes) => {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="./images/posters/${posterUrl}" alt="poster '${filmName}'">
+              <img class="film-details__poster-img" src="./${posterUrl}" alt="poster '${filmName}'">
 
               <p class="film-details__age">${ageRating}+</p>
             </div>
@@ -63,7 +64,7 @@ const createFilmPopupTemplate = (film, options, nodes) => {
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
                   <h3 class="film-details__title">${filmName}</h3>
-                  <p class="film-details__title-original">Original: ${filmName}</p>
+                  <p class="film-details__title-original">Original: ${alternativeFilmName}</p>
                 </div>
 
                 <div class="film-details__rating">
