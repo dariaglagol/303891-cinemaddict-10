@@ -123,7 +123,6 @@ export default class PageController {
   _createFilms(films, filmRenderPlace, sliceCount, onDataChange, onViewChange, slicePoint = 0) {
     return films.slice(slicePoint, slicePoint + sliceCount).map((film) => {
       const movieController = new MovieController(filmRenderPlace, onDataChange, onViewChange);
-      console.log(film);
       movieController.render(film);
 
       return movieController;
@@ -172,6 +171,7 @@ export default class PageController {
   _updateFilmControllers() {
     this._removeFilms();
     const films = this._filmModel.getFilms();
+    console.log(films);
     this._createShowedFilmControllers(films, this._filmsRenderPlace);
 
     if (this.shouldButtonRender()) {

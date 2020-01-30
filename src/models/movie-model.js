@@ -1,7 +1,6 @@
 export default class Movie {
   constructor(data) {
-    console.log(data);
-    const {film_info} = data;
+    const {film_info, user_details} = data;
     this.filmName = film_info[`title`];
     this.alternativeFilmName = film_info[`alternative_title`];
     this.rating = film_info[`total_rating`];
@@ -9,18 +8,19 @@ export default class Movie {
     this.releaseDate = film_info[`release`][`date`] ? new Date(film_info[`release`][`date`]) : null;
     this.movieDuration = film_info[`runtime`];
     this.genres = film_info[`genre`] || [];
-    this.comments = data[`comments`] || [];
-    this.description = data[`description`] || ``;
-    this.isFavorite = Boolean(data[`isFavorite`]);
-    this.isWatched = Boolean(data[`isWatched`]);
-    this.isInWatchList = Boolean(data[`isInWatchList`]);
+    this.comments = user_details[`comments`] || [];
+    this.description = film_info[`description`] || ``;
+    this.isFavorite = Boolean(user_details[`favorite`]);
+    this.isWatched = Boolean(user_details[`already_watched`]);
+    this.isInWatchList = Boolean(user_details[`watchlist`]);
     this.ageRating = film_info[`age_rating`];
     this.actors = film_info[`actors`] || [];
     this.writers = film_info[`writers`] || [];
     this.director = film_info[`director`];
     this.country = film_info[`release`][`release_country`];
     this.id = data[`id`];
-    this.watchingDate = data[`watchingDate`] ? new Date(data[`watchingDate`]) : null;
+    this.personalRating = user_details[`personal_rating`];
+    this.watchingDate = user_details[`watching_date`] ? new Date(user_details[`watching_date`]) : null;
   }
 
   toRAW() {
@@ -44,6 +44,7 @@ export default class Movie {
       'country': this.country,
       'watchingDate': this.watchingDate.toISOString(),
       'id': this.id,
+      'personalRating': this.personalRating,
     };
   }
 

@@ -20,6 +20,9 @@ export default class FilterController {
     const oldMenuComponent = this._menuComponent;
 
     this._filmsModel = filmsModel;
+
+    console.log(generateFilters(this._filmsModel.getAllFilms()));
+
     const filters = generateFilters(this._filmsModel.getAllFilms());
     this._menuComponent = new Menu(this._activeFilterType, filters);
 
