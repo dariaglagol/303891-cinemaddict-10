@@ -1,28 +1,22 @@
 import AbstractComponent from "./abstract-component";
-import {USER_STATUSES} from '../mocks/constants';
+import {getUserStatus} from "../utilities/utilities";
 
-const createUserProfileTemplate = (watchedFilms) => {
-  const userStatusesKeys = USER_STATUSES.keys();
-
-  const userStatusKey = [...userStatusesKeys].find((statusKey) => {
-    return watchedFilms < parseInt(statusKey, 10);
-  });
-
+const createUserProfileTemplate = (status) => {
   return (
     `<section class="header__profile profile">
-      <p class="profile__rating">${USER_STATUSES.get(userStatusKey)}</p>
+      <p class="profile__rating">${status}</p>
       <img class="profile__avatar" src="images/bitmap@2x.png" alt="Avatar" width="35" height="35">
     </section>`
   );
 };
 
 export default class UserProfile extends AbstractComponent {
-  constructor(watchedFilms) {
+  constructor(filmModel) {
     super();
-    this._watchedFilms = watchedFilms;
+    this._userStatus = getUserStatus(filmModel.getAllFilms());
   }
 
   getTemplate() {
-    return createUserProfileTemplate(this._watchedFilms);
+    return createUserProfileTemplate(this._userStatus);
   }
 }
