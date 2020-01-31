@@ -22,6 +22,17 @@ export default class Api {
       .then(MovieModel.parseFilms);
   }
 
+  updateFilm(movieId, data) {
+    return this._load({
+      url: `movies/${movieId}`,
+      method: Method.PUT,
+      body: JSON.stringify(data.toRAW()),
+      headers: new Headers({'Content-Type': `application/json`})
+    })
+      .then((response) => response.json())
+      .then(MovieModel.parseFilm);
+  }
+
   getComments(movieId) {
     return this._load({url: `comments/${movieId}`})
       .then((response) => response.json())

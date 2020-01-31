@@ -99,35 +99,33 @@ export default class MovieController {
 
   setCardsListeners() {
     const film = this._film;
+
     this._filmCard.setWatchListButtonClickHandler((evt) => {
       evt.preventDefault();
 
-      const newData = Object.assign({}, film, {
-        isInWatchList: !film.isInWatchList,
-      });
+      film.isInWatchList = !film.isInWatchList;
+      const newData = MovieModel.clone(film);
 
-      this._onDataChange(this, film.id, newData);
+      this._onDataChange(this, film.id, newData.toRAW(), true);
     });
 
     this._filmCard.setWatchedButtonClickHandler((evt) => {
       evt.preventDefault();
 
-      const newData = Object.assign({}, film, {
-        isWatched: !film.isWatched,
-        watchingDate: !film.isWatched ? new Date() : film.watchingDate
-      });
+      film.isWatched = !film.isWatched;
+      film.watchingDate = !film.isWatched ? new Date() : film.watchingDate;
+      const newData = MovieModel.clone(film);
 
-      this._onDataChange(this, film.id, newData);
+      this._onDataChange(this, film.id, newData.toRAW(), true);
     });
 
     this._filmCard.setFavoriteButtonClickHandler((evt) => {
       evt.preventDefault();
 
-      const newData = Object.assign({}, film, {
-        isFavorite: !film.isFavorite,
-      });
+      film.isFavorite = !film.isFavorite;
+      const newData = MovieModel.clone(film);
 
-      this._onDataChange(this, film.id, newData);
+      this._onDataChange(this, film.id, newData.toRAW(), true);
     });
   }
 
@@ -151,38 +149,35 @@ export default class MovieController {
     this._filmPopup.setWatchListButtonClickHandler((evt) => {
       evt.preventDefault();
 
-      const newData = Object.assign({}, film, {
-        isInWatchList: !film.isInWatchList,
-      });
+      film.isInWatchList = !film.isInWatchList;
+      const newData = MovieModel.clone(film);
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, newData);
+      this._onDataChange(this, film.id, newData.toRAW(), true);
     });
 
     this._filmPopup.setWatchedButtonClickHandler((evt) => {
       evt.preventDefault();
 
-      const newData = Object.assign({}, film, {
-        isWatched: !film.isWatched,
-        watchingDate: !film.isWatched ? new Date() : film.watchingDate
-      });
+      film.isWatched = !film.isWatched;
+      film.watchingDate = !film.isWatched ? new Date() : film.watchingDate;
+      const newData = MovieModel.clone(film);
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, newData);
+      this._onDataChange(this, film.id, newData.toRAW(), true);
     });
 
     this._filmPopup.setFavoriteButtonClickHandler((evt) => {
       evt.preventDefault();
 
-      const newData = Object.assign({}, film, {
-        isFavorite: !film.isFavorite,
-      });
+      film.isFavorite = !film.isFavorite;
+      const newData = MovieModel.clone(film);
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, newData);
+      this._onDataChange(this, film.id, newData.toRAW(), true);
     });
 
     this._filmPopup.setDeleteButtonClickHandler((id) => {

@@ -118,10 +118,18 @@ export default class PageController {
 
     if (isSuccess) {
       const preparedFilm = new MovieModel(movie);
+      if (shouldAppUpdate) {
+        this._api.updateFilm(id, preparedFilm)
+          .then((Movie) => {
+            this._filterController.render(this._filmModel);
+            movieController.render(Movie);
+            this._updateRatedFilms();
+          });
+        return;
+      }
 
       movieController.render(preparedFilm);
       this._updateRatedFilms();
-      if (shouldAppUpdate) this._filterController.render(preparedFilm);
     }
   }
 
