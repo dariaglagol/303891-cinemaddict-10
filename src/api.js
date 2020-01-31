@@ -1,5 +1,5 @@
-import Movie from './models/movie-model';
-import Comment from './models/comment-model';
+import MovieModel from './models/movie-model';
+import CommentModel from './models/comment-model';
 import {Method} from './mocks/constants';
 
 const checkStatus = (response) => {
@@ -19,28 +19,31 @@ export default class Api {
   getFilms() {
     return this._load({url: `movies`})
       .then((response) => response.json())
-      .then(Movie.parseFilms);
+      .then(MovieModel.parseFilms);
   }
 
   getComments(movieId) {
     return this._load({url: `comments/${movieId}`})
       .then((response) => response.json())
-      .then(Comment.parseComments);
+      .then(CommentModel.parseComments);
   }
 
   addComment(movieId, data) {
-    console.log(data);
     return this._load({
       url: `comments/${movieId}`,
-      method: Method.PUT,
+      method: Method.POST,
       body: JSON.stringify(data.toRAW()),
       headers: new Headers({'Content-Type': `application/json`})
     })
       .then((response) => response.json())
-      .then(Comment.parseComments);
+      .then(MovieModel.parseComment);
   }
 
-  deleteComment(id) {
+  deleteComment(commentId) {
+    return this._load({
+      url: `comments/${commentId}`,
+      method: Method.DELETE
+    });
   }
 
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {

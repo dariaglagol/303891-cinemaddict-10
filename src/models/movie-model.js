@@ -1,6 +1,5 @@
-export default class Movie {
+export default class MovieModel {
   constructor(data) {
-    console.log(data);
     const {film_info, user_details} = data;
     this.filmName = film_info[`title`];
     this.alternativeFilmName = film_info[`alternative_title`];
@@ -26,40 +25,44 @@ export default class Movie {
 
   toRAW() {
     return {
-      'title': this.filmName,
-      'alternative_title': this.alternativeFilmName,
-      'total_rating': this.rating,
-      'poster': this.posterUrl,
-      'releaseDate': {
-        'release': this.releaseDate,
-        'release_country': this.country
+      'film_info': {
+        'title': this.filmName,
+        'alternative_title': this.alternativeFilmName,
+        'total_rating': this.rating,
+        'poster': this.posterUrl,
+        'release': {
+          'date': this.releaseDate,
+          'release_country': this.country
+        },
+        'runtime': this.movieDuration,
+        'genre': this.genres,
+        'description': this.description,
+        'age_rating': this.ageRating,
+        'actors': this.actors,
+        'writers': this.writers,
+        'director': this.director,
       },
-      'runtime': this.movieDuration,
-      'genre': this.genres,
-      'comments': Array.form(this.comments),
-      'description': this.description,
-      'favorite': this.isFavorite,
-      'already_watched': this.isWatched,
-      'watchlist': this.isInWatchList,
-      'age_rating': this.ageRating,
-      'actors': this.actors,
-      'writers': this.writers,
-      'director': this.director,
-      'watching_date': this.watchingDate.toISOString(),
-      'id': this.id,
-      'personal_rating': this.personalRating,
+      'user_details': {
+        'favorite': this.isFavorite,
+        'already_watched': this.isWatched,
+        'watchlist': this.isInWatchList,
+        'personal_rating': this.personalRating,
+        'watching_date': this.watchingDate.toISOString(),
+      },
+      'comments': this.comments,
+      'id': this.id
     };
   }
 
   static parseFilm(data) {
-    return new Movie(data);
+    return new MovieModel(data);
   }
 
   static parseFilms(data) {
-    return data.map(Movie.parseFilm);
+    return data.map(MovieModel.parseFilm);
   }
 
   static clone(data) {
-    return new Movie(data.toRAW());
+    return new MovieModel(data.toRAW());
   }
 }

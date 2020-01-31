@@ -4,6 +4,7 @@ import ShowMoreButton from "../components/show-more-button";
 import NoData from "../components/no-data";
 import MovieController from './movie-controller';
 import Sorting from "../components/sorting";
+import MovieModel from '../models/movie-model';
 import {remove, render} from "../utilities/render";
 import {showElement, hideElement} from "../utilities/utilities";
 import {
@@ -111,13 +112,16 @@ export default class PageController {
     this._createRatedFilmsControllers(this._mostCommentedFilms.getTopFilms(films), commentsPlace, RATES_CARDS_COUNT);
   }
 
-  _onDataChange(movieController, id, film) {
-    const isSuccess = this._filmModel.refreshFilm(id, film);
+  _onDataChange(movieController, id, film, shouldAppUpdate = false) {
+    const movie = film.movie || film;
+    const isSuccess = this._filmModel.refreshFilm(id, movie);
 
     if (isSuccess) {
-      movieController.render(film);
+      const preparedFilm = new MovieModel(movie);
+
+      movieController.render(preparedFilm);
       this._updateRatedFilms();
-      this._filterController.render(this._filmModel);
+      if (shouldAppUpdate) this._filterController.render(preparedFilm);
     }
   }
 
