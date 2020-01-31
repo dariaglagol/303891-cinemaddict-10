@@ -1,9 +1,9 @@
 import AbstractComponent from "./abstract-component";
 
 const createFilterTemplate = (filterItem) => {
-  const [name, count, activeFilter] = filterItem;
+  const {filterName, filterCount, activeFilter} = filterItem;
 
-  const preparedNameString = name[0].toUpperCase() + name.slice(1);
+  const preparedNameString = filterName[0].toUpperCase() + filterName.slice(1);
 
   return `
     <a
@@ -11,7 +11,7 @@ const createFilterTemplate = (filterItem) => {
       class="main-navigation__item ${activeFilter === name && `main-navigation__item--active`}"
       data-filter-type=${name}
     >${preparedNameString}
-      ${count ? `<span class="main-navigation__item-count">${count}</span>` : ``}
+      ${filterCount ? `<span class="main-navigation__item-count">${filterCount}</span>` : ``}
     </a>
   `;
 };
@@ -20,8 +20,12 @@ const createFiltersTemplate = (filters, activeFilter) => {
   const filtersKey = Object.keys(filters);
 
   return filtersKey.map((filterName) => {
-    const filterItem = [filterName, filters[filterName], activeFilter];
-    return createFilterTemplate(filterItem);
+    const options = {
+      filterName,
+      filterCount: filters[filterName],
+      activeFilter
+    };
+    return createFilterTemplate(options);
   }).join(``);
 };
 

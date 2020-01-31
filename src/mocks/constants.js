@@ -206,7 +206,7 @@ const Method = {
 const AUTHORIZATION = `Basic dXP}lckBwYNECzd21yZAo=`;
 const END_POINT = `https://htmlacademy-es-10.appspot.com/cinemaddict`;
 
-const ChartBackgroundColor = [
+const CHART_BACKGROUND_COLORS = [
   `rgb(255, 99, 132)`,
   `rgb(54, 162, 235)`,
   `rgb(255, 206, 86)`,
@@ -220,10 +220,10 @@ const ChartBackgroundColor = [
 const HIDDEN_CLASS = `visually-hidden`;
 
 const PeriodForMoment = {
-  'today': `days`,
-  'week': `weeks`,
-  'month': `months`,
-  'year': `years`,
+  TODAY: `days`,
+  WEEK: `weeks`,
+  MONTH: `months`,
+  YEAR: `years`,
 };
 
-export {RenderPosition, ChartBackgroundColor, HIDDEN_CLASS, PeriodForMoment, AUTHORIZATION, END_POINT, Method, FiltersName, Mode, SortTypeName, SortTypeCallbacks, TopFilmType, CLICKABLE_ITEMS, MAX_FILM_SCORE, MAX_AGE_RATING, COMMENTS_EMODJIES, COMMENTS_COUNT, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS, Year, MAX_VALUE, Duration, Rating, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};
+export {RenderPosition, CHART_BACKGROUND_COLORS, HIDDEN_CLASS, PeriodForMoment, AUTHORIZATION, END_POINT, Method, FiltersName, Mode, SortTypeName, SortTypeCallbacks, TopFilmType, CLICKABLE_ITEMS, MAX_FILM_SCORE, MAX_AGE_RATING, COMMENTS_EMODJIES, COMMENTS_COUNT, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS, Year, MAX_VALUE, Duration, Rating, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};

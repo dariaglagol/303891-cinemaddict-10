@@ -2,7 +2,7 @@ import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import AbstractSmartComponent from "./abstract-smart-component";
 import {getWatchedFilms, getFilmTotalDuration, getUserStatus} from '../utilities/utilities';
-import {ChartBackgroundColor} from '../mocks/constants';
+import {CHART_BACKGROUND_COLORS} from '../mocks/constants';
 
 const createStatisticTemplate = (userData) => {
   const {
@@ -63,10 +63,8 @@ const createStatisticTemplate = (userData) => {
 };
 
 const getTotalFilmsDuration = (films) => {
-  const watchedFilms = films.slice().filter((film) => film.isWatched === true);
-  const initialValue = 0;
-  const totalDuration = watchedFilms.reduce((accumulator, film) => accumulator + film.movieDuration, initialValue);
-  return totalDuration;
+  const watchedFilms = films.filter((film) => film.isWatched === true);
+  return watchedFilms.reduce((accumulator, film) => accumulator + film.movieDuration, 0);
 };
 
 const getWatchedStatisticGenres = (films) => {
@@ -130,7 +128,7 @@ const renderChart = (ctx, chartData, period) => {
       datasets: [{
         data: values,
         label: `Watched by ${periodLabel}`,
-        backgroundColor: ChartBackgroundColor
+        backgroundColor: CHART_BACKGROUND_COLORS
       }]
     },
     options: {

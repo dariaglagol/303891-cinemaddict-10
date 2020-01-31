@@ -192,17 +192,14 @@ export default class FilmPopup extends AbstractComponent {
 
   getFormData() {
     const commentForm = this.getElement().querySelector(`.film-details__new-comment`);
-    if (commentForm) {
-      const commentTextAreaValue = commentForm
-        .querySelector(`.film-details__comment-input`)
-        .value;
-      const commentEmoji = commentForm
-        .querySelector(`.film-details__add-emoji-label img`)
-        .getAttribute(`alt`);
 
-      return {commentTextAreaValue, commentEmoji};
-    }
+    const commentTextAreaValue = commentForm
+      .querySelector(`.film-details__comment-input`)
+      .value;
+    const commentEmoji = commentForm
+      .querySelector(`.film-details__add-emoji-label img`)
+      .getAttribute(`alt`);
 
-    return null;
+    return {commentTextAreaValue, commentEmoji};
   }
 }
