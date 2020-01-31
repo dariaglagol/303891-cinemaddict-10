@@ -28,10 +28,16 @@ export default class Api {
       .then(Comment.parseComments);
   }
 
-  addComment(task) {
-  }
-
-  updateFilm(id, data) {
+  addComment(movieId, data) {
+    console.log(data);
+    return this._load({
+      url: `comments/${movieId}`,
+      method: Method.PUT,
+      body: JSON.stringify(data.toRAW()),
+      headers: new Headers({'Content-Type': `application/json`})
+    })
+      .then((response) => response.json())
+      .then(Comment.parseComments);
   }
 
   deleteComment(id) {

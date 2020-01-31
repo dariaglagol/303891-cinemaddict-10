@@ -3,6 +3,8 @@ import FilmPopup from "../components/film-popup";
 import CommentForm from "../components/comment-form";
 import FilmModel from '../models/movies-model';
 import Comments from "../components/comments";
+import CommentModel from "../models/comment-model";
+import MovieModel from "../models/movie-model";
 import {remove, render, replaceElement} from "../utilities/render";
 import {CLICKABLE_ITEMS, RenderPosition, Mode, COMMENTS_AUTHORS} from "../mocks/constants";
 import {getRandomArrayItem, getRandomIntegerNumber, setCardClickEventListeners, getRandomDate} from "../utilities/utilities";
@@ -41,8 +43,8 @@ export default class MovieController {
       } else {
         this._api.getComments(this._film.id)
           .then((comments) => {
-            this._film.comments = comments;
-            this._commentsComponent.getComments(this._film.comments);
+            this._film.commentsData = comments;
+            this._commentsComponent.getComments(this._film.commentsData);
             render(this._popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
             this._renderCommentsForm();
             this.setPopupEventsListener();
@@ -194,30 +196,64 @@ export default class MovieController {
     const isCmdOrCtrlPressed = evt.metaKey || evt.ctrlKey;
     if (evt.key === `Enter` && isCmdOrCtrlPressed) {
       evt.preventDefault();
-
       const formData = this._filmPopup.getFormData();
 
       if (!formData) {
         return;
       }
 
-      const newComment = {
-        text: formData.commentTextAreaValue,
-        author: getRandomArrayItem(COMMENTS_AUTHORS),
-        emoji: formData.commentEmoji,
-        date: getRandomDate(),
-        id: getRandomIntegerNumber(this._film.comments.length, 1000)
-      };
+      console.log(this._film.comments, this._film.commentsData);
 
-      const newComments = [].concat(this._film.comments, [newComment]);
-
-      const newData = Object.assign({}, this._film, {
-        comments: newComments
+      const film = new MovieModel({
+        'user_details': {
+          'favorite': this._film.isFavorite,
+          'already_watched': this._film.isWatched,
+          'watchlist': this._film.isInWatchList,
+          'personal_rating': this._film.personalRating,
+          'watching_date': this._film.watchingDate.toISOString(),
+        },
+        'film_info': {
+          'title': this._film.filmName,
+          'alternative_title': this._film.alternativeFilmName,
+          'total_rating': this._film.rating,
+          'poster': this._film.posterUrl,
+          'release': {
+            'date': this._film.releaseDate,
+            'release_country': this._film.country
+          },
+          'runtime': this._film.movieDuration,
+          'genre': this._film.genres,
+          'description': this._film.description,
+          'age_rating': this._film.ageRating,
+          'actors': this._film.actors,
+          'writers': this._film.writers,
+          'director': this._film.director,
+        },
+        'comments': this._film.comments,
+        'id': this._film.id,
       });
+
+      const newComment = new CommentModel({
+        comment: formData.commentTextAreaValue,
+        author: getRandomArrayItem(COMMENTS_AUTHORS),
+        emotion: formData.commentEmoji,
+        date: new Date(),
+        id: getRandomIntegerNumber(film.comments.length, 1000).toString()
+      });
+
+      const newComments = [].concat(this._film.commentsData, [newComment]);
+
+      const newData = {
+        movie: film,
+        comments: newComments
+      };
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, this._film.id, newData);
+      this._api.addComment(this._film.id, newData)
+        .then(() => {
+          this._onDataChange(this, this._film.id, newData);
+        });
     }
   }
 

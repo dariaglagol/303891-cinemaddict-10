@@ -99,6 +99,7 @@ const createFilmPopupTemplate = (film, options, nodes) => {
                   <td class="film-details__term">${genres.length > 1 ? `Genres` : `Genre`}</td>
                   <td class="film-details__cell">
                     ${genres.join(` `)}
+                  </td>
                 </tr>
               </table>
 

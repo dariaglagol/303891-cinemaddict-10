@@ -1,5 +1,6 @@
 export default class Movie {
   constructor(data) {
+    console.log(data);
     const {film_info, user_details} = data;
     this.filmName = film_info[`title`];
     this.alternativeFilmName = film_info[`alternative_title`];
@@ -8,7 +9,7 @@ export default class Movie {
     this.releaseDate = film_info[`release`][`date`] ? new Date(film_info[`release`][`date`]) : null;
     this.movieDuration = film_info[`runtime`];
     this.genres = film_info[`genre`] || [];
-    this.comments = user_details[`comments`] || [];
+    this.comments = data[`comments`] || [];
     this.description = film_info[`description`] || ``;
     this.isFavorite = Boolean(user_details[`favorite`]);
     this.isWatched = Boolean(user_details[`already_watched`]);
@@ -25,26 +26,28 @@ export default class Movie {
 
   toRAW() {
     return {
-      'filmName': this.filmName,
-      'alternativeFilmName': this.alternativeFilmName,
-      'rating': this.rating,
-      'posterUrl': this.posterUrl,
-      'releaseDate': this.releaseDate,
-      'movieDuration': this.movieDuration,
-      'genres': this.genres,
+      'title': this.filmName,
+      'alternative_title': this.alternativeFilmName,
+      'total_rating': this.rating,
+      'poster': this.posterUrl,
+      'releaseDate': {
+        'release': this.releaseDate,
+        'release_country': this.country
+      },
+      'runtime': this.movieDuration,
+      'genre': this.genres,
       'comments': Array.form(this.comments),
       'description': this.description,
-      'isFavorite': this.isFavorite,
-      'isWatched': this.isWatched,
-      'isInWatchList': this.isInWatchList,
-      'ageRating': this.ageRating,
+      'favorite': this.isFavorite,
+      'already_watched': this.isWatched,
+      'watchlist': this.isInWatchList,
+      'age_rating': this.ageRating,
       'actors': this.actors,
       'writers': this.writers,
       'director': this.director,
-      'country': this.country,
-      'watchingDate': this.watchingDate.toISOString(),
+      'watching_date': this.watchingDate.toISOString(),
       'id': this.id,
-      'personalRating': this.personalRating,
+      'personal_rating': this.personalRating,
     };
   }
 

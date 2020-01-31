@@ -204,7 +204,7 @@ const Method = {
 };
 
 const AUTHORIZATION = `Basic dXP}lckBwYNECzd21yZAo=`;
-const END_POINT = `https://htmlacademy-es-10.appspot.com/cinemaddict/`;
+const END_POINT = `https://htmlacademy-es-10.appspot.com/cinemaddict`;
 
 const ChartBackgroundColor = [
   `rgb(255, 99, 132)`,
