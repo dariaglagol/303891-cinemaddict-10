@@ -20,14 +20,11 @@ export default class MovieController {
 
     this._setEscKeyDownHandler = this._setEscKeyDownHandler.bind(this);
     this._commentSubmitHandler = this._commentSubmitHandler.bind(this);
-
-    this._filmModel = new FilmModel();
   }
 
   render(film) {
     const oldFilmComponent = this._filmCard;
     const oldPopupComponent = this._filmPopup;
-    this.oldPopupComponent = oldPopupComponent;
     this._film = film;
     this._popupRenderPlace = this._container.closest(`.main`);
 
@@ -173,6 +170,17 @@ export default class MovieController {
       evt.preventDefault();
 
       film.isFavorite = !film.isFavorite;
+      const newData = MovieModel.clone(film);
+
+      this._mode = Mode.EDIT;
+
+      this._onDataChange(this, film.id, newData.toRAW(), true);
+    });
+
+    this._filmPopup.setRatingButtonClickHandler((evt) => {
+      evt.preventDefault();
+
+      film.personalRating = parseInt(evt.target.value);
       const newData = MovieModel.clone(film);
 
       this._mode = Mode.EDIT;

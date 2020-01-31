@@ -5,9 +5,10 @@ const createRatingInputs = (personalRating) => {
   return new Array(MAX_FILM_SCORE)
     .fill(``)
     .map((item, index) => {
+      const value = index + 1;
       const template = `
-        <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${index}" id="rating-${index}" ${personalRating === index ? `checked` : ``}>
-        <label class="film-details__user-rating-label" for="rating-${index}">${index}</label>
+        <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${value}" id="rating-${value}" ${personalRating === value ? `checked` : ``}>
+        <label class="film-details__user-rating-label" for="rating-${value}">${value}</label>
       `;
 
       return template;
