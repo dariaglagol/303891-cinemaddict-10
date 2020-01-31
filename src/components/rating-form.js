@@ -1,15 +1,12 @@
 import AbstractComponent from "./abstract-component";
-import {getRandomIntegerNumber} from "../utilities/utilities";
 import {MAX_FILM_SCORE} from '../mocks/constants';
 
-const createRatingInputs = () => {
-  const RANDOM_SCORE = getRandomIntegerNumber(1, MAX_FILM_SCORE);
-
+const createRatingInputs = (personalRating) => {
   return new Array(MAX_FILM_SCORE)
     .fill(``)
     .map((item, index) => {
       const template = `
-        <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${index}" id="rating-${index}" ${RANDOM_SCORE === index ? `checked` : ``}>
+        <input type="radio" name="score" class="film-details__user-rating-input visually-hidden" value="${index}" id="rating-${index}" ${personalRating === index ? `checked` : ``}>
         <label class="film-details__user-rating-label" for="rating-${index}">${index}</label>
       `;
 
@@ -17,7 +14,7 @@ const createRatingInputs = () => {
     });
 };
 
-const createRatingForm = (filmName, posterUrl) => {
+const createRatingForm = (filmName, posterUrl, personalRating) => {
   return (
     `<div class="form-details__middle-container">
       <section class="film-details__user-rating-wrap">
@@ -36,7 +33,7 @@ const createRatingForm = (filmName, posterUrl) => {
             <p class="film-details__user-rating-feelings">How you feel it?</p>
 
             <div class="film-details__user-rating-score">
-              ${createRatingInputs().join(``)}
+              ${createRatingInputs(personalRating).join(``)}
             </div>
           </section>
         </div>
@@ -50,9 +47,10 @@ export default class RatingForm extends AbstractComponent {
     super();
     this._filmName = film.filmName;
     this._posterUrl = film.posterUrl;
+    this._personalRating = film.personalRating;
   }
 
   getTemplate() {
-    return createRatingForm(this._filmName, this._posterUrl);
+    return createRatingForm(this._filmName, this._posterUrl, this._personalRating);
   }
 }

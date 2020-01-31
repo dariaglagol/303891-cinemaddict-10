@@ -1,7 +1,6 @@
 import moment from "moment";
 import AbstractComponent from "./abstract-component";
 import RatingForm from "./rating-form";
-import Comments from "./comments";
 import {getFilmDuration} from "../utilities/utilities";
 
 const isCheckboxActive = (statement) => {
@@ -33,7 +32,6 @@ const createFilmPopupTemplate = (film, options, nodes) => {
 
   const {
     ratingForm,
-    // commentsComponent
   } = nodes;
 
   const preparedReleaseDate = moment(releaseDate).format(`DD MMMM YYYY`);
@@ -127,7 +125,7 @@ const createFilmPopupTemplate = (film, options, nodes) => {
     </section>`
   );
 };
-// ${commentsComponent}
+
 export default class FilmPopup extends AbstractComponent {
   constructor(film) {
     super();
@@ -147,7 +145,6 @@ export default class FilmPopup extends AbstractComponent {
       isWatched: this._isWatched
     }, {
       ratingForm: this._ratingForm.getTemplate(),
-      // : this._commentsComponent.getTemplate(),
     });
   }
 
