@@ -33,7 +33,7 @@ const createFilmPopupTemplate = (film, options, nodes) => {
 
   const {
     ratingForm,
-    commentsComponent
+    // commentsComponent
   } = nodes;
 
   const preparedReleaseDate = moment(releaseDate).format(`DD MMMM YYYY`);
@@ -122,19 +122,18 @@ const createFilmPopupTemplate = (film, options, nodes) => {
           </section>
         </div>
         ${renderFormTemplate}
-        ${commentsComponent}
+
       </form>
     </section>`
   );
 };
-
+// ${commentsComponent}
 export default class FilmPopup extends AbstractComponent {
   constructor(film) {
     super();
     this._film = film;
 
     this._ratingForm = new RatingForm(this._film);
-    this._commentsComponent = new Comments(this._film.comments);
 
     this._isFilmFavorite = this._film.isFavorite;
     this._isInWatchList = this._film.isInWatchList;
@@ -148,7 +147,7 @@ export default class FilmPopup extends AbstractComponent {
       isWatched: this._isWatched
     }, {
       ratingForm: this._ratingForm.getTemplate(),
-      commentsComponent: this._commentsComponent.getTemplate(),
+      // : this._commentsComponent.getTemplate(),
     });
   }
 

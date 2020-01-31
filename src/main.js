@@ -20,7 +20,7 @@ api.getFilms()
   .then((films) => {
     filmModel.setFilm(films);
     const filterController = new FilterController(mainNode, statistic);
-    const pageController = new PageController(mainNode, filmModel, filterController);
+    const pageController = new PageController(mainNode, filmModel, filterController, api);
     render(headerNode, new UserProfile(filmModel).getElement(), RenderPosition.BEFORE_END);
     filterController.render(filmModel);
 

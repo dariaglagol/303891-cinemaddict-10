@@ -1,4 +1,5 @@
 import Movie from './models/movie-model';
+import Comment from './models/comment-model';
 import {Method} from './mocks/constants';
 
 const checkStatus = (response) => {
@@ -19,6 +20,12 @@ export default class Api {
     return this._load({url: `movies`})
       .then((response) => response.json())
       .then(Movie.parseFilms);
+  }
+
+  getComments(movieId) {
+    return this._load({url: `comments/${movieId}`})
+      .then((response) => response.json())
+      .then(Comment.parseComments);
   }
 
   addComment(task) {

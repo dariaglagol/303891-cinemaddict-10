@@ -2,15 +2,17 @@ import FilmCard from "../components/film-card";
 import FilmPopup from "../components/film-popup";
 import CommentForm from "../components/comment-form";
 import FilmModel from '../models/movies-model';
+import Comments from "../components/comments";
 import {remove, render, replaceElement} from "../utilities/render";
 import {CLICKABLE_ITEMS, RenderPosition, Mode, COMMENTS_AUTHORS} from "../mocks/constants";
 import {getRandomArrayItem, getRandomIntegerNumber, setCardClickEventListeners, getRandomDate} from "../utilities/utilities";
 
 export default class MovieController {
-  constructor(container, onDataChange, onViewChange) {
+  constructor(container, onDataChange, onViewChange, api) {
     this._container = container;
     this._onDataChange = onDataChange;
     this._onViewChange = onViewChange;
+    this._api = api;
 
     this._mode = Mode.DEFAULT;
 
@@ -29,6 +31,7 @@ export default class MovieController {
     this._filmCard = new FilmCard(film);
     this._filmPopup = new FilmPopup(film);
     this._commentForm = new CommentForm();
+    this._commentsComponent = new Comments();
 
     const onFilmCardClick = () => {
       const replaceableElement = this._popupRenderPlace.querySelector(`.film-details`);
@@ -36,9 +39,14 @@ export default class MovieController {
         this._replacePopup(replaceableElement);
         this.setPopupEventsListener();
       } else {
-        render(this._popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
-        this._renderCommentsForm();
-        this.setPopupEventsListener();
+        this._api.getComments(this._film.id)
+          .then((comments) => {
+            this._film.comments = comments;
+            this._commentsComponent.getComments(this._film.comments);
+            render(this._popupRenderPlace, this._filmPopup.getElement(), RenderPosition.BEFORE_END);
+            this._renderCommentsForm();
+            this.setPopupEventsListener();
+          });
       }
     };
 
@@ -214,8 +222,9 @@ export default class MovieController {
   }
 
   _renderCommentsForm() {
-    const commentFormRenderPlace = this._popupRenderPlace.querySelector(`.form-details__bottom-container`);
-    render(commentFormRenderPlace, this._commentForm.getElement(), RenderPosition.BEFORE_END);
+    const commentsFormRenderPlace = this._popupRenderPlace.querySelector(`.film-details__inner`);
+    render(commentsFormRenderPlace, this._commentsComponent.getElement(), RenderPosition.BEFORE_END);
+    render(this._commentsComponent.getElement(), this._commentForm.getElement(), RenderPosition.BEFORE_END);
   }
 
   destroy() {

@@ -15,10 +15,11 @@ import {
 } from "../mocks/constants";
 
 export default class PageController {
-  constructor(container, filmModel, filterController) {
+  constructor(container, filmModel, filterController, api) {
     this._filmModel = filmModel;
     this._filterController = filterController;
     this._generatedFilms = this._filmModel.getFilms();
+    this._api = api;
 
     this._showedFilmControllers = [];
     this._ratedFilmControllers = [];
@@ -122,7 +123,7 @@ export default class PageController {
 
   _createFilms(films, filmRenderPlace, sliceCount, onDataChange, onViewChange, slicePoint = 0) {
     return films.slice(slicePoint, slicePoint + sliceCount).map((film) => {
-      const movieController = new MovieController(filmRenderPlace, onDataChange, onViewChange);
+      const movieController = new MovieController(filmRenderPlace, onDataChange, onViewChange, this._api);
       movieController.render(film);
 
       return movieController;
@@ -171,7 +172,6 @@ export default class PageController {
   _updateFilmControllers() {
     this._removeFilms();
     const films = this._filmModel.getFilms();
-    console.log(films);
     this._createShowedFilmControllers(films, this._filmsRenderPlace);
 
     if (this.shouldButtonRender()) {
