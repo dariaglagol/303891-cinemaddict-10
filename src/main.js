@@ -15,10 +15,10 @@ const mainNode = bodyNode.querySelector(`.main`);
 const api = new Api(AUTHORIZATION, END_POINT);
 const filmModel = new MoviesModel();
 
-const statistic = new Statistic(filmModel);
 api.getFilms()
   .then((films) => {
     filmModel.setFilm(films);
+    const statistic = new Statistic(filmModel);
     const filterController = new FilterController(mainNode, statistic);
     const pageController = new PageController(mainNode, filmModel, filterController, api);
     render(headerNode, new UserProfile(filmModel).getElement(), RenderPosition.BEFORE_END);

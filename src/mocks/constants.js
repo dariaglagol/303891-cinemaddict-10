@@ -80,10 +80,10 @@ const GENRES = [
 ];
 
 const USER_STATUSES = new Map([
-  [`0`, ``],
-  [`1`, `Novice`],
+  [`21`, `Movie Buff`],
   [`11`, `Fan`],
-  [`21`, `Movie Buff`]
+  [`1`, `Novice`],
+  [`0`, ``]
 ]);
 
 const DIRECTORS = [
