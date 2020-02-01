@@ -111,10 +111,10 @@ export default class PageController {
   }
 
   _onDataChange(movieController, id, film, userDetail = false) {
-    const isSuccess = this._filmModel.refreshFilm(id, film);
+    const preparedFilm = new MovieModel(film);
+    const isSuccess = this._filmModel.refreshFilm(id, preparedFilm);
 
     if (isSuccess) {
-      const preparedFilm = new MovieModel(film);
       if (userDetail) {
         const disabledValue = preparedFilm[userDetail];
         movieController.setActiveArea(userDetail);
