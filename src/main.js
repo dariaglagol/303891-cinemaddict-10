@@ -28,6 +28,8 @@ api.getFilms()
     userProfile.setUserStatus(filmModel);
     const filterController = new FilterController(mainNode, statistic);
     const pageController = new PageController(mainNode, filmModel, filterController, api);
+    loadingNode.remove();
+    loading.removeElement();
     render(headerNode, userProfile.getElement(), RenderPosition.BEFORE_END);
     filterController.render(filmModel);
 
@@ -36,7 +38,6 @@ api.getFilms()
     filterController.getPageController(pageController);
     render(mainNode, statistic.getElement(), RenderPosition.BEFORE_END);
     render(bodyNode, new Footer(films.length).getElement(), RenderPosition.BEFORE_END);
-  }).finally(() => {
-    loading.getElement().remove();
+    loadingNode.remove();
     loading.removeElement();
   });

@@ -90,6 +90,8 @@ export default class PageController {
     const ratingPlace = this._ratedFilms.getElement().querySelector(`.films-list__container`);
     const commentsPlace = this._mostCommentedFilms.getElement().querySelector(`.films-list__container`);
 
+    console.log(ratingPlace);
+
     this._createRatedFilmsControllers(this._ratedFilms.getTopFilms(films), ratingPlace, RATES_CARDS_COUNT);
     this._createRatedFilmsControllers(this._mostCommentedFilms.getTopFilms(films), commentsPlace, RATES_CARDS_COUNT);
   }
