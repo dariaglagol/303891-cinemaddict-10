@@ -1,26 +1,27 @@
 export default class MovieModel {
-  constructor(data) {
-    const {film_info, user_details} = data;
-    this.filmName = film_info[`title`];
-    this.alternativeFilmName = film_info[`alternative_title`];
-    this.rating = film_info[`total_rating`];
-    this.posterUrl = film_info[`poster`];
-    this.releaseDate = film_info[`release`][`date`] ? new Date(film_info[`release`][`date`]) : null;
-    this.movieDuration = film_info[`runtime`];
-    this.genres = film_info[`genre`] || [];
-    this.comments = data[`comments`] || [];
-    this.description = film_info[`description`] || ``;
-    this.isFavorite = Boolean(user_details[`favorite`]);
-    this.isWatched = Boolean(user_details[`already_watched`]);
-    this.isInWatchList = Boolean(user_details[`watchlist`]);
-    this.ageRating = film_info[`age_rating`];
-    this.actors = film_info[`actors`] || [];
-    this.writers = film_info[`writers`] || [];
-    this.director = film_info[`director`];
-    this.country = film_info[`release`][`release_country`];
-    this.id = data[`id`];
-    this.personalRating = user_details[`personal_rating`];
-    this.watchingDate = user_details[`watching_date`] ? new Date(user_details[`watching_date`]) : null;
+  constructor(film) {
+    const filmInfo = film[`film_info`];
+    const userDetails = film[`user_details`];
+    this.filmName = filmInfo[`title`];
+    this.alternativeFilmName = filmInfo[`alternative_title`];
+    this.rating = filmInfo[`total_rating`];
+    this.posterUrl = filmInfo[`poster`];
+    this.releaseDate = filmInfo[`release`][`date`] ? new Date(filmInfo[`release`][`date`]) : null;
+    this.movieDuration = filmInfo[`runtime`];
+    this.genres = filmInfo[`genre`] || [];
+    this.comments = film[`comments`] || [];
+    this.description = filmInfo[`description`] || ``;
+    this.isFavorite = Boolean(userDetails[`favorite`]);
+    this.isWatched = Boolean(userDetails[`already_watched`]);
+    this.isInWatchList = Boolean(userDetails[`watchlist`]);
+    this.ageRating = filmInfo[`age_rating`];
+    this.actors = filmInfo[`actors`] || [];
+    this.writers = filmInfo[`writers`] || [];
+    this.director = filmInfo[`director`];
+    this.country = filmInfo[`release`][`release_country`];
+    this.id = film[`id`];
+    this.personalRating = userDetails[`personal_rating`];
+    this.watchingDate = userDetails[`watching_date`] ? new Date(userDetails[`watching_date`]) : null;
   }
 
   toRAW() {
