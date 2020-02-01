@@ -189,6 +189,8 @@ export default class MovieController {
           this._onDataChange(this, film.id, rawFilm);
         });
     });
+
+    this.scrollToControl();
   }
 
   _setEscKeyDownHandler(evt) {
@@ -259,6 +261,7 @@ export default class MovieController {
   }
 
   scrollToControl() {
+    console.log(this._filmPopup);
     this._filmPopup.scrollToControl();
   }
 }

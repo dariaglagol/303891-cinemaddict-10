@@ -224,6 +224,8 @@ export default class FilmPopup extends AbstractComponent {
       return element.getBoundingClientRect().top;
     }
 
+    this.scrollPosition = 0;
+
     switch (control) {
       case `isInWatchList` || `isFavorite` || `isWatched`:
         this.scrollPosition = getTopElementSide(`.film-details__controls`);
@@ -234,6 +236,8 @@ export default class FilmPopup extends AbstractComponent {
       case `comment`:
         this.scrollPosition = getTopElementSide(`.film-details__new-comment`);
     }
+
+    console.log(this.scrollPosition);
   }
 
   toggleCommentRequestError(mode) {
@@ -314,6 +318,7 @@ export default class FilmPopup extends AbstractComponent {
   }
 
   scrollToControl() {
+    console.log(this.scrollPosition);
     this.getElement().scrollTo({
       top: this.scrollPosition,
       behavior: `smooth`
