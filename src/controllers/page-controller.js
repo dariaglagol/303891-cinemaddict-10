@@ -10,7 +10,6 @@ import {
   CARDS_COUNT,
   RenderPosition,
   TopFilmType,
-  TOTAL_FILM_COUNT,
   RATES_CARDS_COUNT,
 } from "../mocks/constants";
 

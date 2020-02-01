@@ -80,10 +80,13 @@ const END_POINT = `https://htmlacademy-es-10.appspot.com/cinemaddict`;
 
 const CHART_BACKGROUND_COLORS = [
   `rgb(255, 99, 132)`,
+  `rgb(255, 60, 24)`,
   `rgb(54, 162, 235)`,
+  `rgb(23, 81, 235)`,
   `rgb(255, 206, 86)`,
   `rgb(75, 192, 192)`,
   `rgb(153, 102, 255)`,
+  `rgb(51, 255, 230)`,
   `rgb(255, 159, 64)`,
   `rgb(28, 107, 114)`,
   `rgb(190, 245, 116)`,

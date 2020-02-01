@@ -49,6 +49,7 @@ export default class FilterController {
       this._pageController.showMainPage();
       return;
     }
+    this._statistic.rerender(this._filmsModel.getAllFilms());
     this._isStatsHide = false;
     this._statistic.show();
     this._pageController.hideMainPage();
