@@ -114,7 +114,7 @@ export default class PageController {
     const isSuccess = this._filmModel.refreshFilm(id, film);
 
     if (isSuccess) {
-      const preparedFilm = new MovieModel(film.toRAW());
+      const preparedFilm = new MovieModel(film);
       if (shouldAppUpdate) {
         this._api.updateFilm(id, preparedFilm)
           .then((movie) => {

@@ -1,3 +1,4 @@
+import he from 'he';
 import moment from "moment";
 import AbstractComponent from "./abstract-component";
 import RatingForm from "./rating-form";
@@ -198,10 +199,11 @@ export default class FilmPopup extends AbstractComponent {
     const commentTextAreaValue = commentForm
       .querySelector(`.film-details__comment-input`)
       .value;
+    const encodedTextAreaValue = he.encode(commentTextAreaValue);
     const commentEmoji = commentForm
       .querySelector(`.film-details__add-emoji-label img`)
       .getAttribute(`alt`);
 
-    return {commentTextAreaValue, commentEmoji};
+    return {encodedTextAreaValue, commentEmoji};
   }
 }

@@ -102,7 +102,7 @@ export default class MovieController {
 
       film.isInWatchList = !film.isInWatchList;
 
-      this._onDataChange(this, film.id, new MovieModel(film.toRAW()), shouldAppUpdate);
+      this._onDataChange(this, film.id, film.toRAW(), shouldAppUpdate);
     });
 
     this._filmCard.setWatchedButtonClickHandler((evt) => {
@@ -111,7 +111,7 @@ export default class MovieController {
       film.isWatched = !film.isWatched;
       film.watchingDate = !film.isWatched ? new Date().toISOString() : film.watchingDate;
 
-      this._onDataChange(this, film.id, new MovieModel(film.toRAW()), shouldAppUpdate);
+      this._onDataChange(this, film.id, film.toRAW(), shouldAppUpdate);
     });
 
     this._filmCard.setFavoriteButtonClickHandler((evt) => {
@@ -119,7 +119,7 @@ export default class MovieController {
 
       film.isFavorite = !film.isFavorite;
 
-      this._onDataChange(this, film.id, new MovieModel(film.toRAW()), shouldAppUpdate);
+      this._onDataChange(this, film.id, film.toRAW(), shouldAppUpdate);
     });
   }
 
@@ -149,7 +149,7 @@ export default class MovieController {
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, new MovieModel(film.toRAW()), shouldAppUpdate);
+      this._onDataChange(this, film.id, film.toRAW(), shouldAppUpdate);
     });
 
     this._filmPopup.setWatchedButtonClickHandler((evt) => {
@@ -160,7 +160,7 @@ export default class MovieController {
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, new MovieModel(film.toRAW()), shouldAppUpdate);
+      this._onDataChange(this, film.id, film.toRAW(), shouldAppUpdate);
     });
 
     this._filmPopup.setFavoriteButtonClickHandler((evt) => {
@@ -170,7 +170,7 @@ export default class MovieController {
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, new MovieModel(film.toRAW()), shouldAppUpdate);
+      this._onDataChange(this, film.id, film.toRAW(), shouldAppUpdate);
     });
 
     this._filmPopup.setRatingButtonClickHandler((evt) => {
@@ -180,7 +180,7 @@ export default class MovieController {
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, new MovieModel(film.toRAW()), shouldAppUpdate);
+      this._onDataChange(this, film.id, film.toRAW(), shouldAppUpdate);
     });
 
     this._filmPopup.setDeleteButtonClickHandler((id) => {
@@ -215,7 +215,7 @@ export default class MovieController {
       }
 
       const newComment = new CommentModel({
-        comment: formData.commentTextAreaValue,
+        comment: formData.encodedTextAreaValue,
         emotion: formData.commentEmoji,
         date: new Date(),
       });
