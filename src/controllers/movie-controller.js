@@ -185,7 +185,7 @@ export default class MovieController {
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, film.toRAW(), UserDetail.PERSONAL_RATING);
+      this._onDataChange(this, film.id, film.toRAW(), UserDetail.PERSONAL_UNDO_RATING);
     });
 
     this._filmPopup.setDeleteButtonClickHandler((id) => {
