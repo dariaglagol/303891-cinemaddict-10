@@ -44,9 +44,10 @@ const getFilmDuration = (movieDuration) => {
 };
 
 const getFilmTotalDuration = (movieDuration) => {
-  const duration = moment.duration(movieDuration, `minutes`).format(`h m`);
+  const hours = moment.duration(movieDuration, `minutes`).format(`h`);
+  const minutes = moment.duration(movieDuration - (hours * 60), `minutes`).format(`m`);
 
-  return duration;
+  return {hours, minutes};
 };
 
 const getRandomDate = () => {

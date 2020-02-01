@@ -12,9 +12,7 @@ const createStatisticTemplate = (userData) => {
     mostWatchedGenre
   } = userData;
 
-  const preparedTotalDuration = getFilmTotalDuration(totalDuration).split(` `);
-  const hours = totalDuration ? preparedTotalDuration[0] : `0`;
-  const minutes = totalDuration ? preparedTotalDuration[1] : `0`;
+  const {hours, minutes} = getFilmTotalDuration(totalDuration);
 
   return (
     `<section class="statistic">
