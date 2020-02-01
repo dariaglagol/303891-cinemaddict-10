@@ -23,7 +23,7 @@ export default class Comments extends AbstractComponent {
     return createCommentsTemplate(this._comments);
   }
 
-  getComments(comments) {
+  setComments(comments) {
     this._comments = comments;
   }
 }

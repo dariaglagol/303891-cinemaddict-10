@@ -18,15 +18,15 @@ export default class CommentModel {
     };
   }
 
-  static parseComment(data) {
-    return new CommentModel(data);
+  static parseComment(comment) {
+    return new CommentModel(comment);
   }
 
-  static parseComments(data) {
-    return data.map(CommentModel.parseComment);
+  static parseComments(comments) {
+    return comments.map(CommentModel.parseComment);
   }
 
-  static clone(data) {
-    return new CommentModel(data.toRAW());
+  static clone(comment) {
+    return new CommentModel(comment.toRAW());
   }
 }

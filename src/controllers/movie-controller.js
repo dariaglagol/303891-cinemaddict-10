@@ -4,9 +4,8 @@ import CommentForm from "../components/comment-form";
 import Comments from "../components/comments";
 import CommentModel from "../models/comment-model";
 import {remove, render, replaceElement} from "../utilities/render";
-import {CLICKABLE_ITEMS, RenderPosition, Mode} from "../mocks/constants";
+import {CLICKABLE_ITEMS, RenderPosition, Mode, SHOULD_FILM_UPDATE} from "../mocks/constants";
 import {setCardClickEventListeners} from "../utilities/utilities";
-import MovieModel from "../models/movie-model";
 
 export default class MovieController {
   constructor(container, onDataChange, onViewChange, api) {
@@ -70,7 +69,7 @@ export default class MovieController {
     return this._api.getComments(this._film.id)
       .then((comments) => {
         this._film.commentsData = comments;
-        this._commentsComponent.getComments(this._film.commentsData);
+        this._commentsComponent.setComments(this._film.commentsData);
       });
   }
 
@@ -95,14 +94,13 @@ export default class MovieController {
 
   setCardsListeners() {
     const film = this._film;
-    const shouldAppUpdate = true;
 
     this._filmCard.setWatchListButtonClickHandler((evt) => {
       evt.preventDefault();
 
       film.isInWatchList = !film.isInWatchList;
 
-      this._onDataChange(this, film.id, film.toRAW(), shouldAppUpdate);
+      this._onDataChange(this, film.id, film.toRAW(), SHOULD_FILM_UPDATE);
     });
 
     this._filmCard.setWatchedButtonClickHandler((evt) => {
@@ -111,7 +109,7 @@ export default class MovieController {
       film.isWatched = !film.isWatched;
       film.watchingDate = !film.isWatched ? new Date().toISOString() : film.watchingDate;
 
-      this._onDataChange(this, film.id, film.toRAW(), shouldAppUpdate);
+      this._onDataChange(this, film.id, film.toRAW(), SHOULD_FILM_UPDATE);
     });
 
     this._filmCard.setFavoriteButtonClickHandler((evt) => {
@@ -119,7 +117,7 @@ export default class MovieController {
 
       film.isFavorite = !film.isFavorite;
 
-      this._onDataChange(this, film.id, film.toRAW(), shouldAppUpdate);
+      this._onDataChange(this, film.id, film.toRAW(), SHOULD_FILM_UPDATE);
     });
   }
 
@@ -134,8 +132,6 @@ export default class MovieController {
 
     const film = this._film;
 
-    const shouldAppUpdate = true;
-
     this._filmPopup.setPopupCloseHandler((evt) => {
       evt.preventDefault();
       this.removePopupEventsListener();
@@ -149,7 +145,7 @@ export default class MovieController {
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, film.toRAW(), shouldAppUpdate);
+      this._onDataChange(this, film.id, film.toRAW(), SHOULD_FILM_UPDATE);
     });
 
     this._filmPopup.setWatchedButtonClickHandler((evt) => {
@@ -160,7 +156,7 @@ export default class MovieController {
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, film.toRAW(), shouldAppUpdate);
+      this._onDataChange(this, film.id, film.toRAW(), SHOULD_FILM_UPDATE);
     });
 
     this._filmPopup.setFavoriteButtonClickHandler((evt) => {
@@ -170,7 +166,7 @@ export default class MovieController {
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, film.toRAW(), shouldAppUpdate);
+      this._onDataChange(this, film.id, film.toRAW(), SHOULD_FILM_UPDATE);
     });
 
     this._filmPopup.setRatingButtonClickHandler((evt) => {
@@ -180,7 +176,7 @@ export default class MovieController {
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, film.toRAW(), shouldAppUpdate);
+      this._onDataChange(this, film.id, film.toRAW(), SHOULD_FILM_UPDATE);
     });
 
     this._filmPopup.setDeleteButtonClickHandler((id) => {

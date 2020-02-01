@@ -17,9 +17,9 @@ const createFilterTemplate = (filterItem) => {
 };
 
 const createFiltersTemplate = (filters, activeFilter) => {
-  const filtersKey = Object.keys(filters);
+  const filtersKeys = Object.keys(filters);
 
-  return filtersKey.map((filterName) => {
+  return filtersKeys.map((filterName) => {
     const options = {
       filterName,
       filterCount: filters[filterName],

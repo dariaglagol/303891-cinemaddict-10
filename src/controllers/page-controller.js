@@ -110,12 +110,12 @@ export default class PageController {
     this._createRatedFilmsControllers(this._mostCommentedFilms.getTopFilms(films), commentsPlace, RATES_CARDS_COUNT);
   }
 
-  _onDataChange(movieController, id, film, shouldAppUpdate = false) {
+  _onDataChange(movieController, id, film, shouldFilmUpdate = false) {
     const isSuccess = this._filmModel.refreshFilm(id, film);
 
     if (isSuccess) {
       const preparedFilm = new MovieModel(film);
-      if (shouldAppUpdate) {
+      if (shouldFilmUpdate) {
         this._api.updateFilm(id, preparedFilm)
           .then((movie) => {
             this._filterController.render(this._filmModel);

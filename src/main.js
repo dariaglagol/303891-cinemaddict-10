@@ -20,7 +20,7 @@ api.getFilms()
     filmModel.setFilm(films);
     const statistic = new Statistic(filmModel);
     const userProfile = new UserProfile();
-    userProfile.getFilms(filmModel);
+    userProfile.setUserStatus(filmModel);
     const filterController = new FilterController(mainNode, statistic);
     const pageController = new PageController(mainNode, filmModel, filterController, api);
     render(headerNode, userProfile.getElement(), RenderPosition.BEFORE_END);

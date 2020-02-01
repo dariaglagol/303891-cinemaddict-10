@@ -15,7 +15,7 @@ export default class UserProfile extends AbstractComponent {
     return createUserProfileTemplate(this._userStatus);
   }
 
-  getFilms(filmModel) {
+  setUserStatus(filmModel) {
     this._userStatus = getUserStatus(filmModel.getAllFilms());
   }
 }
