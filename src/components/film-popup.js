@@ -194,6 +194,20 @@ export default class FilmPopup extends AbstractComponent {
     }
   }
 
+  setUndoButtonClickHandler(handler) {
+    if (this._isWatched) {
+      this.getElement()
+        .querySelector(`.film-details__watched-reset`)
+        .addEventListener(`click`, (evt) => {
+          evt.preventDefault();
+          const activeRatingMark = this.getElement().querySelector(`#rating-${this._film.personalRating}`);
+          activeRatingMark.removeAttribute(`checked`);
+
+          handler();
+        });
+    }
+  }
+
   getFormData() {
     const commentForm = this.getElement().querySelector(`.film-details__new-comment`);
 

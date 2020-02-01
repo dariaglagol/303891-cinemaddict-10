@@ -153,6 +153,7 @@ export default class MovieController {
 
       film.isWatched = !film.isWatched;
       film.watchingDate = !film.isWatched ? new Date() : film.watchingDate;
+      film.personalRating = !film.isWatched ? film.personalRating : 0;
 
       this._mode = Mode.EDIT;
 
@@ -173,6 +174,14 @@ export default class MovieController {
       evt.preventDefault();
 
       film.personalRating = parseInt(evt.target.value, 10);
+
+      this._mode = Mode.EDIT;
+
+      this._onDataChange(this, film.id, film.toRAW(), UserDetail.PERSONAL_RATING);
+    });
+
+    this._filmPopup.setUndoButtonClickHandler(() => {
+      film.personalRating = 0;
 
       this._mode = Mode.EDIT;
 
@@ -235,7 +244,7 @@ export default class MovieController {
           this._filmPopup.toggleCommentRequestError(`show`);
         })
         .finally(() => {
-          this.setScrollPositions(`comment`);
+          this.setActiveArea(`comment`);
         });
     }
   }
