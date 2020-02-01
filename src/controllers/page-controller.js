@@ -12,7 +12,6 @@ import {
   TopFilmType,
   RATES_CARDS_COUNT
 } from "../mocks/constants";
-import Loading from "../components/loading";
 
 export default class PageController {
   constructor(container, filmModel, filterController, api) {
@@ -58,8 +57,6 @@ export default class PageController {
   render() {
     render(this._container, this._sorting.getElement(), RenderPosition.BEFORE_END);
     render(this._container, this._filmList.getElement(), RenderPosition.BEFORE_END);
-
-    const loading = new Loading();
 
     this._buttonRenderPlace = this._container.querySelector(`.films-list`);
     this._filmsRenderPlace = this._container.querySelector(`.films-list__container`);
