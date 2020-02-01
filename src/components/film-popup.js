@@ -195,7 +195,7 @@ export default class FilmPopup extends AbstractComponent {
   }
 
   setUndoButtonClickHandler(handler) {
-    if (this._isWatched) {
+    if (this._isWatched && this._film.personalRating) {
       this.getElement()
         .querySelector(`.film-details__watched-reset`)
         .addEventListener(`click`, (evt) => {
