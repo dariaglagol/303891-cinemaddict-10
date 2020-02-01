@@ -256,8 +256,8 @@ export default class MovieController {
     this._filmPopup.hideDetailsRequestError(details);
   }
 
-  setScrollPositions() {
-    this._filmPopup.setScrollPositions();
+  setScrollPositions(control) {
+    this._filmPopup.setScrollPositions(control);
   }
 
   scrollToControl() {

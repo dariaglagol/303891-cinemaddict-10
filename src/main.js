@@ -14,7 +14,7 @@ const headerNode = bodyNode.querySelector(`.header`);
 const mainNode = bodyNode.querySelector(`.main`);
 
 const loading = new Loading();
-const loadingNode = loading.getElement().firstElementChild;
+const loadingNode = loading.getElement();
 const api = new Api(AUTHORIZATION, END_POINT);
 const filmModel = new MoviesModel();
 

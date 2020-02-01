@@ -224,6 +224,8 @@ export default class FilmPopup extends AbstractComponent {
       return element.getBoundingClientRect().top;
     }
 
+    console.log('control', control);
+
     this.scrollPosition = 0;
 
     switch (control) {
@@ -237,7 +239,7 @@ export default class FilmPopup extends AbstractComponent {
         this.scrollPosition = getTopElementSide(`.film-details__new-comment`);
     }
 
-    console.log(this.scrollPosition);
+    console.log('scrollPosition', this.scrollPosition);
   }
 
   toggleCommentRequestError(mode) {
