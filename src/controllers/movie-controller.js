@@ -1,12 +1,11 @@
 import FilmCard from "../components/film-card";
 import FilmPopup from "../components/film-popup";
 import CommentForm from "../components/comment-form";
-import FilmModel from '../models/movies-model';
 import Comments from "../components/comments";
 import CommentModel from "../models/comment-model";
 import {remove, render, replaceElement} from "../utilities/render";
-import {CLICKABLE_ITEMS, RenderPosition, Mode, COMMENTS_AUTHORS} from "../mocks/constants";
-import {getRandomArrayItem, getRandomIntegerNumber, setCardClickEventListeners, getRandomDate} from "../utilities/utilities";
+import {CLICKABLE_ITEMS, RenderPosition, Mode} from "../mocks/constants";
+import {setCardClickEventListeners} from "../utilities/utilities";
 import MovieModel from "../models/movie-model";
 
 export default class MovieController {
@@ -180,7 +179,7 @@ export default class MovieController {
     this._filmPopup.setRatingButtonClickHandler((evt) => {
       evt.preventDefault();
 
-      film.personalRating = parseInt(evt.target.value);
+      film.personalRating = parseInt(evt.target.value, 10);
       const newData = MovieModel.clone(film);
 
       this._mode = Mode.EDIT;

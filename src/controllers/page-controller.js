@@ -164,7 +164,7 @@ export default class PageController {
       const filmsLength = this._filmModel.getFilms().length;
       slicePoint = slicePoint <= filmsLength - CARDS_COUNT
         ? slicePoint + CARDS_COUNT
-        : TOTAL_FILM_COUNT;
+        : filmsLength;
 
       if (slicePoint + CARDS_COUNT > filmsLength) {
         remove(button);
