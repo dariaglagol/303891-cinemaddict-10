@@ -4,7 +4,7 @@ import CommentForm from "../components/comment-form";
 import Comments from "../components/comments";
 import CommentModel from "../models/comment-model";
 import {remove, render, replaceElement} from "../utilities/render";
-import {CLICKABLE_ITEMS, RenderPosition, Mode, SHOULD_FILM_UPDATE} from "../mocks/constants";
+import {CLICKABLE_ITEMS, RenderPosition, Mode, UserDetail} from "../mocks/constants";
 import {setCardClickEventListeners} from "../utilities/utilities";
 
 export default class MovieController {
@@ -100,7 +100,7 @@ export default class MovieController {
 
       film.isInWatchList = !film.isInWatchList;
 
-      this._onDataChange(this, film.id, film.toRAW(), SHOULD_FILM_UPDATE);
+      this._onDataChange(this, film.id, film.toRAW(), UserDetail.IS_IN_WATCHLIST);
     });
 
     this._filmCard.setWatchedButtonClickHandler((evt) => {
@@ -109,7 +109,7 @@ export default class MovieController {
       film.isWatched = !film.isWatched;
       film.watchingDate = !film.isWatched ? new Date().toISOString() : film.watchingDate;
 
-      this._onDataChange(this, film.id, film.toRAW(), SHOULD_FILM_UPDATE);
+      this._onDataChange(this, film.id, film.toRAW(), UserDetail.IS_WATCHED);
     });
 
     this._filmCard.setFavoriteButtonClickHandler((evt) => {
@@ -117,7 +117,7 @@ export default class MovieController {
 
       film.isFavorite = !film.isFavorite;
 
-      this._onDataChange(this, film.id, film.toRAW(), SHOULD_FILM_UPDATE);
+      this._onDataChange(this, film.id, film.toRAW(), UserDetail.IS_FAVORITE);
     });
   }
 
@@ -145,7 +145,7 @@ export default class MovieController {
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, film.toRAW(), SHOULD_FILM_UPDATE);
+      this._onDataChange(this, film.id, film.toRAW(), UserDetail.IS_IN_WATCHLIST);
     });
 
     this._filmPopup.setWatchedButtonClickHandler((evt) => {
@@ -156,7 +156,7 @@ export default class MovieController {
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, film.toRAW(), SHOULD_FILM_UPDATE);
+      this._onDataChange(this, film.id, film.toRAW(), UserDetail.IS_WATCHED);
     });
 
     this._filmPopup.setFavoriteButtonClickHandler((evt) => {
@@ -166,7 +166,7 @@ export default class MovieController {
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, film.toRAW(), SHOULD_FILM_UPDATE);
+      this._onDataChange(this, film.id, film.toRAW(), UserDetail.IS_FAVORITE);
     });
 
     this._filmPopup.setRatingButtonClickHandler((evt) => {
@@ -176,7 +176,7 @@ export default class MovieController {
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, film.toRAW(), SHOULD_FILM_UPDATE);
+      this._onDataChange(this, film.id, film.toRAW(), UserDetail.PERSONAL_RATING);
     });
 
     this._filmPopup.setDeleteButtonClickHandler((id) => {
@@ -204,11 +204,14 @@ export default class MovieController {
     const isCmdOrCtrlPressed = evt.metaKey || evt.ctrlKey;
     if (evt.key === `Enter` && isCmdOrCtrlPressed) {
       evt.preventDefault();
+      this._filmPopup.toggleCommentRequestError(`hide`);
       const formData = this._filmPopup.getFormData();
 
       if (!formData) {
         return;
       }
+
+      this._filmPopup.disableForm();
 
       const newComment = new CommentModel({
         comment: formData.encodedTextAreaValue,
@@ -222,6 +225,12 @@ export default class MovieController {
         .then((film) => {
           const {movie} = film;
           this._onDataChange(this, this._film.id, movie);
+        })
+        .catch(() => {
+          this._filmPopup.toggleCommentRequestError(`show`);
+        })
+        .finally(() => {
+          this.scrollToControl(`comment`);
         });
     }
   }
@@ -235,5 +244,21 @@ export default class MovieController {
   destroy() {
     remove(this._filmCard);
     remove(this._filmPopup);
+  }
+
+  toggleDetailsRequestError(details, mode) {
+    if (mode === `show`) {
+      this._filmPopup.showDetailsRequestError(details);
+      return;
+    }
+    this._filmPopup.hideDetailsRequestError(details);
+  }
+
+  setScrollPositions() {
+    this._filmPopup.setScrollPositions();
+  }
+
+  scrollToControl() {
+    this._filmPopup.scrollToControl();
   }
 }

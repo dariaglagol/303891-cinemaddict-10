@@ -10,7 +10,7 @@ import {
   CARDS_COUNT,
   RenderPosition,
   TopFilmType,
-  RATES_CARDS_COUNT,
+  RATES_CARDS_COUNT
 } from "../mocks/constants";
 
 export default class PageController {
@@ -110,17 +110,27 @@ export default class PageController {
     this._createRatedFilmsControllers(this._mostCommentedFilms.getTopFilms(films), commentsPlace, RATES_CARDS_COUNT);
   }
 
-  _onDataChange(movieController, id, film, shouldFilmUpdate = false) {
+  _onDataChange(movieController, id, film, userDetail = false) {
     const isSuccess = this._filmModel.refreshFilm(id, film);
 
     if (isSuccess) {
       const preparedFilm = new MovieModel(film);
-      if (shouldFilmUpdate) {
+      if (userDetail) {
+        const disabledValue = preparedFilm[userDetail];
+        movieController.setScrollPositions(userDetail);
+        movieController.toggleDetailsRequestError({userDetail, disabledValue});
+
         this._api.updateFilm(id, preparedFilm)
           .then((movie) => {
             this._filterController.render(this._filmModel);
             movieController.render(movie);
             this._updateRatedFilms();
+          })
+          .catch(() => {
+            movieController.toggleDetailsRequestError({userDetail, disabledValue}, `show`);
+          })
+          .finally(() => {
+            movieController.scrollToControl(userDetail);
           });
         return;
       }

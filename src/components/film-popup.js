@@ -179,6 +179,7 @@ export default class FilmPopup extends AbstractComponent {
       .querySelector(`.film-details__comments-list`)
       .addEventListener(`click`, (evt) => {
         evt.preventDefault();
+        evt.target.innerText = `Deleting...`;
         const commentElement = evt.target.closest(`.film-details__comment`);
         const deletedCommentId = parseInt(commentElement.dataset.commentId, 10);
         handler(deletedCommentId);
@@ -205,5 +206,117 @@ export default class FilmPopup extends AbstractComponent {
       .getAttribute(`alt`);
 
     return {encodedTextAreaValue, commentEmoji};
+  }
+
+  disableForm() {
+    const commentTextArea = this.getElement().querySelector(`.film-details__comment-input`);
+    const emojiCheckboxes = this.getElement().querySelectorAll(`.film-details__emoji-item`);
+    commentTextArea.toggleAttribute(`disabled`);
+    emojiCheckboxes.forEach((emojiCheckbox)=> {
+      emojiCheckbox.toggleAttribute(`disabled`);
+    });
+  }
+
+  setScrollPositions(control) {
+    const parentElement = this.getElement();
+    function getTopElementSide(selector) {
+      const element = parentElement.querySelector(selector);
+      return element.getBoundingClientRect().top;
+    }
+
+    switch (control) {
+      case `isInWatchList` || `isFavorite` || `isWatched`:
+        this.scrollPosition = getTopElementSide(`.film-details__controls`);
+        break;
+      case `personalRating`:
+        this.scrollPosition = getTopElementSide(`.form-details__middle-container`);
+        break;
+      case `comment`:
+        this.scrollPosition = getTopElementSide(`.film-details__new-comment`);
+    }
+  }
+
+  toggleCommentRequestError(mode) {
+    const commentTextArea = this.getElement().querySelector(`.film-details__comment-input`);
+
+    if (mode === `show`) {
+      this.getElement().classList.add(`shake`);
+      commentTextArea.classList.add(`film-details__comment-input--error`);
+      return;
+    }
+
+    this.getElement().classList.remove(`shake`);
+    commentTextArea.classList.remove(`film-details__comment-input--error`);
+  }
+
+  hideDetailsRequestError(details) {
+    const {userDetail, disabledValue} = details;
+
+    const controlLabelPrefix = `.film-details__control-label`;
+    const errorCLass = `film-details__control-label--error`;
+
+    this.getElement().classList.remove(`shake`);
+    switch (userDetail) {
+      case `isInWatchList`:
+        this.getElement().querySelector(`${controlLabelPrefix}--watchlist`)
+          .classList.remove(errorCLass);
+        break;
+      case `isFavorite`:
+        this.getElement().querySelector(`${controlLabelPrefix}--favorite`)
+          .classList.remove(errorCLass);
+        break;
+      case `isWatched`:
+        this.getElement().querySelector(`${controlLabelPrefix}--watched`)
+          .classList.remove(errorCLass);
+        break;
+      case `personalRating`:
+        this.getElement().querySelector(`[for=rating-${disabledValue}]`)
+          .classList.remove(`film-details__user-rating-label--error`);
+        this.getElement()
+          .querySelectorAll(`.film-details__user-rating-input`)
+          .forEach((ratingInput) => {
+            ratingInput.removeAttribute(`disabled`);
+          });
+        break;
+    }
+  }
+
+  showDetailsRequestError(details) {
+    const {userDetail, disabledValue} = details;
+
+    const controlLabelPrefix = `.film-details__control-label`;
+    const errorCLass = `film-details__control-label--error`;
+
+    this.getElement().classList.add(`shake`);
+    switch (userDetail) {
+      case `isInWatchList`:
+        this.getElement().querySelector(`${controlLabelPrefix}--watchlist`)
+          .classList.add(errorCLass);
+        break;
+      case `isFavorite`:
+        this.getElement().querySelector(`${controlLabelPrefix}--favorite`)
+          .classList.add(errorCLass);
+        break;
+      case `isWatched`:
+        this.getElement().querySelector(`${controlLabelPrefix}--watched`)
+          .classList.add(errorCLass);
+        break;
+      case `personalRating`:
+        this.getElement().querySelector(`[for=rating-${disabledValue}]`)
+          .classList.add(`film-details__user-rating-label--error`);
+        this.getElement()
+          .querySelectorAll(`.film-details__user-rating-input`)
+          .forEach((ratingInput) => {
+            ratingInput.setAttribute(`disabled`, `disabled`);
+          });
+        break;
+    }
+  }
+
+  scrollToControl() {
+    this.getElement().scrollTo({
+      top: this.scrollPosition,
+      behavior: `smooth`
+    });
   }
 }
