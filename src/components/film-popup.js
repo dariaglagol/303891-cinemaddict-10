@@ -217,31 +217,6 @@ export default class FilmPopup extends AbstractComponent {
     });
   }
 
-  setScrollPositions(control) {
-    const parentElement = this.getElement();
-    function getTopElementSide(selector) {
-      const element = parentElement.querySelector(selector);
-      return element.getBoundingClientRect().top;
-    }
-
-    console.log('control', control);
-
-    this.scrollPosition = 0;
-
-    switch (control) {
-      case `isInWatchList` || `isFavorite` || `isWatched`:
-        this.scrollPosition = getTopElementSide(`.film-details__controls`);
-        break;
-      case `personalRating`:
-        this.scrollPosition = getTopElementSide(`.form-details__middle-container`);
-        break;
-      case `comment`:
-        this.scrollPosition = getTopElementSide(`.film-details__new-comment`);
-    }
-
-    console.log('scrollPosition', this.scrollPosition);
-  }
-
   toggleCommentRequestError(mode) {
     const commentTextArea = this.getElement().querySelector(`.film-details__comment-input`);
 
@@ -319,11 +294,28 @@ export default class FilmPopup extends AbstractComponent {
     }
   }
 
-  scrollToControl() {
-    console.log(this.scrollPosition);
-    this.getElement().scrollTo({
-      top: this.scrollPosition,
-      behavior: `smooth`
-    });
+  scrollToControl(control) {
+    switch (control) {
+      case `isInWatchList`:
+        this.getElement().querySelector(`.film-details__controls`)
+          .scrollIntoView();
+        break;
+      case `isFavorite`:
+        this.getElement().querySelector(`.film-details__controls`)
+          .scrollIntoView();
+        break;
+      case `isWatched`:
+        this.getElement().querySelector(`.film-details__controls`)
+          .scrollIntoView();
+        break;
+      case `personalRating`:
+        this.getElement().querySelector(`.form-details__middle-container`)
+          .scrollIntoView();
+        break;
+      case `comment`:
+        this.getElement().querySelector(`.film-details__new-comment`)
+          .scrollIntoView();
+        break
+    }
   }
 }

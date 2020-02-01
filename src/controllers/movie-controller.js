@@ -187,6 +187,9 @@ export default class MovieController {
       this._api.deleteComment(id)
         .then(() => {
           this._onDataChange(this, film.id, rawFilm);
+        })
+        .finally(() => {
+          this.setScrollPositions(`comment`);
         });
     });
 
@@ -232,7 +235,7 @@ export default class MovieController {
           this._filmPopup.toggleCommentRequestError(`show`);
         })
         .finally(() => {
-          this.scrollToControl(`comment`);
+          this.setScrollPositions(`comment`);
         });
     }
   }
@@ -257,11 +260,10 @@ export default class MovieController {
   }
 
   setScrollPositions(control) {
-    this._filmPopup.setScrollPositions(control);
+    this.activeControl = control;
   }
 
   scrollToControl() {
-    console.log(this._filmPopup);
-    this._filmPopup.scrollToControl();
+    this._filmPopup.scrollToControl(this.activeControl);
   }
 }
