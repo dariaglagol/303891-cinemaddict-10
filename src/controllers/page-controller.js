@@ -166,7 +166,7 @@ export default class PageController {
         ? slicePoint + CARDS_COUNT
         : filmsLength;
 
-      if (slicePoint + CARDS_COUNT > filmsLength) {
+      if (slicePoint + CARDS_COUNT >= filmsLength) {
         remove(button);
       }
 
