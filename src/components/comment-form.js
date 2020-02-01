@@ -59,13 +59,15 @@ export default class CommentForm extends AbstractComponent {
         element.addEventListener(`click`, (evt) => {
           const target = evt.target;
           const emojiType = target.dataset.emojiType;
-          const emoji = createElement(getEmojiLabel(emojiType));
+          if (emojiType) {
+            const emoji = createElement(getEmojiLabel(emojiType));
 
-          if (emojiLabel.children.length) {
-            emojiLabel.children[0].remove();
+            if (emojiLabel.children.length) {
+              emojiLabel.children[0].remove();
+            }
+
+            emojiLabel.appendChild(emoji);
           }
-
-          emojiLabel.appendChild(emoji);
         });
       });
   }

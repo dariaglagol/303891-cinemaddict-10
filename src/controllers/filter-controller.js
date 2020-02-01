@@ -20,6 +20,7 @@ export default class FilterController {
     const oldMenuComponent = this._menuComponent;
 
     this._filmsModel = filmsModel;
+
     const filters = generateFilters(this._filmsModel.getAllFilms());
     this._menuComponent = new Menu(this._activeFilterType, filters);
 
@@ -48,6 +49,7 @@ export default class FilterController {
       this._pageController.showMainPage();
       return;
     }
+    this._statistic.rerender(this._filmsModel.getAllFilms());
     this._isStatsHide = false;
     this._statistic.show();
     this._pageController.hideMainPage();

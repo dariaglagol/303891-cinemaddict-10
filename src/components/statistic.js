@@ -2,7 +2,7 @@ import Chart from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import AbstractSmartComponent from "./abstract-smart-component";
 import {getWatchedFilms, getFilmTotalDuration, getUserStatus} from '../utilities/utilities';
-import {ChartBackgroundColor} from '../mocks/constants';
+import {CHART_BACKGROUND_COLORS} from '../mocks/constants';
 
 const createStatisticTemplate = (userData) => {
   const {
@@ -12,9 +12,7 @@ const createStatisticTemplate = (userData) => {
     mostWatchedGenre
   } = userData;
 
-  const preparedTotalDuration = getFilmTotalDuration(totalDuration).split(` `);
-  const hours = totalDuration ? preparedTotalDuration[0] : `0`;
-  const minutes = totalDuration ? preparedTotalDuration[1] : `0`;
+  const {hours, minutes} = getFilmTotalDuration(totalDuration);
 
   return (
     `<section class="statistic">
@@ -63,42 +61,24 @@ const createStatisticTemplate = (userData) => {
 };
 
 const getTotalFilmsDuration = (films) => {
-  const watchedFilms = films.slice().filter((film) => film.isWatched === true);
-  const initialValue = 0;
-  const totalDuration = watchedFilms.reduce((accumulator, film) => accumulator + film.movieDuration, initialValue);
-  return totalDuration;
+  const watchedFilms = films.filter((film) => film.isWatched === true);
+  return watchedFilms.reduce((accumulator, film) => accumulator + film.movieDuration, 0);
 };
 
 const getWatchedStatisticGenres = (films) => {
-  const initlialWatchedRating = {
-    'Action film': 0,
-    'Western': 0,
-    'Gangster movie': 0,
-    'Detective': 0,
-    'Drama': 0,
-    'Historical film': 0,
-    'Comedy': 0,
-    'Melodrama': 0,
-  };
+  const initialWatchedRating = {};
 
-  return films.reduce((prev, film) => {
-    const {genres} = film;
+  films.forEach((film) => {
+    film.genres.forEach((genre = ``) => {
+      if (initialWatchedRating[genre]) {
+        initialWatchedRating[genre] = initialWatchedRating[genre] + 1;
+        return;
+      }
+      initialWatchedRating[genre] = 1;
+    });
+  });
 
-    const hasGenre = (genre) => {
-      return genres.find((filmGenre) => filmGenre === genre);
-    };
-
-    return {
-      'Action film': hasGenre(`Action film`) ? prev[`Action film`] + 1 : prev[`Action film`],
-      'Western': hasGenre(`Western`) ? prev[`Western`] + 1 : prev[`Western`],
-      'Gangster movie': hasGenre(`Gangster movie`) ? prev[`Gangster movie`] + 1 : prev[`Gangster movie`],
-      'Detective': hasGenre(`Detective`) ? prev[`Detective`] + 1 : prev[`Detective`],
-      'Historical film': hasGenre(`Historical film`) ? prev[`Historical film`] + 1 : prev[`Historical film`],
-      'Drama': hasGenre(`Drama`) ? prev[`Drama`] + 1 : prev[`Drama`],
-      'Comedy': hasGenre(`Comedy`) ? prev[`Comedy`] + 1 : prev[`Comedy`],
-      'Melodrama': hasGenre(`Melodrama`) ? prev[`Melodrama`] + 1 : prev[`Melodrama`]
-    };
-  }, initlialWatchedRating);
+  return initialWatchedRating;
 };
 
 const getMostWatchedGenre = (films) => {
@@ -130,7 +110,7 @@ const renderChart = (ctx, chartData, period) => {
       datasets: [{
         data: values,
         label: `Watched by ${periodLabel}`,
-        backgroundColor: ChartBackgroundColor
+        backgroundColor: CHART_BACKGROUND_COLORS
       }]
     },
     options: {

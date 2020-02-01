@@ -11,12 +11,11 @@ const createUserProfileTemplate = (status) => {
 };
 
 export default class UserProfile extends AbstractComponent {
-  constructor(filmModel) {
-    super();
-    this._userStatus = getUserStatus(filmModel.getAllFilms());
-  }
-
   getTemplate() {
     return createUserProfileTemplate(this._userStatus);
+  }
+
+  setUserStatus(filmModel) {
+    this._userStatus = getUserStatus(filmModel.getAllFilms());
   }
 }

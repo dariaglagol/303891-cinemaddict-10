@@ -1,7 +1,7 @@
+import he from 'he';
 import moment from "moment";
 import AbstractComponent from "./abstract-component";
 import RatingForm from "./rating-form";
-import Comments from "./comments";
 import {getFilmDuration} from "../utilities/utilities";
 
 const isCheckboxActive = (statement) => {
@@ -12,6 +12,7 @@ const createFilmPopupTemplate = (film, options, nodes) => {
   const {
     filmName,
     rating,
+    alternativeFilmName,
     releaseDate,
     movieDuration,
     genres,
@@ -32,7 +33,6 @@ const createFilmPopupTemplate = (film, options, nodes) => {
 
   const {
     ratingForm,
-    commentsComponent
   } = nodes;
 
   const preparedReleaseDate = moment(releaseDate).format(`DD MMMM YYYY`);
@@ -54,7 +54,7 @@ const createFilmPopupTemplate = (film, options, nodes) => {
           </div>
           <div class="film-details__info-wrap">
             <div class="film-details__poster">
-              <img class="film-details__poster-img" src="./images/posters/${posterUrl}" alt="poster '${filmName}'">
+              <img class="film-details__poster-img" src="./${posterUrl}" alt="poster '${filmName}'">
 
               <p class="film-details__age">${ageRating}+</p>
             </div>
@@ -63,7 +63,7 @@ const createFilmPopupTemplate = (film, options, nodes) => {
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
                   <h3 class="film-details__title">${filmName}</h3>
-                  <p class="film-details__title-original">Original: ${filmName}</p>
+                  <p class="film-details__title-original">Original: ${alternativeFilmName}</p>
                 </div>
 
                 <div class="film-details__rating">
@@ -97,9 +97,10 @@ const createFilmPopupTemplate = (film, options, nodes) => {
                   <td class="film-details__cell">${country}</td>
                 </tr>
                 <tr class="film-details__row">
-                  <td class="film-details__term">${genres.length > 1 ? `Genres` : `Genre`}</td>
+                  <td class="film-details__term">${genres && genres.length > 1 ? `Genres` : `Genre`}</td>
                   <td class="film-details__cell">
-                    ${genres.join(` `)}
+                    ${genres && genres.join(` `)}
+                  </td>
                 </tr>
               </table>
 
@@ -121,7 +122,7 @@ const createFilmPopupTemplate = (film, options, nodes) => {
           </section>
         </div>
         ${renderFormTemplate}
-        ${commentsComponent}
+
       </form>
     </section>`
   );
@@ -133,7 +134,6 @@ export default class FilmPopup extends AbstractComponent {
     this._film = film;
 
     this._ratingForm = new RatingForm(this._film);
-    this._commentsComponent = new Comments(this._film.comments);
 
     this._isFilmFavorite = this._film.isFavorite;
     this._isInWatchList = this._film.isInWatchList;
@@ -147,7 +147,6 @@ export default class FilmPopup extends AbstractComponent {
       isWatched: this._isWatched
     }, {
       ratingForm: this._ratingForm.getTemplate(),
-      commentsComponent: this._commentsComponent.getTemplate(),
     });
   }
 
@@ -186,19 +185,25 @@ export default class FilmPopup extends AbstractComponent {
       });
   }
 
+  setRatingButtonClickHandler(handler) {
+    if (this._isWatched) {
+      this.getElement()
+        .querySelector(`.film-details__user-rating-score`)
+        .addEventListener(`change`, handler);
+    }
+  }
+
   getFormData() {
     const commentForm = this.getElement().querySelector(`.film-details__new-comment`);
-    if (commentForm) {
-      const commentTextAreaValue = commentForm
-        .querySelector(`.film-details__comment-input`)
-        .value;
-      const commentEmoji = commentForm
-        .querySelector(`.film-details__add-emoji-label img`)
-        .getAttribute(`alt`);
 
-      return {commentTextAreaValue, commentEmoji};
-    }
+    const commentTextAreaValue = commentForm
+      .querySelector(`.film-details__comment-input`)
+      .value;
+    const encodedTextAreaValue = he.encode(commentTextAreaValue);
+    const commentEmoji = commentForm
+      .querySelector(`.film-details__add-emoji-label img`)
+      .getAttribute(`alt`);
 
-    return null;
+    return {encodedTextAreaValue, commentEmoji};
   }
 }

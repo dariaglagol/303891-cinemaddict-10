@@ -19,12 +19,11 @@ const createCommentsTemplate = (comments) => {
 };
 
 export default class Comments extends AbstractComponent {
-  constructor(comments) {
-    super();
-    this._comments = comments;
-  }
-
   getTemplate() {
     return createCommentsTemplate(this._comments);
+  }
+
+  setComments(comments) {
+    this._comments = comments;
   }
 }

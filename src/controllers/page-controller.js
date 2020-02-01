@@ -4,21 +4,21 @@ import ShowMoreButton from "../components/show-more-button";
 import NoData from "../components/no-data";
 import MovieController from './movie-controller';
 import Sorting from "../components/sorting";
+import MovieModel from '../models/movie-model';
 import {remove, render} from "../utilities/render";
-import {showElement, hideElement} from "../utilities/utilities";
 import {
   CARDS_COUNT,
   RenderPosition,
   TopFilmType,
-  TOTAL_FILM_COUNT,
-  RATES_CARDS_COUNT
+  RATES_CARDS_COUNT,
 } from "../mocks/constants";
 
 export default class PageController {
-  constructor(container, filmModel, filterController) {
+  constructor(container, filmModel, filterController, api) {
     this._filmModel = filmModel;
     this._filterController = filterController;
     this._generatedFilms = this._filmModel.getFilms();
+    this._api = api;
 
     this._showedFilmControllers = [];
     this._ratedFilmControllers = [];
@@ -110,19 +110,29 @@ export default class PageController {
     this._createRatedFilmsControllers(this._mostCommentedFilms.getTopFilms(films), commentsPlace, RATES_CARDS_COUNT);
   }
 
-  _onDataChange(movieController, id, film) {
+  _onDataChange(movieController, id, film, shouldFilmUpdate = false) {
     const isSuccess = this._filmModel.refreshFilm(id, film);
 
     if (isSuccess) {
-      movieController.render(film);
+      const preparedFilm = new MovieModel(film);
+      if (shouldFilmUpdate) {
+        this._api.updateFilm(id, preparedFilm)
+          .then((movie) => {
+            this._filterController.render(this._filmModel);
+            movieController.render(movie);
+            this._updateRatedFilms();
+          });
+        return;
+      }
+
+      movieController.render(preparedFilm);
       this._updateRatedFilms();
-      this._filterController.render(this._filmModel);
     }
   }
 
   _createFilms(films, filmRenderPlace, sliceCount, onDataChange, onViewChange, slicePoint = 0) {
     return films.slice(slicePoint, slicePoint + sliceCount).map((film) => {
-      const movieController = new MovieController(filmRenderPlace, onDataChange, onViewChange);
+      const movieController = new MovieController(filmRenderPlace, onDataChange, onViewChange, this._api);
       movieController.render(film);
 
       return movieController;
@@ -153,9 +163,9 @@ export default class PageController {
       const filmsLength = this._filmModel.getFilms().length;
       slicePoint = slicePoint <= filmsLength - CARDS_COUNT
         ? slicePoint + CARDS_COUNT
-        : TOTAL_FILM_COUNT;
+        : filmsLength;
 
-      if (slicePoint + CARDS_COUNT > filmsLength) {
+      if (slicePoint + CARDS_COUNT >= filmsLength) {
         remove(button);
       }
 
@@ -185,16 +195,12 @@ export default class PageController {
   }
 
   hideMainPage() {
-    const sort = this._container.querySelector(`.sort`);
-    const filmList = this._container.querySelector(`.films`);
-    showElement(sort);
-    showElement(filmList);
+    this._sorting.hide();
+    this._filmList.hide();
   }
 
   showMainPage() {
-    const sort = this._container.querySelector(`.sort`);
-    const filmList = this._container.querySelector(`.films`);
-    hideElement(sort);
-    hideElement(filmList);
+    this._sorting.show();
+    this._filmList.show();
   }
 }

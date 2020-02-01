@@ -54,7 +54,7 @@ export default class MoviesModel {
       const todayDate = new Date();
       return this.getAllFilms().slice()
         .filter((film) => {
-          const periodDate = moment(todayDate).subtract(1, PeriodForMoment[period]);
+          const periodDate = moment(todayDate).subtract(1, PeriodForMoment[period.toUpperCase()]);
           return moment(film.watchingDate).isSameOrAfter(periodDate, period) && film.isWatched;
         });
     }

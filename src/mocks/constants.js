@@ -1,34 +1,6 @@
-const FILM_NAMES = [
-  `Lock, Stock and Two Smoking Barrels`,
-  `The Hateful Eight`,
-  `Pulp Fiction`,
-  `Cloud Atlas`,
-  `In Bruges`,
-  `The Guard`,
-  `The Favourite`,
-  `Knives Out`,
-  `Fantastic Beasts and Where to Find Them`,
-  `Fantastic Beasts: The Crimes of Grindelwald`,
-  `Catch Me If You Can`,
-  `Darkest Hour`,
-  `Three Billboards Outside Ebbing, Missouri`,
-  `The Prestige`,
-  `Ocean's Eleven`
-];
-
 const Rating = {
   MIN: 0,
   MAX: 9
-};
-
-const Duration = {
-  MIN: 1,
-  MAX: 250
-};
-
-const Year = {
-  MIN: 1950,
-  MAX: 2000
 };
 
 const TopFilmType = {
@@ -37,18 +9,6 @@ const TopFilmType = {
 };
 
 const MAX_VALUE = 3;
-
-const MAX_AGE_RATING = 21;
-
-const POSTERS = [
-  `made-for-each-other.png`,
-  `popeye-meets-sinbad.png`,
-  `sagebrush-trail.jpg`,
-  `santa-claus-conquers-the-martians.jpg`,
-  `the-dance-of-life.jpg`,
-  `the-great-flamarion.jpg`,
-  `the-man-with-the-golden-arm.jpg`
-];
 
 const FiltersName = {
   ALL: `all movies`,
@@ -65,92 +25,14 @@ const INITIAL_FILTERS_STATE = {
 };
 
 const CARDS_COUNT = 5;
-const TOTAL_FILM_COUNT = 12;
 const RATES_CARDS_COUNT = 2;
 
-const GENRES = [
-  `Action film`,
-  `Western`,
-  `Gangster movie`,
-  `Detective`,
-  `Drama`,
-  `Historical film`,
-  `Comedy`,
-  `Melodrama`
-];
-
 const USER_STATUSES = new Map([
-  [`0`, ``],
-  [`1`, `Novice`],
+  [`21`, `Movie Buff`],
   [`11`, `Fan`],
-  [`21`, `Movie Buff`]
+  [`1`, `Novice`],
+  [`0`, ``]
 ]);
-
-const DIRECTORS = [
-  `Sofia Coppola`,
-  `Richard Linklater`,
-  `Paul Thomas Anderson`,
-  `Quentin Tarantino`,
-  `David O. Russell`,
-  `Christopher Nolan`,
-  `Sam Mendes`,
-  `David Andrew Leo Fincher`,
-  `Martin Scorsese`,
-  `Joel David Coen and Ethan Jesse Coen`
-];
-
-const ACTORS = [
-  `Alan Rickman`,
-  `Benedict Cumberbatch`,
-  `Benicio del Toro`,
-  `Vincent Cassel`,
-  `Viggo Mortensen`,
-  `James McAvoy`,
-  `Jake Gyllenhaal`,
-  `Daniel Day-Lewis`,
-  `Jodie Foster`,
-  `Kate Winslet`,
-  `Monica Bellucci`,
-  `Natalie Portman`
-];
-
-const WRITERS = [
-  `Billy Wilder`,
-  `Joel David Coen and Ethan Jesse Coen`,
-  `Quentin Tarantino`,
-  `Charlie Kaufman`,
-  `Heywood "Woody" Allen`,
-  `Eric Roth`,
-  `James Cameron`,
-  `Peter Jackson`,
-  `Wes Anderson`,
-  `Frank Darabont`
-];
-
-const COUTRIES = [
-  `USA`,
-  `Germany`,
-  `Great Britain`,
-  `France`,
-  `Italy`,
-  `Japan`,
-  `Canada`,
-  `Denmark`
-];
-
-const COMMENTS_TEXTS = [
-  `Booooooooooring`,
-  `Very very old. Meh`,
-  `Almost two hours? Seriously?`,
-  `Interesting setting and a good cast`
-];
-
-const COMMENTS_AUTHORS = [
-  `John Doe`,
-  `Eric Roth`,
-  `Tim Macoveev`,
-  `Billy Wilder`
-];
 
 const COMMENTS_EMODJIES = [
   `angry`,
@@ -159,16 +41,6 @@ const COMMENTS_EMODJIES = [
   `smile`,
   `trophy`
 ];
-
-const COMMENTS_TIME_RANGE = {
-  'MINUTES_RANGE': 59,
-  'HOURS_RANGE': 4,
-  'DATE_RANGE': 3
-};
-
-const COMMENTS_COUNT = 4;
-
-const INITIAL_DESCRIPTION_TEXT = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui. Sed sed nisi sed augue convallis suscipit in sed felis. Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus.`;
 
 const RenderPosition = {
   AFTER_BEGIN: `afterbegin`,
@@ -196,12 +68,25 @@ const Mode = {
   EDIT: `edit`,
 };
 
-const ChartBackgroundColor = [
+const Method = {
+  GET: `GET`,
+  POST: `POST`,
+  PUT: `PUT`,
+  DELETE: `DELETE`
+};
+
+const AUTHORIZATION = `Basic dXP}lckBwYNECzd21yZAo=`;
+const END_POINT = `https://htmlacademy-es-10.appspot.com/cinemaddict`;
+
+const CHART_BACKGROUND_COLORS = [
   `rgb(255, 99, 132)`,
+  `rgb(255, 60, 24)`,
   `rgb(54, 162, 235)`,
+  `rgb(23, 81, 235)`,
   `rgb(255, 206, 86)`,
   `rgb(75, 192, 192)`,
   `rgb(153, 102, 255)`,
+  `rgb(51, 255, 230)`,
   `rgb(255, 159, 64)`,
   `rgb(28, 107, 114)`,
   `rgb(190, 245, 116)`,
@@ -210,10 +95,12 @@ const ChartBackgroundColor = [
 const HIDDEN_CLASS = `visually-hidden`;
 
 const PeriodForMoment = {
-  'today': `days`,
-  'week': `weeks`,
-  'month': `months`,
-  'year': `years`,
+  TODAY: `days`,
+  WEEK: `weeks`,
+  MONTH: `months`,
+  YEAR: `years`,
 };
 
-export {RenderPosition, PeriodForMoment, ChartBackgroundColor, HIDDEN_CLASS, FiltersName, Mode, SortTypeName, SortTypeCallbacks, TopFilmType, CLICKABLE_ITEMS, MAX_FILM_SCORE, MAX_AGE_RATING, COMMENTS_EMODJIES, COMMENTS_COUNT, COMMENTS_TIME_RANGE, COMMENTS_AUTHORS, COMMENTS_TEXTS, Year, MAX_VALUE, Duration, Rating, COUTRIES, DIRECTORS, ACTORS, WRITERS, FILM_NAMES, POSTERS, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, TOTAL_FILM_COUNT, RATES_CARDS_COUNT, INITIAL_DESCRIPTION_TEXT, GENRES};
+const SHOULD_FILM_UPDATE = true;
+
+export {RenderPosition, SHOULD_FILM_UPDATE, COMMENTS_EMODJIES, CHART_BACKGROUND_COLORS, HIDDEN_CLASS, PeriodForMoment, AUTHORIZATION, END_POINT, Method, FiltersName, Mode, SortTypeName, SortTypeCallbacks, TopFilmType, CLICKABLE_ITEMS, MAX_FILM_SCORE, MAX_VALUE, Rating, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, RATES_CARDS_COUNT};
