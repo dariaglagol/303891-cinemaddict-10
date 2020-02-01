@@ -1,6 +1,6 @@
 import moment from "moment";
 import momentDurationFormatSetup from "moment-duration-format";
-import {COMMENTS_TIME_RANGE, HIDDEN_CLASS, USER_STATUSES} from "../mocks/constants";
+import {COMMENTS_TIME_RANGE, USER_STATUSES} from "../mocks/constants";
 import {generateFilters} from "../mocks/filters";
 
 momentDurationFormatSetup(moment);
@@ -46,6 +46,8 @@ const getFilmDuration = (movieDuration) => {
 const getFilmTotalDuration = (movieDuration) => {
   const hours = moment.duration(movieDuration, `minutes`).format(`h`);
   const minutes = moment.duration(movieDuration - (hours * 60), `minutes`).format(`m`);
+
+  console.log(movieDuration, movieDuration - (hours * 60));
 
   return {hours, minutes};
 };

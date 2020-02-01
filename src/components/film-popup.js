@@ -185,9 +185,11 @@ export default class FilmPopup extends AbstractComponent {
   }
 
   setRatingButtonClickHandler(handler) {
-    this.getElement()
-      .querySelector(`.film-details__user-rating-score`)
-      .addEventListener(`change`, handler);
+    if (this._isWatched) {
+      this.getElement()
+        .querySelector(`.film-details__user-rating-score`)
+        .addEventListener(`change`, handler);
+    }
   }
 
   getFormData() {
