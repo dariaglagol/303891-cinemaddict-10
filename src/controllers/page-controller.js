@@ -6,13 +6,12 @@ import MovieController from './movie-controller';
 import Sorting from "../components/sorting";
 import MovieModel from '../models/movie-model';
 import {remove, render} from "../utilities/render";
-import {showElement, hideElement} from "../utilities/utilities";
 import {
   CARDS_COUNT,
   RenderPosition,
   TopFilmType,
   TOTAL_FILM_COUNT,
-  RATES_CARDS_COUNT
+  RATES_CARDS_COUNT,
 } from "../mocks/constants";
 
 export default class PageController {
@@ -198,16 +197,12 @@ export default class PageController {
   }
 
   hideMainPage() {
-    const sort = this._container.querySelector(`.sort`);
-    const filmList = this._container.querySelector(`.films`);
-    showElement(sort);
-    showElement(filmList);
+    this._sorting.hide();
+    this._filmList.hide();
   }
 
   showMainPage() {
-    const sort = this._container.querySelector(`.sort`);
-    const filmList = this._container.querySelector(`.films`);
-    hideElement(sort);
-    hideElement(filmList);
+    this._sorting.show();
+    this._filmList.show();
   }
 }

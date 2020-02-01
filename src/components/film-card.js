@@ -23,7 +23,7 @@ const createFilmCardTemplate = (filmData) => {
     return mark ? `film-card__controls-item--active` : ``;
   };
 
-  const firstGenre = genres[0] || `-`;
+  const firstGenre = genres && genres[0] || ``;
 
   const preparedReleaseDate = moment(releaseDate).format(`YYYY`);
   const preparedMovieDuration = getFilmDuration(movieDuration);

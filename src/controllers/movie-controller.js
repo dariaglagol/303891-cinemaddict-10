@@ -110,7 +110,7 @@ export default class MovieController {
       evt.preventDefault();
 
       film.isWatched = !film.isWatched;
-      film.watchingDate = !film.isWatched ? new Date() : film.watchingDate;
+      film.watchingDate = !film.isWatched ? new Date().toISOString() : film.watchingDate;
       const newData = MovieModel.clone(film);
 
       this._onDataChange(this, film.id, newData.toRAW(), true);

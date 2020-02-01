@@ -63,14 +63,6 @@ const getRandomDate = () => {
   return targetDate;
 };
 
-const showElement = (element) => {
-  element.classList.add(HIDDEN_CLASS);
-};
-
-const hideElement = (element) => {
-  element.classList.remove(HIDDEN_CLASS);
-};
-
 const getWatchedFilms = (films) => {
   return generateFilters(films).history;
 };
@@ -85,4 +77,4 @@ const getUserStatus = (films) => {
   return USER_STATUSES.get(userStatusKey);
 };
 
-export {setCardClickEventListeners, getUserStatus, getFilmTotalDuration, getWatchedFilms, showElement, hideElement, getRandomDate, getFilmDuration, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};
+export {setCardClickEventListeners, getUserStatus, getFilmTotalDuration, getWatchedFilms, getRandomDate, getFilmDuration, generateRandomArrayPiece, getRandomArrayItem, getRandomIntegerNumber, getRandomBoolean, getPlural};

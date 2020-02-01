@@ -47,7 +47,7 @@ export default class MovieModel {
         'already_watched': this.isWatched,
         'watchlist': this.isInWatchList,
         'personal_rating': this.personalRating,
-        'watching_date': this.watchingDate.toISOString(),
+        'watching_date': new Date(this.watchingDate).toISOString(),
       },
       'comments': this.comments,
       'id': this.id

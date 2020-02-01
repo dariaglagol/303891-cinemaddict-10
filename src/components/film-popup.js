@@ -96,9 +96,9 @@ const createFilmPopupTemplate = (film, options, nodes) => {
                   <td class="film-details__cell">${country}</td>
                 </tr>
                 <tr class="film-details__row">
-                  <td class="film-details__term">${genres.length > 1 ? `Genres` : `Genre`}</td>
+                  <td class="film-details__term">${genres && genres.length > 1 ? `Genres` : `Genre`}</td>
                   <td class="film-details__cell">
-                    ${genres.join(` `)}
+                    ${genres && genres.join(` `)}
                   </td>
                 </tr>
               </table>

@@ -68,35 +68,19 @@ const getTotalFilmsDuration = (films) => {
 };
 
 const getWatchedStatisticGenres = (films) => {
-  const initlialWatchedRating = {
-    'Action film': 0,
-    'Western': 0,
-    'Gangster movie': 0,
-    'Detective': 0,
-    'Drama': 0,
-    'Historical film': 0,
-    'Comedy': 0,
-    'Melodrama': 0,
-  };
+  const initialWatchedRating = {};
 
-  return films.reduce((prev, film) => {
-    const {genres} = film;
+  films.forEach((film) => {
+    film.genres.forEach((genre = ``) => {
+      if (initialWatchedRating[genre]) {
+        initialWatchedRating[genre] = initialWatchedRating[genre] + 1;
+        return;
+      }
+      initialWatchedRating[genre] = 1;
+    });
+  });
 
-    const hasGenre = (genre) => {
-      return genres.find((filmGenre) => filmGenre === genre);
-    };
-
-    return {
-      'Action film': hasGenre(`Action film`) ? prev[`Action film`] + 1 : prev[`Action film`],
-      'Western': hasGenre(`Western`) ? prev[`Western`] + 1 : prev[`Western`],
-      'Gangster movie': hasGenre(`Gangster movie`) ? prev[`Gangster movie`] + 1 : prev[`Gangster movie`],
-      'Detective': hasGenre(`Detective`) ? prev[`Detective`] + 1 : prev[`Detective`],
-      'Historical film': hasGenre(`Historical film`) ? prev[`Historical film`] + 1 : prev[`Historical film`],
-      'Drama': hasGenre(`Drama`) ? prev[`Drama`] + 1 : prev[`Drama`],
-      'Comedy': hasGenre(`Comedy`) ? prev[`Comedy`] + 1 : prev[`Comedy`],
-      'Melodrama': hasGenre(`Melodrama`) ? prev[`Melodrama`] + 1 : prev[`Melodrama`]
-    };
-  }, initlialWatchedRating);
+  return initialWatchedRating;
 };
 
 const getMostWatchedGenre = (films) => {
