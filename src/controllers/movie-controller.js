@@ -101,9 +101,8 @@ export default class MovieController {
       evt.preventDefault();
 
       film.isInWatchList = !film.isInWatchList;
-      const newData = MovieModel.clone(film);
 
-      this._onDataChange(this, film.id, newData.toRAW(), shouldAppUpdate);
+      this._onDataChange(this, film.id, new MovieModel(film.toRAW()), shouldAppUpdate);
     });
 
     this._filmCard.setWatchedButtonClickHandler((evt) => {
@@ -111,18 +110,16 @@ export default class MovieController {
 
       film.isWatched = !film.isWatched;
       film.watchingDate = !film.isWatched ? new Date().toISOString() : film.watchingDate;
-      const newData = MovieModel.clone(film);
 
-      this._onDataChange(this, film.id, newData.toRAW(), shouldAppUpdate);
+      this._onDataChange(this, film.id, new MovieModel(film.toRAW()), shouldAppUpdate);
     });
 
     this._filmCard.setFavoriteButtonClickHandler((evt) => {
       evt.preventDefault();
 
       film.isFavorite = !film.isFavorite;
-      const newData = MovieModel.clone(film);
 
-      this._onDataChange(this, film.id, newData.toRAW(), shouldAppUpdate);
+      this._onDataChange(this, film.id, new MovieModel(film.toRAW()), shouldAppUpdate);
     });
   }
 
@@ -149,11 +146,10 @@ export default class MovieController {
       evt.preventDefault();
 
       film.isInWatchList = !film.isInWatchList;
-      const newData = MovieModel.clone(film);
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, newData.toRAW(), shouldAppUpdate);
+      this._onDataChange(this, film.id, new MovieModel(film.toRAW()), shouldAppUpdate);
     });
 
     this._filmPopup.setWatchedButtonClickHandler((evt) => {
@@ -161,33 +157,30 @@ export default class MovieController {
 
       film.isWatched = !film.isWatched;
       film.watchingDate = !film.isWatched ? new Date() : film.watchingDate;
-      const newData = MovieModel.clone(film);
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, newData.toRAW(), shouldAppUpdate);
+      this._onDataChange(this, film.id, new MovieModel(film.toRAW()), shouldAppUpdate);
     });
 
     this._filmPopup.setFavoriteButtonClickHandler((evt) => {
       evt.preventDefault();
 
       film.isFavorite = !film.isFavorite;
-      const newData = MovieModel.clone(film);
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, newData.toRAW(), shouldAppUpdate);
+      this._onDataChange(this, film.id, new MovieModel(film.toRAW()), shouldAppUpdate);
     });
 
     this._filmPopup.setRatingButtonClickHandler((evt) => {
       evt.preventDefault();
 
       film.personalRating = parseInt(evt.target.value, 10);
-      const newData = MovieModel.clone(film);
 
       this._mode = Mode.EDIT;
 
-      this._onDataChange(this, film.id, newData.toRAW(), shouldAppUpdate);
+      this._onDataChange(this, film.id, new MovieModel(film.toRAW()), shouldAppUpdate);
     });
 
     this._filmPopup.setDeleteButtonClickHandler((id) => {
@@ -231,7 +224,8 @@ export default class MovieController {
 
       this._api.addComment(this._film.id, newComment)
         .then((film) => {
-          this._onDataChange(this, this._film.id, film);
+          const {movie} = film;
+          this._onDataChange(this, this._film.id, movie);
         });
     }
   }

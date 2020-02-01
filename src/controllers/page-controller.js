@@ -111,16 +111,15 @@ export default class PageController {
   }
 
   _onDataChange(movieController, id, film, shouldAppUpdate = false) {
-    const movie = film.movie || film;
-    const isSuccess = this._filmModel.refreshFilm(id, movie);
+    const isSuccess = this._filmModel.refreshFilm(id, film);
 
     if (isSuccess) {
-      const preparedFilm = new MovieModel(movie);
+      const preparedFilm = new MovieModel(film.toRAW());
       if (shouldAppUpdate) {
         this._api.updateFilm(id, preparedFilm)
-          .then((Movie) => {
+          .then((movie) => {
             this._filterController.render(this._filmModel);
-            movieController.render(Movie);
+            movieController.render(movie);
             this._updateRatedFilms();
           });
         return;

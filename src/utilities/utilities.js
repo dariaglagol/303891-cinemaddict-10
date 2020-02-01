@@ -47,8 +47,6 @@ const getFilmTotalDuration = (movieDuration) => {
   const hours = moment.duration(movieDuration, `minutes`).format(`h`);
   const minutes = moment.duration(movieDuration - (hours * 60), `minutes`).format(`m`);
 
-  console.log(movieDuration, movieDuration - (hours * 60));
-
   return {hours, minutes};
 };
 
