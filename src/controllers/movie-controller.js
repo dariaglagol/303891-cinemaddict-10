@@ -189,11 +189,11 @@ export default class MovieController {
           this._onDataChange(this, film.id, rawFilm);
         })
         .finally(() => {
-          this.setScrollPositions(`comment`);
+          this.setActiveArea(`comment`);
         });
     });
 
-    this.scrollToControl();
+    this.scrollToArea();
   }
 
   _setEscKeyDownHandler(evt) {
@@ -259,11 +259,11 @@ export default class MovieController {
     this._filmPopup.hideDetailsRequestError(details);
   }
 
-  setScrollPositions(control) {
-    this.activeControl = control;
+  setActiveArea(area) {
+    this.activeArea = area;
   }
 
-  scrollToControl() {
-    this._filmPopup.scrollToControl(this.activeControl);
+  scrollToArea() {
+    this._filmPopup.scrollToArea(this.activeArea);
   }
 }

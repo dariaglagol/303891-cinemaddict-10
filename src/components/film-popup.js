@@ -294,7 +294,7 @@ export default class FilmPopup extends AbstractComponent {
     }
   }
 
-  scrollToControl(control) {
+  scrollToArea(control) {
     switch (control) {
       case `isInWatchList`:
         this.getElement().querySelector(`.film-details__controls`)
@@ -315,7 +315,7 @@ export default class FilmPopup extends AbstractComponent {
       case `comment`:
         this.getElement().querySelector(`.film-details__new-comment`)
           .scrollIntoView();
-        break
+        break;
     }
   }
 }

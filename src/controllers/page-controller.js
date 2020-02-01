@@ -120,7 +120,7 @@ export default class PageController {
       const preparedFilm = new MovieModel(film);
       if (userDetail) {
         const disabledValue = preparedFilm[userDetail];
-        movieController.setScrollPositions(userDetail);
+        movieController.setActiveArea(userDetail);
         movieController.toggleDetailsRequestError({userDetail, disabledValue});
 
         this._api.updateFilm(id, preparedFilm)
