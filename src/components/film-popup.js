@@ -3,7 +3,7 @@ import moment from "moment";
 import AbstractComponent from "./abstract-component";
 import RatingForm from "./rating-form";
 import {getFilmDuration} from "../utilities/utilities";
-import {CONTROL_LAVEL_PREFIX, UserDetail} from "../mocks/constants";
+import {CONTROL_LABEL_PREFIX, UserDetail} from "../mocks/constants";
 
 const isCheckboxActive = (statement) => {
   return statement ? `checked` : ``;
@@ -253,15 +253,15 @@ export default class FilmPopup extends AbstractComponent {
     this.getElement().classList.remove(`shake`);
     switch (userDetail) {
       case UserDetail.IS_IN_WATCHLIST:
-        this.getElement().querySelector(`${CONTROL_LAVEL_PREFIX}--watchlist`)
+        this.getElement().querySelector(`${CONTROL_LABEL_PREFIX}--watchlist`)
           .classList.remove(errorCLass);
         break;
       case UserDetail.IS_FAVORITE:
-        this.getElement().querySelector(`${CONTROL_LAVEL_PREFIX}--favorite`)
+        this.getElement().querySelector(`${CONTROL_LABEL_PREFIX}--favorite`)
           .classList.remove(errorCLass);
         break;
       case UserDetail.IS_WATCHED:
-        this.getElement().querySelector(`${CONTROL_LAVEL_PREFIX}--watched`)
+        this.getElement().querySelector(`${CONTROL_LABEL_PREFIX}--watched`)
           .classList.remove(errorCLass);
         break;
       case UserDetail.PERSONAL_RATING:
@@ -283,15 +283,15 @@ export default class FilmPopup extends AbstractComponent {
     this.getElement().classList.add(`shake`);
     switch (userDetail) {
       case UserDetail.IS_IN_WATCHLIST:
-        this.getElement().querySelector(`${CONTROL_LAVEL_PREFIX}--watchlist`)
+        this.getElement().querySelector(`${CONTROL_LABEL_PREFIX}--watchlist`)
           .classList.add(errorCLass);
         break;
       case UserDetail.IS_FAVORITE:
-        this.getElement().querySelector(`${CONTROL_LAVEL_PREFIX}--favorite`)
+        this.getElement().querySelector(`${CONTROL_LABEL_PREFIX}--favorite`)
           .classList.add(errorCLass);
         break;
       case UserDetail.IS_WATCHED:
-        this.getElement().querySelector(`${CONTROL_LAVEL_PREFIX}--watched`)
+        this.getElement().querySelector(`${CONTROL_LABEL_PREFIX}--watched`)
           .classList.add(errorCLass);
         break;
       case UserDetail.PERSONAL_RATING:
