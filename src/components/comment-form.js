@@ -54,11 +54,11 @@ export default class CommentForm extends AbstractComponent {
     const emojiLabel = this.getElement().querySelector(`.film-details__add-emoji-label`);
 
     this.getElement()
-      .querySelectorAll(`.film-details__emoji-label`)
+      .querySelectorAll(`.film-details__emoji-item`)
       .forEach((element) => {
-        element.addEventListener(`click`, (evt) => {
+        element.addEventListener(`change`, (evt) => {
           const target = evt.target;
-          const emojiType = target.dataset.emojiType;
+          const emojiType = target.value;
           if (emojiType) {
             const emoji = createElement(getEmojiLabel(emojiType));
 

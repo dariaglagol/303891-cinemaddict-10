@@ -1,9 +1,9 @@
 import MovieModel from './models/movie-model';
 import CommentModel from './models/comment-model';
-import {Method} from './mocks/constants';
+import {Method, STATUS_OK, STATUS_REDIRECT} from './mocks/constants';
 
 const checkStatus = (response) => {
-  if (response.status >= 200 && response.status < 300) {
+  if (response.status >= STATUS_OK && response.status < STATUS_REDIRECT) {
     return response;
   } else {
     throw new Error(`${response.status}: ${response.statusText}`);

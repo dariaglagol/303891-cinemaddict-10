@@ -106,7 +106,18 @@ const UserDetail = {
   IS_FAVORITE: `isFavorite`,
   IS_WATCHED: `isWatched`,
   PERSONAL_RATING: `personalRating`,
+  COMMENT: `comment`,
   PERSONAL_UNDO_RATING: ``
 };
 
-export {RenderPosition, UserDetail, COMMENTS_EMODJIES, CHART_BACKGROUND_COLORS, HIDDEN_CLASS, PeriodForMoment, AUTHORIZATION, END_POINT, Method, FiltersName, Mode, SortTypeName, SortTypeCallbacks, TopFilmType, CLICKABLE_ITEMS, MAX_FILM_SCORE, MAX_VALUE, Rating, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, RATES_CARDS_COUNT};
+const STATUS_OK = 200;
+const STATUS_REDIRECT = 300;
+
+const RequestErrorMode = {
+  HIDE: `hide`,
+  SHOW: `show`
+};
+
+const CONTROL_LAVEL_PREFIX = `.film-details__control-label`;
+
+export {RenderPosition, RequestErrorMode, CONTROL_LAVEL_PREFIX, STATUS_OK, STATUS_REDIRECT, UserDetail, COMMENTS_EMODJIES, CHART_BACKGROUND_COLORS, HIDDEN_CLASS, PeriodForMoment, AUTHORIZATION, END_POINT, Method, FiltersName, Mode, SortTypeName, SortTypeCallbacks, TopFilmType, CLICKABLE_ITEMS, MAX_FILM_SCORE, MAX_VALUE, Rating, CARDS_COUNT, USER_STATUSES, INITIAL_FILTERS_STATE, RATES_CARDS_COUNT};

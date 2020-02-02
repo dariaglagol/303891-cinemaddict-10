@@ -3,6 +3,7 @@ import moment from "moment";
 import AbstractComponent from "./abstract-component";
 import RatingForm from "./rating-form";
 import {getFilmDuration} from "../utilities/utilities";
+import {CONTROL_LAVEL_PREFIX, UserDetail} from "../mocks/constants";
 
 const isCheckboxActive = (statement) => {
   return statement ? `checked` : ``;
@@ -247,24 +248,23 @@ export default class FilmPopup extends AbstractComponent {
   hideDetailsRequestError(details) {
     const {userDetail, disabledValue} = details;
 
-    const controlLabelPrefix = `.film-details__control-label`;
     const errorCLass = `film-details__control-label--error`;
 
     this.getElement().classList.remove(`shake`);
     switch (userDetail) {
-      case `isInWatchList`:
-        this.getElement().querySelector(`${controlLabelPrefix}--watchlist`)
+      case UserDetail.IS_IN_WATCHLIST:
+        this.getElement().querySelector(`${CONTROL_LAVEL_PREFIX}--watchlist`)
           .classList.remove(errorCLass);
         break;
-      case `isFavorite`:
-        this.getElement().querySelector(`${controlLabelPrefix}--favorite`)
+      case UserDetail.IS_FAVORITE:
+        this.getElement().querySelector(`${CONTROL_LAVEL_PREFIX}--favorite`)
           .classList.remove(errorCLass);
         break;
-      case `isWatched`:
-        this.getElement().querySelector(`${controlLabelPrefix}--watched`)
+      case UserDetail.IS_WATCHED:
+        this.getElement().querySelector(`${CONTROL_LAVEL_PREFIX}--watched`)
           .classList.remove(errorCLass);
         break;
-      case `personalRating`:
+      case UserDetail.PERSONAL_RATING:
         this.getElement().querySelector(`[for=rating-${disabledValue}]`)
           .classList.remove(`film-details__user-rating-label--error`);
         this.getElement()
@@ -278,25 +278,23 @@ export default class FilmPopup extends AbstractComponent {
 
   showDetailsRequestError(details) {
     const {userDetail, disabledValue} = details;
-
-    const controlLabelPrefix = `.film-details__control-label`;
     const errorCLass = `film-details__control-label--error`;
 
     this.getElement().classList.add(`shake`);
     switch (userDetail) {
-      case `isInWatchList`:
-        this.getElement().querySelector(`${controlLabelPrefix}--watchlist`)
+      case UserDetail.IS_IN_WATCHLIST:
+        this.getElement().querySelector(`${CONTROL_LAVEL_PREFIX}--watchlist`)
           .classList.add(errorCLass);
         break;
-      case `isFavorite`:
-        this.getElement().querySelector(`${controlLabelPrefix}--favorite`)
+      case UserDetail.IS_FAVORITE:
+        this.getElement().querySelector(`${CONTROL_LAVEL_PREFIX}--favorite`)
           .classList.add(errorCLass);
         break;
-      case `isWatched`:
-        this.getElement().querySelector(`${controlLabelPrefix}--watched`)
+      case UserDetail.IS_WATCHED:
+        this.getElement().querySelector(`${CONTROL_LAVEL_PREFIX}--watched`)
           .classList.add(errorCLass);
         break;
-      case `personalRating`:
+      case UserDetail.PERSONAL_RATING:
         this.getElement().querySelector(`[for=rating-${disabledValue}]`)
           .classList.add(`film-details__user-rating-label--error`);
         this.getElement()
@@ -310,23 +308,23 @@ export default class FilmPopup extends AbstractComponent {
 
   scrollToArea(control) {
     switch (control) {
-      case `isInWatchList`:
+      case UserDetail.IS_IN_WATCHLIST:
         this.getElement().querySelector(`.film-details__controls`)
           .scrollIntoView();
         break;
-      case `isFavorite`:
+      case UserDetail.IS_FAVORITE:
         this.getElement().querySelector(`.film-details__controls`)
           .scrollIntoView();
         break;
-      case `isWatched`:
+      case UserDetail.IS_WATCHED:
         this.getElement().querySelector(`.film-details__controls`)
           .scrollIntoView();
         break;
-      case `personalRating`:
+      case UserDetail.PERSONAL_RATING:
         this.getElement().querySelector(`.form-details__middle-container`)
           .scrollIntoView();
         break;
-      case `comment`:
+      case UserDetail.COMMENT:
         this.getElement().querySelector(`.film-details__new-comment`)
           .scrollIntoView();
         break;

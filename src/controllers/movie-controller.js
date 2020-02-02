@@ -4,7 +4,7 @@ import CommentForm from "../components/comment-form";
 import Comments from "../components/comments";
 import CommentModel from "../models/comment-model";
 import {remove, render, replaceElement} from "../utilities/render";
-import {CLICKABLE_ITEMS, RenderPosition, Mode, UserDetail} from "../mocks/constants";
+import {CLICKABLE_ITEMS, RenderPosition, Mode, UserDetail, RequestErrorMode} from "../mocks/constants";
 import {setCardClickEventListeners} from "../utilities/utilities";
 
 export default class MovieController {
@@ -16,7 +16,7 @@ export default class MovieController {
 
     this._mode = Mode.DEFAULT;
 
-    this._setEscKeyDownHandler = this._setEscKeyDownHandler.bind(this);
+    this._documentEscKeyDownHandler = this._documentEscKeyDownHandler.bind(this);
     this._commentSubmitHandler = this._commentSubmitHandler.bind(this);
   }
 
@@ -122,12 +122,12 @@ export default class MovieController {
   }
 
   removePopupEventsListener() {
-    document.removeEventListener(`keydown`, this._setEscKeyDownHandler);
+    document.removeEventListener(`keydown`, this._documentEscKeyDownHandler);
     document.removeEventListener(`keydown`, this._commentSubmitHandler);
   }
 
   setPopupEventsListener() {
-    document.addEventListener(`keydown`, this._setEscKeyDownHandler);
+    document.addEventListener(`keydown`, this._documentEscKeyDownHandler);
     document.addEventListener(`keydown`, this._commentSubmitHandler);
 
     const film = this._film;
@@ -205,7 +205,7 @@ export default class MovieController {
     this.scrollToArea();
   }
 
-  _setEscKeyDownHandler(evt) {
+  _documentEscKeyDownHandler(evt) {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
 
     if (isEscKey) {
@@ -218,13 +218,14 @@ export default class MovieController {
     const isCmdOrCtrlPressed = evt.metaKey || evt.ctrlKey;
     if (evt.key === `Enter` && isCmdOrCtrlPressed) {
       evt.preventDefault();
-      this._filmPopup.toggleCommentRequestError(`hide`);
+      this._filmPopup.toggleCommentRequestError(RequestErrorMode.HIDE);
       const formData = this._filmPopup.getFormData();
 
       if (!formData) {
         return;
       }
 
+      document.removeEventListener(`keydown`, this._commentSubmitHandler);
       this._filmPopup.disableForm();
 
       const newComment = new CommentModel({
@@ -241,10 +242,11 @@ export default class MovieController {
           this._onDataChange(this, this._film.id, movie);
         })
         .catch(() => {
-          this._filmPopup.toggleCommentRequestError(`show`);
+          this._filmPopup.toggleCommentRequestError(RequestErrorMode.SHOW);
         })
         .finally(() => {
           this.setActiveArea(`comment`);
+          document.addEventListener(`keydown`, this._commentSubmitHandler);
         });
     }
   }
