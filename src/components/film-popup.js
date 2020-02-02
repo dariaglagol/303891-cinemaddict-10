@@ -180,10 +180,13 @@ export default class FilmPopup extends AbstractComponent {
       .querySelector(`.film-details__comments-list`)
       .addEventListener(`click`, (evt) => {
         evt.preventDefault();
-        evt.target.innerText = `Deleting...`;
-        const commentElement = evt.target.closest(`.film-details__comment`);
-        const deletedCommentId = parseInt(commentElement.dataset.commentId, 10);
-        handler(deletedCommentId);
+        const target = evt.target;
+        if (target.classList.contains(`film-details__comment-delete`)) {
+          evt.target.innerText = `Deleting...`;
+          const commentElement = target.closest(`.film-details__comment`);
+          const deletedCommentId = parseInt(commentElement.dataset.commentId, 10);
+          handler(deletedCommentId);
+        }
       });
   }
 
